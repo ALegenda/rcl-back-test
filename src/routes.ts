@@ -5,6 +5,11 @@ import { TeamController } from "./controller/TeamController";
 
 export const Routes = [
     {
+        method: "post",
+        route: "/match",
+        controller: NewsController,
+        action: "match"
+    },{
         method: "get",
         route: "/",
         controller: NewsController,
