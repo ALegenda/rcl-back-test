@@ -23,4 +23,8 @@ export class NewsController {
         await this.newsRepository.remove(newToRemove)
     }
 
+    async kek(request: Request, response: Response, next: NextFunction) {
+        return "it works"
+    }
+
 }
