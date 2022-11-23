@@ -28,6 +28,7 @@ export class NewsController {
     }
 
     async match(request: Request, response: Response, next: NextFunction) {
+        console.log(request.body)
         return request.body
     }
 
