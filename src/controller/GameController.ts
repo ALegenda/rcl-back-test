@@ -29,14 +29,22 @@ export class GameController {
     async match(request: Request, response: Response, next: NextFunction) {
         console.log(request.body)
 
-        let game = await this.gameRepository.findOneBy({ id: request.params.id })
+        let game = await this.gameRepository.findOne({
+            relations: {
+                maps: true,
+            
+            },
+            where: {
+                id: request.params.id
+            }
+        })
 
         let team1_player_ids = request.body.team1_steam_ids
         let team2_player_ids = request.body.team2_steam_ids
 
 
 
-        let players_ids = [team1_player_ids,team2_player_ids]
+        let players_ids = team1_player_ids.concat(team2_player_ids);
 
         console.log(players_ids)
 
@@ -47,6 +55,11 @@ export class GameController {
 
         let playerstats = request.body.player_stats.map(item => {
             let player = players.find(o => o.steamId === item.steam_id);
+
+            if (player === undefined){
+                return false 
+            }
+
             return new PlayerStat(item.kills, item.deaths, item.assists,player)
         })
         
