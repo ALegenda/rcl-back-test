@@ -26,10 +26,4 @@ export class NewsController {
     async kek(request: Request, response: Response, next: NextFunction) {
         return "it works"
     }
-
-    async match(request: Request, response: Response, next: NextFunction) {
-        console.log(request.body)
-        return request.body
-    }
-
 }

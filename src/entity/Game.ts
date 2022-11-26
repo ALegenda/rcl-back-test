@@ -8,14 +8,14 @@ export class Game {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
-    bestOf: number
-
     @ManyToMany(() => Team, { onDelete: "SET NULL" })
     @JoinTable()
     teams: Team[]
 
     @OneToMany(() => Map, (map) => map.game, { cascade: true })
     maps: Map[]
+
+    @Column({ nullable: true })
+    matchSeriesId: string
 
 }

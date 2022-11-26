@@ -5,6 +5,14 @@ import { PlayerStat } from "./PlayerStat"
 @Entity()
 export class Map {
 
+    constructor(number,playerStats){
+        this.number = number
+        this.demo = ""
+        this.finishedAt = new Date()
+        this.playerStats = playerStats
+    }
+
+
     @PrimaryGeneratedColumn()
     id: number
 
@@ -13,9 +21,6 @@ export class Map {
 
     @Column({ nullable: true })
     demo: string
-
-    @Column({ type: 'timestamptz' })
-    startedAt: Date
 
     @Column({ type: 'timestamptz', nullable: true })
     finishedAt: Date

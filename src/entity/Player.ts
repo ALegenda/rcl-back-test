@@ -18,6 +18,9 @@ export class Player {
     nickName: string
 
     @Column()
+    steamId: string
+
+    @Column()
     age: number
 
     @Column()

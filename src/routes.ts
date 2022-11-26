@@ -1,3 +1,4 @@
+import { GameController } from "./controller/GameController";
 import { NewsController } from "./controller/NewsController";
 import { PlayerController } from "./controller/PlayerController";
 import { TeamController } from "./controller/TeamController";
@@ -6,8 +7,8 @@ import { TeamController } from "./controller/TeamController";
 export const Routes = [
     {
         method: "post",
-        route: "/match",
-        controller: NewsController,
+        route: "/match/:id",
+        controller: GameController,
         action: "match"
     },{
         method: "get",

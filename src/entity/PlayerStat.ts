@@ -5,6 +5,13 @@ import { Player } from "./Player"
 @Entity()
 export class PlayerStat {
 
+    constructor(kills,deaths,assist, player){
+        this.kills = kills
+        this.deaths = deaths
+        this.assist = assist
+        this.player = player
+    }
+    
     @PrimaryGeneratedColumn()
     id: number
 
