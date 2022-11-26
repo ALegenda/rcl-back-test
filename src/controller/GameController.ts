@@ -32,7 +32,7 @@ export class GameController {
         let game = await this.gameRepository.findOne({
             relations: {
                 maps: true,
-            
+
             },
             where: {
                 id: request.params.id
@@ -53,26 +53,25 @@ export class GameController {
 
         console.log(players)
 
-        let playerstats = request.body.player_stats.map(item => {
-            let player = players.find(o => o.steamId === item.steam_id);
-
-            if (player === undefined){
-                return false 
+        let playerstats = request.body.player_stats.filter(item => {
+            if (!item.steam_id.startsWith("STEAM_1")) {
+                return false; // skip
             }
-
-            return new PlayerStat(item.kills, item.deaths, item.assists,player)
+            return true;
+        }).map(item => {
+            return new PlayerStat(item.kills, item.deaths, item.assists, players.find(o => o.steamId === item.steam_id))
         })
-        
+
         console.log(playerstats)
 
-        let map = new Map(1,playerstats)
-        
+        let map = new Map(1, playerstats)
+
         console.log(map)
 
         game.maps.push(map)
 
         console.log(game)
-        
+
         let kek = await this.gameRepository.save(game)
 
         console.log(kek)
