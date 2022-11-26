@@ -32,7 +32,7 @@ export class Player {
     @ManyToOne(() => Team, (team) => team.players, { onDelete: "SET NULL" })
     team: Team
 
-    @OneToMany(() => PlayerStat, (stat) => stat.player, { cascade: true })
+    @OneToMany(() => PlayerStat, (stat) => stat.player)
     playerStats: PlayerStat[]
 
     @Column({ nullable: true })

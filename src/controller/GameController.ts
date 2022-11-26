@@ -59,8 +59,16 @@ export class GameController {
             }
             return true;
         }).map(item => {
-            return new PlayerStat(item.kills, item.deaths, item.assists, players.find(o => o.steamId === item.steam_id))
+            let player = players.find(o => o.steamId === item.steam_id)
+            player.totalKills += item.kills
+            player.totalDeaths += item.deaths
+            player.totalAssists += item.assists
+            return new PlayerStat(item.kills, item.deaths, item.assists, player)
         })
+
+        for(let i;i<playerstats.length;i++){
+            
+        }
 
         console.log(playerstats)
 

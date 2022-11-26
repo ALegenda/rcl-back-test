@@ -35,7 +35,7 @@ export class PlayerStat {
     @ManyToOne(() => Map, (map) => map.playerStats, { onDelete: "SET NULL" })
     map: Map
 
-    @ManyToOne(() => Player, (player) => player.playerStats, { onDelete: "SET NULL" })
+    @ManyToOne(() => Player, (player) => player.playerStats, { onDelete: "SET NULL", cascade: true})
     player: Player
 
 }

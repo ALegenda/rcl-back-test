@@ -35,9 +35,9 @@ AppDataSource.initialize().then(async () => {
     // start express server
     app.listen(process.env.PORT ||3000)
 
-    //init()
+    init()
 
-    console.log(`Express server has started on port ${process.env.PORT}`)
+    console.log(`Express server has started on port ${process.env.PORT ||3000}`)
 
 }).catch(error => console.log(error))
 
@@ -60,8 +60,8 @@ async function init() {
     let team1 = await AppDataSource.manager.save(
          AppDataSource.manager.create(Team,{
              name: "Drift",
-             country: "Russia",
-             city: "Moscow",
+             country: "Россия",
+             city: "Владивосток",
              logo: "url",
          })
      )
@@ -69,11 +69,20 @@ async function init() {
      let team2 = await AppDataSource.manager.save(
          AppDataSource.manager.create(Team,{
              name: "RCL",
-             country: "Russia",
+             country: "Россия",
              city: "Moscow",
              logo: "url"
          })
      )
+
+     let team3 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team,{
+            name: "DriftB",
+            country: "Россия",
+            city: "Владивосток",
+            logo: "url"
+        })
+    )
  
  
      // insert new users for test
@@ -86,7 +95,7 @@ async function init() {
              country: "Россия",
              imageUrl: "Картинка",
              steamId: "STEAM_1:1:36261249",
-             team: team1
+             team: team2
          })
      )
  
@@ -102,10 +111,23 @@ async function init() {
              team: team1
          })
      )
+
+     let player3 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "BORYA",
+            age: 21,
+            firstName: "Борис",
+            lastName: "Пятница",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:455798721",
+            team: team3
+        })
+    )
   
      let game = await AppDataSource.manager.save(
          AppDataSource.manager.create(Game, {
-             teams: [team1,team2],
+             teams: [team3,team2],
          })
      )
      
