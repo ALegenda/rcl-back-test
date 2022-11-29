@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import { AppDataSource } from "../data-source"
 import { Game } from "../entity/Game"
-import { Map } from "../entity/Map"
+import { Map, MapStatus } from "../entity/Map"
 import { Player } from "../entity/Player"
 import { PlayerStat } from "../entity/PlayerStat"
 
@@ -11,6 +11,17 @@ export class GameController {
 
     async all(request: Request, response: Response, next: NextFunction) {
         return this.gameRepository.find()
+    }
+
+    async test(request: Request, response: Response, next: NextFunction) {
+        return await this.gameRepository.findOne({
+            relations: {
+                maps: true,
+            },
+            where: {
+                id: request.params.id
+            }
+        })
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
@@ -32,17 +43,22 @@ export class GameController {
         let game = await this.gameRepository.findOne({
             relations: {
                 maps: true,
-
             },
             where: {
                 id: request.params.id
             }
         })
 
+        let mapId = game.maps.findIndex(o => o.DatHostId === request.body.match_series_id)
+
+        if (request.body.cancel_reason === 'CLINCH') {
+            game.maps[mapId].finishedAt = new Date()
+            game.maps[mapId].status = MapStatus.CLINCH
+            return "ok"
+        }
+
         let team1_player_ids = request.body.team1_steam_ids
         let team2_player_ids = request.body.team2_steam_ids
-
-
 
         let players_ids = team1_player_ids.concat(team2_player_ids);
 
@@ -63,20 +79,30 @@ export class GameController {
             player.totalKills += item.kills
             player.totalDeaths += item.deaths
             player.totalAssists += item.assists
+            player.totalMaps += 1
+
+            if (game.maps[mapId].number === 1) {
+                player.totalGames += 1
+            }
+
             return new PlayerStat(item.kills, item.deaths, item.assists, player)
         })
 
-        for(let i;i<playerstats.length;i++){
-            
-        }
-
         console.log(playerstats)
 
-        let map = new Map(1, playerstats)
 
-        console.log(map)
 
-        game.maps.push(map)
+        game.maps[mapId].finishedAt = new Date()
+        game.maps[mapId].status = MapStatus.FINISHED
+
+        game.maps[mapId].team1Score = request.body.team1_stats.score
+        game.maps[mapId].team2Score = request.body.team2_stats.score
+        
+        if( game.maps[mapId].team1Score > game.maps[mapId].team2Score){
+            game.team1Score += 1
+        }else{
+            game.team2Score += 1
+        }
 
         console.log(game)
 

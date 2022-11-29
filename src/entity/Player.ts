@@ -75,8 +75,13 @@ export class Player {
         this.totalAssists = 0
     }
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, type: "float"})
     totalKd: number
+
+    @BeforeInsert()
+    setKD(){
+        this.totalKd = 0
+    }
 
     @AfterUpdate()
     updateKD() {

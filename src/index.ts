@@ -5,8 +5,8 @@ import { AppDataSource } from "./data-source"
 import { Routes } from "./routes"
 import { Player } from "./entity/Player"
 import { Team } from "./entity/Team"
-import { Game } from "./entity/Game"
-import { Map } from "./entity/Map"
+import { Game, GameStatus } from "./entity/Game"
+import { Map, MapStatus } from "./entity/Map"
 import { New } from "./entity/New"
 
 
@@ -35,7 +35,7 @@ AppDataSource.initialize().then(async () => {
     // start express server
     app.listen(process.env.PORT ||3000)
 
-    init()
+    //init()
 
     console.log(`Express server has started on port ${process.env.PORT ||3000}`)
 
@@ -127,7 +127,47 @@ async function init() {
   
      let game = await AppDataSource.manager.save(
          AppDataSource.manager.create(Game, {
-             teams: [team3,team2],
+             teams: [team2,team1],
+             status: GameStatus.PENDING,
+             team1Id:team2.id,
+             team1Score:0,
+             team2Id:team1.id,
+             team2Score:0,
+             maps:[
+                {
+                    startedAt: new Date(),
+                    status: MapStatus.PENDING,
+                    team1Id: team2.id,
+                    team1Score:0,
+                    team2Id:team1.id,
+                    team2Score:0,
+                    number:1,
+                    demo:"",
+                    mapName:"de_dust2"
+                },
+                {
+                    startedAt: new Date(),
+                    status: MapStatus.PENDING,
+                    team1Id: team2.id,
+                    team1Score:0,
+                    team2Id:team1.id,
+                    team2Score:0,
+                    number:2,
+                    demo:"",
+                    mapName:"de_dust2"
+                },
+                {
+                    startedAt: new Date(),
+                    status: MapStatus.PENDING,
+                    team1Id: team2.id,
+                    team1Score:0,
+                    team2Id:team1.id,
+                    team2Score:0,
+                    number:3,
+                    demo:"",
+                    mapName:"de_dust2"
+                }
+             ]
          })
      )
      
