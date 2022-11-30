@@ -35,7 +35,7 @@ AppDataSource.initialize().then(async () => {
     // start express server
     app.listen(process.env.PORT || 3000)
 
-    init()
+    //init()
 
     console.log(`Express server has started on port ${process.env.PORT || 3000}`)
 
