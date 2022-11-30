@@ -13,15 +13,35 @@ export class GameController {
         return this.gameRepository.find()
     }
 
-    async test(request: Request, response: Response, next: NextFunction) {
-        return await this.gameRepository.findOne({
-            relations: {
-                maps: true,
-            },
-            where: {
-                id: request.params.id
-            }
-        })
+    async test() {
+        let moq = {
+            id: '6385e785ae1b3bff30ea5705',
+            game_server_id: '63723bf9266a17e982253a86',
+            match_series_id: '6385e785ae1b3bff30ea5704',
+            map: 'de_dust2',
+            team1_steam_ids: [ 'STEAM_1:1:431045157' ],
+            team2_steam_ids: [ 'STEAM_1:0:455798721' ],
+            cancel_reason: null,
+            team1_stats: { score: 16 },
+            team2_stats: { score: 11 },
+            player_stats: [
+                { steam_id: 'BOT_1', kills: 0, deaths: 0, assists: 0 },
+                {
+                    steam_id: 'STEAM_1:0:455798721',
+                    kills: 11,
+                    deaths: 16,
+                    assists: 0
+                },
+                {
+                    steam_id: 'STEAM_1:1:431045157',
+                    kills: 16,
+                    deaths: 11,
+                    assists: 0
+                }]
+
+        }
+        
+        return "kek"
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
@@ -54,6 +74,11 @@ export class GameController {
         if (request.body.cancel_reason === 'CLINCH') {
             game.maps[mapId].finishedAt = new Date()
             game.maps[mapId].status = MapStatus.CLINCH
+
+            let result = await this.gameRepository.save(game)
+
+            console.log(result)
+
             return "ok"
         }
 
@@ -94,7 +119,7 @@ export class GameController {
 
         game.maps[mapId].finishedAt = new Date()
         game.maps[mapId].status = MapStatus.FINISHED
-
+       
         game.maps[mapId].team1Score = request.body.team1_stats.score
         game.maps[mapId].team2Score = request.body.team2_stats.score
         
@@ -106,9 +131,9 @@ export class GameController {
 
         console.log(game)
 
-        let kek = await this.gameRepository.save(game)
+        let result = await this.gameRepository.save(game)
 
-        console.log(kek)
+        console.log(result)
 
         return "ok"
     }

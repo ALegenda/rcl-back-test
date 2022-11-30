@@ -33,86 +33,86 @@ AppDataSource.initialize().then(async () => {
     // ...
 
     // start express server
-    app.listen(process.env.PORT ||3000)
+    app.listen(process.env.PORT || 3000)
 
-    //init()
+    init()
 
-    console.log(`Express server has started on port ${process.env.PORT ||3000}`)
+    console.log(`Express server has started on port ${process.env.PORT || 3000}`)
 
 }).catch(error => console.log(error))
 
 
 async function init() {
-    
-    
+
+
 
     let news = await AppDataSource.manager.save(
         AppDataSource.manager.create(
-            New,{
-                title: "title",
-                promo: "promo",
-                content:"content",
-                imageUrl: "url"
-            }
+            New, {
+            title: "title",
+            promo: "promo",
+            content: "content",
+            imageUrl: "url"
+        }
         )
     )
-    
-    let team1 = await AppDataSource.manager.save(
-         AppDataSource.manager.create(Team,{
-             name: "Drift",
-             country: "Россия",
-             city: "Владивосток",
-             logo: "url",
-         })
-     )
- 
-     let team2 = await AppDataSource.manager.save(
-         AppDataSource.manager.create(Team,{
-             name: "RCL",
-             country: "Россия",
-             city: "Moscow",
-             logo: "url"
-         })
-     )
 
-     let team3 = await AppDataSource.manager.save(
-        AppDataSource.manager.create(Team,{
-            name: "DriftB",
+    let team_rcl = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "RCL",
+            country: "Россия",
+            city: "Москва",
+            logo: "url",
+        })
+    )
+
+    let team_drift_staff = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Drift Staff",
             country: "Россия",
             city: "Владивосток",
             logo: "url"
         })
     )
- 
- 
-     // insert new users for test
-     let player1 = await AppDataSource.manager.save(
-         AppDataSource.manager.create(Player, {
-             nickName: "AntonioGodfather",
-             age: 25,
-             firstName: "Антон",
-             lastName: "Алексеев",
-             country: "Россия",
-             imageUrl: "Картинка",
-             steamId: "STEAM_1:1:36261249",
-             team: team2
-         })
-     )
- 
-     let player2 = await AppDataSource.manager.save(
-         AppDataSource.manager.create(Player, {
-             nickName: "GRISHA",
-             age: 21,
-             firstName: "Григорий",
-             lastName: "Михайлов",
-             country: "Россия",
-             imageUrl: "Картинка",
-             steamId: "STEAM_1:1:431045157",
-             team: team1
-         })
-     )
 
-     let player3 = await AppDataSource.manager.save(
+    let team_drift_kids = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Drift Kids",
+            country: "Россия",
+            city: "Владивосток",
+            logo: "url"
+        })
+    )
+
+
+    // insert new users for test
+    let player_anton = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "AntonioGodfather",
+            age: 25,
+            firstName: "Антон",
+            lastName: "Алексеев",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:36261249",
+            team: team_rcl
+        })
+    )
+
+    let player_grisha = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "GRISHA",
+            age: 21,
+            firstName: "Григорий",
+            lastName: "Михайлов",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:431045157",
+            team: team_drift_staff
+        })
+    )
+
+    let player_borya = await AppDataSource.manager.save(
         AppDataSource.manager.create(Player, {
             nickName: "BORYA",
             age: 21,
@@ -121,54 +121,84 @@ async function init() {
             country: "Россия",
             imageUrl: "Картинка",
             steamId: "STEAM_1:0:455798721",
-            team: team3
+            team: team_drift_staff
         })
     )
-  
-     let game = await AppDataSource.manager.save(
-         AppDataSource.manager.create(Game, {
-             teams: [team2,team1],
-             status: GameStatus.PENDING,
-             team1Id:team2.id,
-             team1Score:0,
-             team2Id:team1.id,
-             team2Score:0,
-             maps:[
+
+    let player_jenya = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "RUKAV",
+            age: 21,
+            firstName: "Евгений",
+            lastName: "Выходец",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:717580636",
+            team: team_drift_kids
+        })
+    )
+
+    let player_andrey = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "mYb",
+            age: 21,
+            firstName: "Андрей",
+            lastName: "mYb",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:73838588",
+            team: team_drift_staff
+        })
+    )
+
+    let game = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Game, {
+            teams: [team_drift_staff, team_drift_kids],
+            status: GameStatus.PENDING,
+            matchSeriesId: "638725b0e5ddf593e4e433c5",
+            team1Id: team_drift_staff.id,
+            team1Score: 0,
+            team2Id: team_drift_kids.id,
+            team2Score: 0,
+            maps: [
                 {
                     startedAt: new Date(),
+                    DatHostId: "638725b0e5ddf593e4e433c6",
                     status: MapStatus.PENDING,
-                    team1Id: team2.id,
-                    team1Score:0,
-                    team2Id:team1.id,
-                    team2Score:0,
-                    number:1,
-                    demo:"",
-                    mapName:"de_dust2"
+                    team1Id: team_drift_staff.id,
+                    team1Score: 0,
+                    team2Id: team_drift_kids.id,
+                    team2Score: 0,
+                    number: 1,
+                    demo: "",
+                    mapName: "de_mirage"
+                },
+                {
+                    startedAt: new Date(),
+                    DatHostId: "638725b0e5ddf593e4e433c7",
+                    status: MapStatus.PENDING,
+                    team1Id: team_drift_staff.id,
+                    team1Score: 0,
+                    team2Id: team_drift_kids.id,
+                    team2Score: 0,
+                    number: 2,
+                    demo: "",
+                    mapName: "de_dust2"
                 },
                 {
                     startedAt: new Date(),
                     status: MapStatus.PENDING,
-                    team1Id: team2.id,
-                    team1Score:0,
-                    team2Id:team1.id,
-                    team2Score:0,
-                    number:2,
-                    demo:"",
-                    mapName:"de_dust2"
-                },
-                {
-                    startedAt: new Date(),
-                    status: MapStatus.PENDING,
-                    team1Id: team2.id,
-                    team1Score:0,
-                    team2Id:team1.id,
-                    team2Score:0,
-                    number:3,
-                    demo:"",
-                    mapName:"de_dust2"
+                    DatHostId: "638725b0e5ddf593e4e433c8",
+                    team1Id: team_drift_staff.id,
+                    team1Score: 0,
+                    team2Id: team_drift_kids.id,
+                    team2Score: 0,
+                    number: 3,
+                    demo: "",
+                    mapName: "de_inferno"
                 }
-             ]
-         })
-     )
-     
+            ]
+        })
+    )
+
 }

@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
     poolSize: 100,
     synchronize: true,
     logging: true,
-    entities: [Player,Team,Game, Map, PlayerStat, New],
+    entities: [Player, Team, Game, Map, PlayerStat, New],
     migrations: [],
     subscribers: [],
 })

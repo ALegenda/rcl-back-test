@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Game } from "./Game"
 import { Player } from "./Player"
 
 @Entity()
