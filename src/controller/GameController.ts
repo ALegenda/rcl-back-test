@@ -15,25 +15,25 @@ export class GameController {
 
     async test() {
         let moq = {
-            id: '6385e785ae1b3bff30ea5705',
+            id: '638725b0e5ddf593e4e433c6',
             game_server_id: '63723bf9266a17e982253a86',
-            match_series_id: '6385e785ae1b3bff30ea5704',
+            match_series_id: '638725b0e5ddf593e4e433c5',
             map: 'de_dust2',
-            team1_steam_ids: [ 'STEAM_1:1:431045157' ],
-            team2_steam_ids: [ 'STEAM_1:0:455798721' ],
+            team1_steam_ids: [ 'STEAM_1:0:73838588' ],
+            team2_steam_ids: [ 'STEAM_1:1:717580636' ],
             cancel_reason: null,
             team1_stats: { score: 16 },
             team2_stats: { score: 11 },
             player_stats: [
                 { steam_id: 'BOT_1', kills: 0, deaths: 0, assists: 0 },
                 {
-                    steam_id: 'STEAM_1:0:455798721',
+                    steam_id: 'STEAM_1:0:73838588',
                     kills: 11,
                     deaths: 16,
                     assists: 0
                 },
                 {
-                    steam_id: 'STEAM_1:1:431045157',
+                    steam_id: 'STEAM_1:1:717580636',
                     kills: 16,
                     deaths: 11,
                     assists: 0
@@ -69,7 +69,7 @@ export class GameController {
             }
         })
 
-        let mapId = game.maps.findIndex(o => o.DatHostId === request.body.match_series_id)
+        let mapId = game.maps.findIndex(o => o.DatHostId === request.body.id)
 
         if (request.body.cancel_reason === 'CLINCH') {
             game.maps[mapId].finishedAt = new Date()
@@ -87,15 +87,11 @@ export class GameController {
 
         let players_ids = team1_player_ids.concat(team2_player_ids);
 
-        console.log(players_ids)
-
         let playerRep = AppDataSource.getRepository(Player)
         let players = await playerRep.createQueryBuilder("player").where("player.steamId IN (:...ids)", { ids: players_ids }).getMany()
 
-        console.log(players)
-
         let playerstats = request.body.player_stats.filter(item => {
-            if (!item.steam_id.startsWith("STEAM_1")) {
+            if (!item.steam_id.startsWith("STEAM")) {
                 return false; // skip
             }
             return true;
@@ -115,7 +111,7 @@ export class GameController {
 
         console.log(playerstats)
 
-
+        game.maps[mapId].playerStats = playerstats
 
         game.maps[mapId].finishedAt = new Date()
         game.maps[mapId].status = MapStatus.FINISHED
@@ -128,8 +124,6 @@ export class GameController {
         }else{
             game.team2Score += 1
         }
-
-        console.log(game)
 
         let result = await this.gameRepository.save(game)
 
