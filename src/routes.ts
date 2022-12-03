@@ -6,6 +6,18 @@ import { TeamController } from "./controller/TeamController";
 
 export const Routes = [
     {
+        method: "post",
+        route: "/creatematch",
+        controller: GameController,
+        action: "createMatch"
+    },
+    {
+        method: "post",
+        route: "/test",
+        controller: GameController,
+        action: "test"
+    },
+    {
         method: "get",
         route: "/test/:id",
         controller: GameController,

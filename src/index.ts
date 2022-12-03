@@ -14,7 +14,11 @@ AppDataSource.initialize().then(async () => {
 
     // create express app
     const app = express()
-    app.use(bodyParser.json())
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+
+    app.use(bodyParser.json());
 
     // register express routes from defined application routes
     Routes.forEach(route => {
@@ -75,15 +79,23 @@ async function init() {
         })
     )
 
-    let team_drift_kids = await AppDataSource.manager.save(
+    let team_drift_kids_1 = await AppDataSource.manager.save(
         AppDataSource.manager.create(Team, {
-            name: "Drift Kids",
+            name: "Drift Kids 1",
             country: "Россия",
             city: "Владивосток",
             logo: "url"
         })
     )
 
+    let team_drift_kids_2 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Drift Kids 2",
+            country: "Россия",
+            city: "Владивосток",
+            logo: "url"
+        })
+    )
 
     // insert new users for test
     let player_anton = await AppDataSource.manager.save(
@@ -134,7 +146,7 @@ async function init() {
             country: "Россия",
             imageUrl: "Картинка",
             steamId: "STEAM_1:1:717580636",
-            team: team_drift_kids
+            team: team_drift_staff
         })
     )
 
@@ -147,58 +159,110 @@ async function init() {
             country: "Россия",
             imageUrl: "Картинка",
             steamId: "STEAM_1:0:73838588",
-            team: team_drift_staff
+            team: team_drift_kids_1
         })
     )
 
-    let game = await AppDataSource.manager.save(
-        AppDataSource.manager.create(Game, {
-            teams: [team_drift_staff, team_drift_kids],
-            status: GameStatus.PENDING,
-            matchSeriesId: "638725b0e5ddf593e4e433c5",
-            team1Id: team_drift_staff.id,
-            team1Score: 0,
-            team2Id: team_drift_kids.id,
-            team2Score: 0,
-            maps: [
-                {
-                    startedAt: new Date(),
-                    DatHostId: "638725b0e5ddf593e4e433c6",
-                    status: MapStatus.PENDING,
-                    team1Id: team_drift_staff.id,
-                    team1Score: 0,
-                    team2Id: team_drift_kids.id,
-                    team2Score: 0,
-                    number: 1,
-                    demo: "",
-                    mapName: "de_mirage"
-                },
-                {
-                    startedAt: new Date(),
-                    DatHostId: "638725b0e5ddf593e4e433c7",
-                    status: MapStatus.PENDING,
-                    team1Id: team_drift_staff.id,
-                    team1Score: 0,
-                    team2Id: team_drift_kids.id,
-                    team2Score: 0,
-                    number: 2,
-                    demo: "",
-                    mapName: "de_dust2"
-                },
-                {
-                    startedAt: new Date(),
-                    status: MapStatus.PENDING,
-                    DatHostId: "638725b0e5ddf593e4e433c8",
-                    team1Id: team_drift_staff.id,
-                    team1Score: 0,
-                    team2Id: team_drift_kids.id,
-                    team2Score: 0,
-                    number: 3,
-                    demo: "",
-                    mapName: "de_inferno"
-                }
-            ]
+    let player_hz = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "hz",
+            age: 21,
+            firstName: "hz",
+            lastName: "hz",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_0:0:618991361",
+            team: team_drift_kids_1
         })
     )
+
+    let player_chillh = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "chillh",
+            age: 21,
+            firstName: "Владимир",
+            lastName: "-",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_0:0:125693568",
+            team: team_drift_kids_1
+        })
+    )
+
+    let player_apollo = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "apollo",
+            age: 21,
+            firstName: "Владимир",
+            lastName: "-",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_0:0:527726202",
+            team: team_drift_kids_2
+        })
+    )
+
+    let player_lav = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "lav",
+            age: 21,
+            firstName: "Алексей",
+            lastName: "Лаврух",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_0:1:562950999",
+            team: team_drift_kids_2
+        })
+    )
+
+    // let game = await AppDataSource.manager.save(
+    //     AppDataSource.manager.create(Game, {
+    //         teams: [team_drift_staff, team_drift_kids],
+    //         status: GameStatus.PENDING,
+    //         matchSeriesId: "638725b0e5ddf593e4e433c5",
+    //         team1Id: team_drift_staff.id,
+    //         team1Score: 0,
+    //         team2Id: team_drift_kids.id,
+    //         team2Score: 0,
+    //         maps: [
+    //             {
+    //                 startedAt: new Date(),
+    //                 DatHostId: "638725b0e5ddf593e4e433c6",
+    //                 status: MapStatus.PENDING,
+    //                 team1Id: team_drift_staff.id,
+    //                 team1Score: 0,
+    //                 team2Id: team_drift_kids.id,
+    //                 team2Score: 0,
+    //                 number: 1,
+    //                 demo: "",
+    //                 mapName: "de_mirage"
+    //             },
+    //             {
+    //                 startedAt: new Date(),
+    //                 DatHostId: "638725b0e5ddf593e4e433c7",
+    //                 status: MapStatus.PENDING,
+    //                 team1Id: team_drift_staff.id,
+    //                 team1Score: 0,
+    //                 team2Id: team_drift_kids.id,
+    //                 team2Score: 0,
+    //                 number: 2,
+    //                 demo: "",
+    //                 mapName: "de_dust2"
+    //             },
+    //             {
+    //                 startedAt: new Date(),
+    //                 status: MapStatus.PENDING,
+    //                 DatHostId: "638725b0e5ddf593e4e433c8",
+    //                 team1Id: team_drift_staff.id,
+    //                 team1Score: 0,
+    //                 team2Id: team_drift_kids.id,
+    //                 team2Score: 0,
+    //                 number: 3,
+    //                 demo: "",
+    //                 mapName: "de_inferno"
+    //             }
+    //         ]
+    //     })
+    // )
 
 }

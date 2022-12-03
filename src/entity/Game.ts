@@ -15,7 +15,7 @@ export class Game {
     @PrimaryGeneratedColumn()
     id: number
 
-    @ManyToMany(() => Team, { onDelete: "SET NULL" })
+    @ManyToMany(() => Team, { onDelete: "SET NULL", cascade: true })
     @JoinTable()
     teams: Team[]
 

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BeforeInsert } from "typeorm"
 import { Game } from "./Game"
 import { Player } from "./Player"
 
@@ -22,5 +22,45 @@ export class Team {
 
     @OneToMany(() => Player, (player) => player.team)
     players: Player[]
+
+    @Column({ nullable: true })
+    totalKills: number
+
+    @BeforeInsert()
+    setKills(){
+        this.totalKills = 0
+    }
+
+    @Column({ nullable: true })
+    totalGames: number
+
+    @BeforeInsert()
+    setGames(){
+        this.totalGames = 0
+    }
+
+    @Column({ nullable: true })
+    totalMaps: number
+
+    @BeforeInsert()
+    setMaps(){
+        this.totalMaps = 0
+    }
+
+    @Column({ nullable: true })
+    totalDeaths: number
+
+    @BeforeInsert()
+    setDeaths(){
+        this.totalDeaths = 0
+    }
+
+    @Column({ nullable: true })
+    totalAssists: number
+
+    @BeforeInsert()
+    setAssists(){
+        this.totalAssists = 0
+    }
 
 }
