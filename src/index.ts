@@ -171,7 +171,7 @@ async function init() {
             lastName: "hz",
             country: "Россия",
             imageUrl: "Картинка",
-            steamId: "STEAM_0:0:618991361",
+            steamId: "STEAM_1:0:618991361",
             team: team_drift_kids_1
         })
     )
@@ -184,7 +184,7 @@ async function init() {
             lastName: "-",
             country: "Россия",
             imageUrl: "Картинка",
-            steamId: "STEAM_0:0:125693568",
+            steamId: "STEAM_1:0:125693568",
             team: team_drift_kids_1
         })
     )
@@ -197,7 +197,7 @@ async function init() {
             lastName: "-",
             country: "Россия",
             imageUrl: "Картинка",
-            steamId: "STEAM_0:0:527726202",
+            steamId: "STEAM_1:0:527726202",
             team: team_drift_kids_2
         })
     )
@@ -210,7 +210,7 @@ async function init() {
             lastName: "Лаврух",
             country: "Россия",
             imageUrl: "Картинка",
-            steamId: "STEAM_0:1:562950999",
+            steamId: "STEAM_1:1:562950999",
             team: team_drift_kids_2
         })
     )

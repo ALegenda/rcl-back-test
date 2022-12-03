@@ -71,7 +71,7 @@ export class GameController {
             })
         )
 
-        configs.match_end_webhook_url = `https://rcl-test.herokuapp.com/match/${game.id}`
+        configs.match_end_webhook_url = `https://rcl-backend.onrender.com/match/${game.id}`
 
         let dathostResponse = await axios({
             method: 'post',
