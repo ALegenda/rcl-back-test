@@ -185,7 +185,9 @@ export class GameController {
                 id: request.params.id
             }
         })
-
+        
+        console.log(game)
+        
         let mapId = game.maps.findIndex(map => map.DatHostId === datHostResponse.id)
 
         
@@ -209,7 +211,9 @@ export class GameController {
 
         let players_ids = team1_player_ids.concat(team2_player_ids);
 
-        let players = await AppDataSource.getRepository(Player).createQueryBuilder("player").where("player.steamId IN (:...ids)", { ids: players_ids }).getMany()
+        let players = await AppDataSource.getRepository(Player).createQueryBuilder("player").where("player.steamId IN (:...ids)", { ids: players_ids }).loadAllRelationIds().getMany()
+
+        console.log(players)
 
         let playerstats = datHostResponse.player_stats.filter(item => {
             if (!item.steam_id.startsWith("STEAM")) {
@@ -222,6 +226,8 @@ export class GameController {
             player.totalDeaths += item.deaths
             player.totalAssists += item.assists
             player.totalMaps += 1
+
+            console.log(player)
 
             let teamIndex = game.teams.findIndex(team => team.id === player.team.id)
             game.teams[teamIndex].totalKills += item.kills
