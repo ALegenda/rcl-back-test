@@ -211,12 +211,10 @@ export class GameController {
 
         let players_ids = team1_player_ids.concat(team2_player_ids);
 
-        let players = await AppDataSource.getRepository(Player).createQueryBuilder("player").where("player.steamId IN (:...ids)", { ids: players_ids }).loadAllRelationIds().getMany()
-
-        console.log(players)
+        let players = await AppDataSource.getRepository(Player).createQueryBuilder("player").where("player.steamId IN (:...ids)", { ids: players_ids }).getMany()
 
         let playerstats = datHostResponse.player_stats.filter(item => {
-            if (!item.steam_id.startsWith("STEAM")) {
+            if (!(item.steam_id in players_ids)) {
                 return false; // skip
             }
             return true;
@@ -227,9 +225,13 @@ export class GameController {
             player.totalAssists += item.assists
             player.totalMaps += 1
 
-            console.log(player)
+            console.log(`player - ${player}`)
+            //console.log(`game - ${game}`)
 
             let teamIndex = game.teams.findIndex(team => team.id === player.team.id)
+            console.log(`teamIndex - ${teamIndex}`)
+            console.log(`game.teams[teamIndex] - ${game.teams[teamIndex]}`)
+            
             game.teams[teamIndex].totalKills += item.kills
             game.teams[teamIndex].totalDeaths += item.deaths
             game.teams[teamIndex].totalAssists += item.assists
@@ -244,7 +246,7 @@ export class GameController {
         })
 
 
-        console.log(playerstats)
+        console.log(`playerstats - ${playerstats}`)
 
         game.maps[mapId].playerStats = playerstats
 

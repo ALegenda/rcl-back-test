@@ -40,10 +40,32 @@ AppDataSource.initialize().then(async () => {
     app.listen(process.env.PORT || 3000)
 
     //init()
+    //test()
+
 
     console.log(`Express server has started on port ${process.env.PORT || 3000}`)
 
 }).catch(error => console.log(error))
+
+async function test() {
+    let team_1 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Drift Test 1",
+            country: "Россия",
+            city: "Владивосток",
+            logo: "url"
+        })
+    )
+
+    let team_2 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Drift Test 2",
+            country: "Россия",
+            city: "Владивосток",
+            logo: "url"
+        })
+    )
+}
 
 
 async function init() {
