@@ -79,23 +79,23 @@ async function init() {
         })
     )
 
-    let team_drift_kids_1 = await AppDataSource.manager.save(
+    let team_drift_kids = await AppDataSource.manager.save(
         AppDataSource.manager.create(Team, {
-            name: "Drift Kids 1",
+            name: "Drift Kids",
             country: "Россия",
             city: "Владивосток",
             logo: "url"
         })
     )
 
-    let team_drift_kids_2 = await AppDataSource.manager.save(
-        AppDataSource.manager.create(Team, {
-            name: "Drift Kids 2",
-            country: "Россия",
-            city: "Владивосток",
-            logo: "url"
-        })
-    )
+    // let team_drift_kids_2 = await AppDataSource.manager.save(
+    //     AppDataSource.manager.create(Team, {
+    //         name: "Drift Kids 2",
+    //         country: "Россия",
+    //         city: "Владивосток",
+    //         logo: "url"
+    //     })
+    // )
 
     // insert new users for test
     let player_anton = await AppDataSource.manager.save(
@@ -111,10 +111,23 @@ async function init() {
         })
     )
 
+    let player_obn = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "OBN",
+            age: 22,
+            firstName: "Александр",
+            lastName: "Обновлённый",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:23469352",
+            team: team_drift_kids
+        })
+    )
+
     let player_grisha = await AppDataSource.manager.save(
         AppDataSource.manager.create(Player, {
-            nickName: "GRISHA",
-            age: 21,
+            nickName: "korde",
+            age: 20,
             firstName: "Григорий",
             lastName: "Михайлов",
             country: "Россия",
@@ -126,8 +139,8 @@ async function init() {
 
     let player_borya = await AppDataSource.manager.save(
         AppDataSource.manager.create(Player, {
-            nickName: "BORYA",
-            age: 21,
+            nickName: "jboris",
+            age: 18,
             firstName: "Борис",
             lastName: "Пятница",
             country: "Россия",
@@ -159,33 +172,46 @@ async function init() {
             country: "Россия",
             imageUrl: "Картинка",
             steamId: "STEAM_1:0:73838588",
-            team: team_drift_kids_1
+            team: team_drift_staff
         })
     )
 
-    let player_hz = await AppDataSource.manager.save(
+    let player_madron = await AppDataSource.manager.save(
         AppDataSource.manager.create(Player, {
-            nickName: "hz",
-            age: 21,
-            firstName: "hz",
-            lastName: "hz",
+            nickName: "M4dron",
+            age: 12,
+            firstName: "Андрончик",
+            lastName: "Марк",
             country: "Россия",
             imageUrl: "Картинка",
             steamId: "STEAM_1:0:618991361",
-            team: team_drift_kids_1
+            team: team_drift_kids
         })
     )
 
     let player_chillh = await AppDataSource.manager.save(
         AppDataSource.manager.create(Player, {
             nickName: "chillh",
-            age: 21,
-            firstName: "Владимир",
-            lastName: "-",
+            age: 15,
+            firstName: "Михаил",
+            lastName: "Докучаев",
             country: "Россия",
             imageUrl: "Картинка",
             steamId: "STEAM_1:0:125693568",
-            team: team_drift_kids_1
+            team: team_drift_kids
+        })
+    )
+
+    let player_senpai = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "Senpa1",
+            age: 15,
+            firstName: "Никита",
+            lastName: "Иус",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:588664180",
+            team: team_drift_kids
         })
     )
 
@@ -198,20 +224,20 @@ async function init() {
             country: "Россия",
             imageUrl: "Картинка",
             steamId: "STEAM_1:0:527726202",
-            team: team_drift_kids_2
+            team: team_rcl
         })
     )
 
     let player_lav = await AppDataSource.manager.save(
         AppDataSource.manager.create(Player, {
-            nickName: "lav",
-            age: 21,
+            nickName: "MarttiniX",
+            age: 15,
             firstName: "Алексей",
             lastName: "Лаврух",
             country: "Россия",
             imageUrl: "Картинка",
             steamId: "STEAM_1:1:562950999",
-            team: team_drift_kids_2
+            team: team_drift_kids
         })
     )
 

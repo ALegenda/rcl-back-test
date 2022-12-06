@@ -21,10 +21,40 @@ export class GameController {
         axios.defaults.headers.common['authorization'] = `Basic YS5hbGVrc2VldkBydXNjeWJlcmxlYWd1ZS5ydTpzdGVwYXNoa2ExNDg4`;
         axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
+        configs.enable_pause = true
+        configs.enable_ready = true
+        configs.enable_tech_pause = true
+        configs.game_server_id = "63723bf9266a17e982253a86"
+        configs.message_prefix = "RCL BOT"
+        configs.number_of_maps = 3
+        configs.ready_min_players = 1
+        configs.team_size = 0
+        configs.wait_for_coaches = false
+        configs.wait_for_gotv_before_nextmap = false
+        configs.wait_for_spectators = false
+        configs.warmup_time = 15
+        configs.connect_time = 3600
 
-        let team1 = await AppDataSource.getRepository(Team).findOneBy({ name: configs.team1_name })
-        let team2 = await AppDataSource.getRepository(Team).findOneBy({ name: configs.team2_name })
-         
+        let team1 = await AppDataSource.getRepository(Team).findOne({
+            relations: {
+                players: true
+            },
+            where: {
+                name: configs.team1_name
+            }
+        })
+        let team2 = await AppDataSource.getRepository(Team).findOne({
+            relations: {
+                players: true
+            },
+            where: {
+                name: configs.team2_name
+            }
+        })
+
+        configs.team1_steam_ids = team1.players.map(player => player.steamId).join()
+        configs.team2_steam_ids = team2.players.map(player => player.steamId).join()
+
         let game = await AppDataSource.manager.save(
             AppDataSource.manager.create(Game, {
                 teams: [team1, team2],
@@ -81,16 +111,16 @@ export class GameController {
                 'Accept-Encoding': 'identity'
             }
         }).then(dathost => {
-            console.log(dathost);
+            console.log(dathost.data);
             return dathost.data
         }).catch(err => console.error(err));
-        
+
         game.matchSeriesId = dathostResponse.id
         game.maps.forEach(element => {
             element.DatHostId = dathostResponse.matches.find(o => o.map === element.mapName).id
         });
 
-        
+
 
         return await AppDataSource.manager.save(game)
     }
@@ -140,20 +170,25 @@ export class GameController {
     }
 
     async match(request: Request, response: Response, next: NextFunction) {
-        console.log(request.body)
+
+        let datHostResponse = request.body
+
+
+        console.log(datHostResponse)
 
         let game = await this.gameRepository.findOne({
             relations: {
                 maps: true,
+                teams: true
             },
             where: {
                 id: request.params.id
             }
         })
 
-        let mapId = game.maps.findIndex(o => o.DatHostId === request.body.id)
+        let mapId = game.maps.findIndex(map => map.DatHostId === datHostResponse.id)
 
-        if (request.body.cancel_reason === 'CLINCH') {
+        if (datHostResponse.cancel_reason === 'CLINCH') {
             game.maps[mapId].finishedAt = new Date()
             game.maps[mapId].status = MapStatus.CLINCH
 
@@ -164,28 +199,30 @@ export class GameController {
             return "ok"
         }
 
-        let team1_player_ids = request.body.team1_steam_ids
-        let team2_player_ids = request.body.team2_steam_ids
+        if (datHostResponse.cancel_reason.startsWith('MISSING_PLAYERS')) {
+            return "ok"
+        }
+
+        let team1_player_ids = datHostResponse.team1_steam_ids
+        let team2_player_ids = datHostResponse.team2_steam_ids
 
         let players_ids = team1_player_ids.concat(team2_player_ids);
 
-        let playerRep = AppDataSource.getRepository(Player)
-        let players = await playerRep.createQueryBuilder("player").where("player.steamId IN (:...ids)", { ids: players_ids }).getMany()
+        let players = await AppDataSource.getRepository(Player).createQueryBuilder("player").where("player.steamId IN (:...ids)", { ids: players_ids }).getMany()
 
-        let playerstats = request.body.player_stats.filter(item => {
+        let playerstats = datHostResponse.player_stats.filter(item => {
             if (!item.steam_id.startsWith("STEAM")) {
                 return false; // skip
             }
             return true;
         }).map(item => {
-            let player = players.find(o => o.steamId === item.steam_id)
+            let player = players.find(player => player.steamId === item.steam_id)
             player.totalKills += item.kills
             player.totalDeaths += item.deaths
             player.totalAssists += item.assists
             player.totalMaps += 1
 
             let teamIndex = game.teams.findIndex(team => team.id === player.team.id)
-            game.teams[teamIndex]
             game.teams[teamIndex].totalKills += item.kills
             game.teams[teamIndex].totalDeaths += item.deaths
             game.teams[teamIndex].totalAssists += item.assists
@@ -206,6 +243,9 @@ export class GameController {
 
         game.maps[mapId].finishedAt = new Date()
         game.maps[mapId].status = MapStatus.FINISHED
+
+        let nextGameId = game.maps.findIndex(map => map.number === game.maps[mapId].number + 1)
+        game.maps[nextGameId].startedAt = new Date()
 
         game.maps[mapId].team1Score = request.body.team1_stats.score
         game.maps[mapId].team2Score = request.body.team2_stats.score
