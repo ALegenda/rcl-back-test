@@ -214,7 +214,7 @@ export class GameController {
         let players = await AppDataSource.getRepository(Player).createQueryBuilder("player").where("player.steamId IN (:...ids)", { ids: players_ids }).getMany()
 
         let playerstats = datHostResponse.player_stats.filter(item => {
-            if (!(item.steam_id in players_ids)) {
+            if (!(players_ids.includes(item.steam_id))) {
                 return false; // skip
             }
             return true;
