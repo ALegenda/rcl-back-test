@@ -211,7 +211,7 @@ export class GameController {
 
         let players_ids = team1_player_ids.concat(team2_player_ids);
 
-        let players = await AppDataSource.getRepository(Player).createQueryBuilder("player").where("player.steamId IN (:...ids)", { ids: players_ids }).getMany()
+        let players = await AppDataSource.getRepository(Player).createQueryBuilder("player").where("player.steamId IN (:...ids)", { ids: players_ids }).leftJoinAndSelect('player.team', 'team').getMany()
 
         let playerstats = datHostResponse.player_stats.filter(item => {
             if (!(players_ids.includes(item.steam_id))) {
@@ -220,6 +220,7 @@ export class GameController {
             return true;
         }).map(item => {
             let player = players.find(player => player.steamId === item.steam_id)
+            
             player.totalKills += item.kills
             player.totalDeaths += item.deaths
             player.totalAssists += item.assists
