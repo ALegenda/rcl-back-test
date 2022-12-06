@@ -152,7 +152,7 @@ async function init() {
 
     let player_jenya = await AppDataSource.manager.save(
         AppDataSource.manager.create(Player, {
-            nickName: "RUKAV",
+            nickName: "DelianBTW",
             age: 21,
             firstName: "Евгений",
             lastName: "Выходец",
@@ -165,13 +165,26 @@ async function init() {
 
     let player_andrey = await AppDataSource.manager.save(
         AppDataSource.manager.create(Player, {
-            nickName: "mYb",
+            nickName: "m1b",
+            age: 20,
+            firstName: "Андрей",
+            lastName: "Авдеев",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:73838588",
+            team: team_drift_staff
+        })
+    )
+
+    let player_aqua = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "aqua",
             age: 21,
             firstName: "Андрей",
             lastName: "mYb",
             country: "Россия",
             imageUrl: "Картинка",
-            steamId: "STEAM_1:0:73838588",
+            steamId: "STEAM_1:1:182066335",
             team: team_drift_staff
         })
     )
@@ -180,8 +193,8 @@ async function init() {
         AppDataSource.manager.create(Player, {
             nickName: "M4dron",
             age: 12,
-            firstName: "Андрончик",
-            lastName: "Марк",
+            firstName: "Марк",
+            lastName: "Андрончик",
             country: "Россия",
             imageUrl: "Картинка",
             steamId: "STEAM_1:0:618991361",

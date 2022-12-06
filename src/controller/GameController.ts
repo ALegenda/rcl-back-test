@@ -188,18 +188,19 @@ export class GameController {
 
         let mapId = game.maps.findIndex(map => map.DatHostId === datHostResponse.id)
 
-        if (datHostResponse.cancel_reason === 'CLINCH') {
-            game.maps[mapId].finishedAt = new Date()
-            game.maps[mapId].status = MapStatus.CLINCH
+        
 
-            let result = await this.gameRepository.save(game)
-
-            console.log(result)
-
-            return "ok"
-        }
-
-        if (datHostResponse.cancel_reason.startsWith('MISSING_PLAYERS')) {
+        if (datHostResponse.cancel_reason !== null ) {
+            if (datHostResponse.cancel_reason === 'CLINCH') {
+                game.maps[mapId].finishedAt = new Date()
+                game.maps[mapId].status = MapStatus.CLINCH
+    
+                let result = await this.gameRepository.save(game)
+    
+                console.log(result)
+    
+                return "ok"
+            }
             return "ok"
         }
 
