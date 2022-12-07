@@ -255,7 +255,11 @@ export class GameController {
         game.maps[mapId].status = MapStatus.FINISHED
 
         let nextGameId = game.maps.findIndex(map => map.number === game.maps[mapId].number + 1)
-        game.maps[nextGameId].startedAt = new Date()
+        
+        if (nextGameId !== -1){
+            game.maps[nextGameId].startedAt = new Date()
+        }
+        
 
         game.maps[mapId].team1Score = request.body.team1_stats.score
         game.maps[mapId].team2Score = request.body.team2_stats.score
