@@ -63,4 +63,20 @@ export class Team {
         this.totalAssists = 0
     }
 
+    @Column({ nullable: true })
+    totalWins: number
+
+    @BeforeInsert()
+    setWins(){
+        this.totalWins = 0
+    }
+
+    @Column({ nullable: true })
+    totalLoses: number
+
+    @BeforeInsert()
+    setLoses(){
+        this.totalLoses = 0
+    }
+
 }

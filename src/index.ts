@@ -39,7 +39,7 @@ AppDataSource.initialize().then(async () => {
     // start express server
     app.listen(process.env.PORT || 3000)
 
-    //init()
+    init()
     //test()
 
 
@@ -88,6 +88,15 @@ async function init() {
             name: "RCL",
             country: "Россия",
             city: "Москва",
+            logo: "url",
+        })
+    )
+
+    let team_mirai = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Mirai",
+            country: "Россия",
+            city: "Сахалин",
             logo: "url",
         })
     )
@@ -142,7 +151,7 @@ async function init() {
             country: "Россия",
             imageUrl: "Картинка",
             steamId: "STEAM_1:0:23469352",
-            team: team_drift_kids
+            team: team_rcl
         })
     )
 
@@ -220,7 +229,7 @@ async function init() {
             country: "Россия",
             imageUrl: "Картинка",
             steamId: "STEAM_1:0:618991361",
-            team: team_drift_kids
+            team: team_rcl
         })
     )
 
@@ -276,54 +285,96 @@ async function init() {
         })
     )
 
-    // let game = await AppDataSource.manager.save(
-    //     AppDataSource.manager.create(Game, {
-    //         teams: [team_drift_staff, team_drift_kids],
-    //         status: GameStatus.PENDING,
-    //         matchSeriesId: "638725b0e5ddf593e4e433c5",
-    //         team1Id: team_drift_staff.id,
-    //         team1Score: 0,
-    //         team2Id: team_drift_kids.id,
-    //         team2Score: 0,
-    //         maps: [
-    //             {
-    //                 startedAt: new Date(),
-    //                 DatHostId: "638725b0e5ddf593e4e433c6",
-    //                 status: MapStatus.PENDING,
-    //                 team1Id: team_drift_staff.id,
-    //                 team1Score: 0,
-    //                 team2Id: team_drift_kids.id,
-    //                 team2Score: 0,
-    //                 number: 1,
-    //                 demo: "",
-    //                 mapName: "de_mirage"
-    //             },
-    //             {
-    //                 startedAt: new Date(),
-    //                 DatHostId: "638725b0e5ddf593e4e433c7",
-    //                 status: MapStatus.PENDING,
-    //                 team1Id: team_drift_staff.id,
-    //                 team1Score: 0,
-    //                 team2Id: team_drift_kids.id,
-    //                 team2Score: 0,
-    //                 number: 2,
-    //                 demo: "",
-    //                 mapName: "de_dust2"
-    //             },
-    //             {
-    //                 startedAt: new Date(),
-    //                 status: MapStatus.PENDING,
-    //                 DatHostId: "638725b0e5ddf593e4e433c8",
-    //                 team1Id: team_drift_staff.id,
-    //                 team1Score: 0,
-    //                 team2Id: team_drift_kids.id,
-    //                 team2Score: 0,
-    //                 number: 3,
-    //                 demo: "",
-    //                 mapName: "de_inferno"
-    //             }
-    //         ]
-    //     })
-    // )
+    let player_yawallner = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "yawallner",
+            age: 17,
+            firstName: "Роман",
+            lastName: "Кон",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:142784600",
+            team: team_mirai
+        })
+    )
+
+    let player_n1zu = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "n1zu",
+            age: 21,
+            firstName: "Никита",
+            lastName: "Зубков",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:95685864",
+            team: team_mirai
+        })
+    )
+
+    let player_sN3eze = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "sN3eze",
+            age: 22,
+            firstName: "Александр",
+            lastName: "Афанасьев",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:162587671",
+            team: team_mirai
+        })
+    )
+
+    let player_go1den = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "go1den",
+            age: 19,
+            firstName: "Никита",
+            lastName: "Кравцов",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:108906302",
+            team: team_mirai
+        })
+    )
+
+    let player_kLIVIC = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "kLIVIC",
+            age: 20,
+            firstName: "Виктор",
+            lastName: "Климов",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:215715314",
+            team: team_drift_kids
+        })
+    )
+
+    let player_vidoq = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "vidoq",
+            age: 20,
+            firstName: "Виктор",
+            lastName: "Манаенков",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "",
+            team: team_drift_kids
+        })
+    )
+
+    let player_n3koh = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "n3koh",
+            age: 21,
+            firstName: "Герман",
+            lastName: "Киселев",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:518759503",
+            team: team_mirai
+        })
+    )
+
 
 }

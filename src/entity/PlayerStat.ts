@@ -21,14 +21,6 @@ export class PlayerStat {
     @Column()
     deaths: number
 
-    @Column({nullable:true, type: "float"})
-    kd: number
-
-    @BeforeInsert()
-    updateKD() {
-        this.kd = this.kills/this.deaths
-    }
-
     @Column()
     assist: number
 
