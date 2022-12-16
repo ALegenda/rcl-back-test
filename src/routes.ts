@@ -13,6 +13,12 @@ export const Routes = [
     },
     {
         method: "post",
+        route: "/logs",
+        controller: GameController,
+        action: "logs"
+    },
+    {
+        method: "post",
         route: "/test",
         controller: GameController,
         action: "test"

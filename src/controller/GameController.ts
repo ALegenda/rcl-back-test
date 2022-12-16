@@ -15,7 +15,7 @@ export class GameController {
         return this.gameRepository.find()
     }
 
-    async newTest(request: Request, response: Response, next: NextFunction) {
+    async logs(request: Request, response: Response, next: NextFunction) {
         console.log(request.body)
         return "kek"
     }
