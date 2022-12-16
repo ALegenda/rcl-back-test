@@ -41,6 +41,8 @@ AppDataSource.initialize().then(async () => {
 
     //init()
     //test()
+    //initQuals()
+
 
 
     console.log(`Express server has started on port ${process.env.PORT || 3000}`)
@@ -65,8 +67,652 @@ async function test() {
             logo: "url"
         })
     )
+
+    let player_anton = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "AntonioGodfather",
+            age: 25,
+            firstName: "Антон",
+            lastName: "Алексеев",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:36261249",
+            team: team_1
+        })
+    )
+
+    let player_danello = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "Danello",
+            age: 25,
+            firstName: "sdf",
+            lastName: "sdf",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:10847058",
+            team: team_2
+        })
+    )
 }
 
+async function initQuals() {
+    initBaks()
+    initFlowstate()
+    initKINQIE()
+    initLF0()
+    initPlatoon()
+    initTestosteron()
+    initToxixWorld()
+    initYnt()
+}
+
+async function initLF0() {
+    let team_LF0 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "LF0",
+            country: "Россия",
+            city: "",
+            logo: ""
+        })
+    )
+
+    let player_1 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "JACKPOT",
+            age: 23,
+            firstName: "Владимир",
+            lastName: "Дьяконов",
+            country: "Россия",
+            imageUrl: "",
+            steamId: "STEAM_1:1:73691192",
+            team: team_LF0
+        })
+    )
+
+    let player_2 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "lesswill",
+            age: 25,
+            firstName: "Дмитрий",
+            lastName: "Медведев",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:21046441",
+            team: team_LF0
+        })
+    )
+
+    let player_3 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "HUckLer",
+            age: 20,
+            firstName: "Николай",
+            lastName: "Рудов",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:93315583",
+            team: team_LF0
+        })
+    )
+
+    let player_4 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "Kiro",
+            age: 20,
+            firstName: "Александр",
+            lastName: "Шеров",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:92751545",
+            team: team_LF0
+        })
+    )
+
+    let player_5 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "sp1nt",
+            age: 22,
+            firstName: "Глеб",
+            lastName: "Горелов",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:103381140",
+            team: team_LF0
+        })
+    )    
+}
+
+async function initFlowstate() {
+    let team_Flowstate = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Flowstate",
+            country: "Россия",
+            city: "",
+            logo: ""
+        })
+    )
+
+    let player_1 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "Kaide",
+            age: 22,
+            firstName: "Эдуард",
+            lastName: "Татаринов",
+            country: "Россия",
+            imageUrl: "",
+            steamId: "STEAM_1:0:429765397",
+            team: team_Flowstate
+        })
+    )
+
+    let player_2 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "Sowalio",
+            age: 18,
+            firstName: "Максим",
+            lastName: "Бекетов",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:537114719",
+            team: team_Flowstate
+        })
+    )
+
+    let player_3 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "sFade8",
+            age: 18,
+            firstName: "Виталий",
+            lastName: "Марушка",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:502177735",
+            team: team_Flowstate
+        })
+    )
+
+    let player_4 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "L1GH7n1nG",
+            age: 22,
+            firstName: "Любарец",
+            lastName: "Виталий",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:75496382",
+            team: team_Flowstate
+        })
+    )
+
+    let player_5 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "Aw",
+            age: 16,
+            firstName: "Андрей",
+            lastName: "Анисимов",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:154547905",
+            team: team_Flowstate
+        })
+    )
+}
+
+async function initKINQIE() {
+    let team_KINQIE = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "KINQIE",
+            country: "Россия",
+            city: "",
+            logo: ""
+        })
+    )
+
+    let player_1 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "9makasi",
+            age: 22,
+            firstName: "Данила",
+            lastName: "Бекшенев",
+            country: "Россия",
+            imageUrl: "",
+            steamId: "STEAM_1:1:114275631",
+            team: team_KINQIE
+        })
+    )
+
+    let player_2 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "executor",
+            age: 18,
+            firstName: "Илья",
+            lastName: "Вебер",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:567452807",
+            team: team_KINQIE
+        })
+    )
+
+    let player_3 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "nota",
+            age: 15,
+            firstName: "Эмиль",
+            lastName: "Москвитин",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:507402149",
+            team: team_KINQIE
+        })
+    )
+
+    let player_4 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "L1GH7n1nG",
+            age: 22,
+            firstName: "Любарец",
+            lastName: "Виталий",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:75496382",
+            team: team_KINQIE
+        })
+    )
+
+    let player_5 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "Aw",
+            age: 16,
+            firstName: "Андрей",
+            lastName: "Анисимов",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:154547905",
+            team: team_KINQIE
+        })
+    )
+}
+
+async function initPlatoon() {
+    let team_Platoon = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Platoon",
+            country: "Россия",
+            city: "",
+            logo: ""
+        })
+    )
+
+    let player_1 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "m1QUSE",
+            age: 15,
+            firstName: "Денис",
+            lastName: "Карпович",
+            country: "Россия",
+            imageUrl: "",
+            steamId: "STEAM_1:0:435938437",
+            team: team_Platoon
+        })
+    )
+
+    let player_2 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "norr0",
+            age: 17,
+            firstName: "Станислав",
+            lastName: "Дервоед",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:518803622",
+            team: team_Platoon
+        })
+    )
+
+    let player_3 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "Ch1psik",
+            age: 17,
+            firstName: "Александр",
+            lastName: "Горбачев",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:124785849",
+            team: team_Platoon
+        })
+    )
+
+    let player_4 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "senka",
+            age: 17,
+            firstName: "Арсений",
+            lastName: "Козловский",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:538010099",
+            team: team_Platoon
+        })
+    )
+
+    let player_5 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "FenomeN",
+            age: 18,
+            firstName: "Илья",
+            lastName: "Колодько",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:220276019",
+            team: team_Platoon
+        })
+    )
+}
+
+async function initYnt() {
+    let team_Ynt = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Ynt",
+            country: "Россия",
+            city: "",
+            logo: ""
+        })
+    )
+
+    let player_1 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "Gospadarov",
+            age: 22,
+            firstName: "Кирилл",
+            lastName: "Госпадаров",
+            country: "Россия",
+            imageUrl: "",
+            steamId: "STEAM_0:1:147480129",
+            team: team_Ynt
+        })
+    )
+
+    let player_2 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "bluewhite",
+            age: 18,
+            firstName: "Лубсан",
+            lastName: "Мулонов",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_0:0:508307753",
+            team: team_Ynt
+        })
+    )
+
+    let player_3 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "HeaveN",
+            age: 19,
+            firstName: "Егор",
+            lastName: "Ковалёв",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_0:1:103264864",
+            team: team_Ynt
+        })
+    )
+
+    let player_4 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "VILBy",
+            age: 17,
+            firstName: "Виталий",
+            lastName: "Захарюта",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_0:0:137444524",
+            team: team_Ynt
+        })
+    )
+
+    let player_5 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "z1Nny",
+            age: 19,
+            firstName: "Павел",
+            lastName: "Прокопьев",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_0:0:138388967",
+            team: team_Ynt
+        })
+    )
+}
+
+async function initTestosteron() {
+    let team_Testosteron = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Testosteron",
+            country: "Россия",
+            city: "",
+            logo: ""
+        })
+    )
+
+    let player_1 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "la3euka",
+            age: 21,
+            firstName: "Владимир",
+            lastName: "Шурыгин",
+            country: "Россия",
+            imageUrl: "",
+            steamId: "STEAM_0:1:63622532",
+            team: team_Testosteron
+        })
+    )
+
+    let player_2 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "rorik",
+            age: 18,
+            firstName: "Вячеслав",
+            lastName: "Литвиненко",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:135650666",
+            team: team_Testosteron
+        })
+    )
+
+    let player_3 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "xnkka",
+            age: 21,
+            firstName: "Данил",
+            lastName: "Крючков",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_0:0:95803890",
+            team: team_Testosteron
+        })
+    )
+
+    let player_4 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "m3tiks",
+            age: 21,
+            firstName: "Андрей",
+            lastName: "Остапенко",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:128231506",
+            team: team_Testosteron
+        })
+    )
+
+    let player_5 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "ZzZoOm",
+            age: 20,
+            firstName: "Михаил",
+            lastName: "Андреев",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:101927716",
+            team: team_Testosteron
+        })
+    )
+}
+
+async function initBaks() {
+    let team_Baks = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Baks",
+            country: "Россия",
+            city: "",
+            logo: ""
+        })
+    )
+
+    let player_1 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "rexxie",
+            age: 20,
+            firstName: "Данила",
+            lastName: "Тихомиров",
+            country: "Россия",
+            imageUrl: "",
+            steamId: "STEAM_0:0:105000689",
+            team: team_Baks
+        })
+    )
+
+    let player_2 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "4X1s",
+            age: 18,
+            firstName: "Даниил",
+            lastName: "Яцык",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:54650911",
+            team: team_Baks
+        })
+    )
+
+    let player_3 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "RuFire",
+            age: 21,
+            firstName: "Алексей",
+            lastName: "Бураков",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_0:1:27471320",
+            team: team_Baks
+        })
+    )
+
+    let player_4 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "lov1kus",
+            age: 21,
+            firstName: "Даниил",
+            lastName: "Никитин",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:139677878",
+            team: team_Baks
+        })
+    )
+
+    let player_5 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "danistzz",
+            age: 20,
+            firstName: "Данил",
+            lastName: "Росляков",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_0:0:128749624",
+            team: team_Baks
+        })
+    )
+}
+
+async function initToxixWorld() {
+    let team_ToxixWorld = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "ToxixWorld",
+            country: "Россия",
+            city: "",
+            logo: ""
+        })
+    )
+
+    let player_1 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "Xerison",
+            age: 20,
+            firstName: "Никита",
+            lastName: "Сергеев",
+            country: "Россия",
+            imageUrl: "",
+            steamId: "STEAM_1:1:125382401",
+            team: team_ToxixWorld
+        })
+    )
+
+    let player_2 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "s7xWn",
+            age: 21,
+            firstName: "Никита",
+            lastName: "Сазонов",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:182920506",
+            team: team_ToxixWorld
+        })
+    )
+
+    let player_3 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "k1ssly",
+            age: 20,
+            firstName: "Дмитрий",
+            lastName: "Гостев",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:1:98300403",
+            team: team_ToxixWorld
+        })
+    )
+
+    let player_4 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "zealot",
+            age: 21,
+            firstName: "Сергей",
+            lastName: "Жукович",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:64544944",
+            team: team_ToxixWorld
+        })
+    )
+
+    let player_5 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Player, {
+            nickName: "NeoLife",
+            age: 21,
+            firstName: "Новаков",
+            lastName: "Алексей",
+            country: "Россия",
+            imageUrl: "Картинка",
+            steamId: "STEAM_1:0:569495949",
+            team: team_ToxixWorld
+        })
+    )
+}
 
 async function init() {
 

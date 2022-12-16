@@ -15,6 +15,71 @@ export class GameController {
         return this.gameRepository.find()
     }
 
+    async newTest(request: Request, response: Response, next: NextFunction) {
+        console.log(request.body)
+        return "kek"
+    }
+
+    async planMatch(request: Request, response: Response, next: NextFunction){
+        var configs = request.body;
+
+        let team1 = await AppDataSource.getRepository(Team).findOne({
+            where: {
+                name: configs.team1_name
+            }
+        })
+        let team2 = await AppDataSource.getRepository(Team).findOne({
+            where: {
+                name: configs.team2_name
+            }
+        })
+
+        let game = await AppDataSource.manager.save(
+            AppDataSource.manager.create(Game, {
+                teams: [team1, team2],
+                status: GameStatus.PENDING,
+                team1Id: team1.id,
+                team1Score: 0,
+                team2Id: team2.id,
+                team2Score: 0,
+                maps: [
+                    {
+                        startedAt: configs.started_аt,
+                        status: MapStatus.PENDING,
+                        team1Id: team1.id,
+                        team1Score: 0,
+                        team2Id: team2.id,
+                        team2Score: 0,
+                        number: 1,
+                        mapName: null
+                    },
+                    {
+                        startedAt: configs.started_аt,
+                        status: MapStatus.PENDING,
+                        team1Id: team1.id,
+                        team1Score: 0,
+                        team2Id: team2.id,
+                        team2Score: 0,
+                        number: 2,
+                        mapName: null
+                    },
+                    {
+                        startedAt: configs.started_аt,
+                        status: MapStatus.PENDING,
+                        team1Id: team1.id,
+                        team1Score: 0,
+                        team2Id: team2.id,
+                        team2Score: 0,
+                        number: 3,
+                        mapName: null
+                    }
+                ]
+            })
+        )
+
+        return game
+    }
+
     async createMatch(request: Request, response: Response, next: NextFunction) {
         var configs = request.body;
 
@@ -24,16 +89,26 @@ export class GameController {
         configs.enable_pause = true
         configs.enable_ready = true
         configs.enable_tech_pause = true
-        configs.game_server_id = "63723bf9266a17e982253a86"
+        //configs.game_server_id = "63723bf9266a17e982253a86"
         configs.message_prefix = "RCL BOT"
         configs.number_of_maps = 3
-        configs.ready_min_players = 1
-        configs.team_size = 0
+        configs.ready_min_players = 5
+        configs.team_size = 5
         configs.wait_for_coaches = false
         configs.wait_for_gotv_before_nextmap = false
         configs.wait_for_spectators = false
         configs.warmup_time = 15
         configs.connect_time = 3600
+
+        let game = await this.gameRepository.findOne({
+            relations: {
+                maps: true,
+                teams: true
+            },
+            where: {
+                id: configs.game_id
+            }
+        })
 
         let team1 = await AppDataSource.getRepository(Team).findOne({
             relations: {
@@ -55,7 +130,9 @@ export class GameController {
         configs.team1_steam_ids = team1.players.map(player => player.steamId).join()
         configs.team2_steam_ids = team2.players.map(player => player.steamId).join()
 
-        let game = await AppDataSource.manager.save(
+        
+        
+        game = await AppDataSource.manager.save(
             AppDataSource.manager.create(Game, {
                 teams: [team1, team2],
                 status: GameStatus.PENDING,
@@ -117,7 +194,10 @@ export class GameController {
 
         game.matchSeriesId = dathostResponse.id
         game.maps.forEach(element => {
-            element.DatHostId = dathostResponse.matches.find(o => o.map === element.mapName).id
+            let dathostMatch = dathostResponse.matches.find(o => o.map === element.mapName).id
+            element.DatHostId = dathostMatch.id
+            element.mapName = dathostMatch.map
+            element.demo = ""
         });
 
 
@@ -185,22 +265,22 @@ export class GameController {
                 id: request.params.id
             }
         })
-        
+
         console.log(game)
-        
+
         let mapId = game.maps.findIndex(map => map.DatHostId === datHostResponse.id)
 
-        
 
-        if (datHostResponse.cancel_reason !== null ) {
+
+        if (datHostResponse.cancel_reason !== null) {
             if (datHostResponse.cancel_reason === 'CLINCH') {
                 game.maps[mapId].finishedAt = new Date()
                 game.maps[mapId].status = MapStatus.CLINCH
-    
+
                 let result = await this.gameRepository.save(game)
-    
+
                 console.log(result)
-    
+
                 return "ok"
             }
             return "ok"
@@ -211,7 +291,12 @@ export class GameController {
 
         let players_ids = team1_player_ids.concat(team2_player_ids);
 
-        let players = await AppDataSource.getRepository(Player).createQueryBuilder("player").where("player.steamId IN (:...ids)", { ids: players_ids }).leftJoinAndSelect('player.team', 'team').getMany()
+        let players = await AppDataSource
+            .getRepository(Player)
+            .createQueryBuilder("player")
+            .where("player.steamId IN (:...ids)", { ids: players_ids })
+            .leftJoinAndSelect('player.team', 'team')
+            .getMany()
 
         let playerstats = datHostResponse.player_stats.filter(item => {
             if (!(players_ids.includes(item.steam_id))) {
@@ -220,7 +305,7 @@ export class GameController {
             return true;
         }).map(item => {
             let player = players.find(player => player.steamId === item.steam_id)
-            
+
             player.totalKills += item.kills
             player.totalDeaths += item.deaths
             player.totalAssists += item.assists
@@ -232,7 +317,7 @@ export class GameController {
             let teamIndex = game.teams.findIndex(team => team.id === player.team.id)
             console.log(`teamIndex - ${teamIndex}`)
             console.log(`game.teams[teamIndex] - ${game.teams[teamIndex]}`)
-            
+
             game.teams[teamIndex].totalKills += item.kills
             game.teams[teamIndex].totalDeaths += item.deaths
             game.teams[teamIndex].totalAssists += item.assists
@@ -240,7 +325,6 @@ export class GameController {
 
             if (game.maps[mapId].number === 1) {
                 player.totalGames += 1
-                game.teams[teamIndex].totalGames += 1
             }
 
             return new PlayerStat(item.kills, item.deaths, item.assists, player)
@@ -255,14 +339,14 @@ export class GameController {
         game.maps[mapId].status = MapStatus.FINISHED
 
         let nextGameId = game.maps.findIndex(map => map.number === game.maps[mapId].number + 1)
-        
-        if (nextGameId !== -1){
+
+        if (nextGameId !== -1) {
             game.maps[nextGameId].startedAt = new Date()
         }
-        
 
-        game.maps[mapId].team1Score = request.body.team1_stats.score
-        game.maps[mapId].team2Score = request.body.team2_stats.score
+
+        game.maps[mapId].team1Score = datHostResponse.team1_stats.score
+        game.maps[mapId].team2Score = datHostResponse.team2_stats.score
 
         if (game.maps[mapId].team1Score > game.maps[mapId].team2Score) {
             game.team1Score += 1
@@ -270,6 +354,10 @@ export class GameController {
             game.team2Score += 1
         }
 
+        if (game.team1Score === 2 || game.team2Score === 2) {
+
+        }
+        //totalgames totalmaps totalwins totalloses
 
 
         let result = await this.gameRepository.save(game)
