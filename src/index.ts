@@ -8,6 +8,8 @@ import { Team } from "./entity/Team"
 import { Game, GameStatus } from "./entity/Game"
 import { Map, MapStatus } from "./entity/Map"
 import { New } from "./entity/New"
+const dgram = require('dgram');
+
 
 
 AppDataSource.initialize().then(async () => {
@@ -42,10 +44,26 @@ AppDataSource.initialize().then(async () => {
     //init()
     //test()
     //initQuals()
+    const server = dgram.createSocket('udp4');
+
+    server.on('error', (err) => {
+        console.error(`server error:\n${err.stack}`);
+        server.close();
+    });
+
+    server.on('message', (msg, rinfo) => {
+        console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
+    });
+
+    server.on('listening', () => {
+        const address = server.address();
+        console.log(`server listening ${address.address}:${address.port}`);
+      });
+
+      server.bind(3000);
 
 
-
-    console.log(`Express server has started on port ${process.env.PORT || 3000}`)
+    console.log(`Express server has started on port ${process.env.PORT || 4000}`)
 
 }).catch(error => console.log(error))
 
@@ -179,7 +197,7 @@ async function initLF0() {
             steamId: "STEAM_1:0:103381140",
             team: team_LF0
         })
-    )    
+    )
 }
 
 async function initFlowstate() {
