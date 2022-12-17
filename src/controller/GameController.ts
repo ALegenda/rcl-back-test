@@ -18,7 +18,7 @@ export class GameController {
     async logs(request: Request, response: Response, next: NextFunction) {
         console.log(request.data)
         console.log(request.body)
-        console.log(request)
+        console.log(request.message)
         return "kek"
     }
 
