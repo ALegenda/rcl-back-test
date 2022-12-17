@@ -19,6 +19,7 @@ AppDataSource.initialize().then(async () => {
     app.use(bodyParser.urlencoded({
         extended: true
     }));
+    app.use(bodyParser.raw());
 
     app.use(bodyParser.json());
 

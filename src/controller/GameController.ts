@@ -19,6 +19,8 @@ export class GameController {
         console.log(request.data)
         console.log(request.body)
         console.log(request.message)
+        console.log(request.row())
+        console.log(request.text())
         return "kek"
     }
 
