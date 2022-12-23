@@ -80,6 +80,18 @@ export const Routes = [
         action: "lineup"
     },
     {
+        method: "get",
+        route: "/teams/stats/:id",
+        controller: TeamController,
+        action: "stats"
+    },
+    {
+        method: "get",
+        route: "/shortresults",
+        controller: TeamController,
+        action: "shortresults"
+    },
+    {
         method: "post",
         route: "/teams",
         controller: TeamController,

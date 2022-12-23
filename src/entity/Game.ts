@@ -23,19 +23,19 @@ export class Game {
     maps: Map[]
 
     @Column({ nullable: true })
-    matchSeriesId: string
+    match_series_id: string
 
     @Column()
-    team1Id: number
+    team1_id: number
 
     @Column()
-    team2Id: number
+    team2_id: number
 
     @Column()
-    team1Score: number
+    team1_score: number
 
     @Column()
-    team2Score: number
+    team2_score: number
 
     @Column({
         type: "enum",

@@ -19,52 +19,43 @@ export class PlayerController {
                 team: true
             },
             take: take,
-            skip: skip
+            skip: skip,
+            order: {
+                total_kills: "DESC"
+            }
         })
 
-        let playersWithStats = await players.map((item) => {
-
+        let playersWithStats = players.map((item) => {
             return {
                 "player": {
                     "id": item.id,
-                    "firstName": item.firstName,
-                    "lastName": item.lastName,
-                    "nickName": item.nickName,
+                    "first_name": item.first_name,
+                    "last_name": item.last_name,
+                    "nick_name": item.nick_name,
                     "age": item.age,
                     "country": item.country,
-                    "imageUrl": item.imageUrl
+                    "image_url": item.image_url
                 },
-                "team": item.team,
+                "team": {
+                    "id": item.team.id,
+                    "name": item.team.name,
+                    "country": item.team.country,
+                    "country_logo": item.team.country_logo,
+                    "logo": item.team.logo,
+                },
                 "stats": {
-                    "games": item.totalGames,
-                    "maps": item.totalMaps,
-                    "kills": item.totalKills,
-                    "deaths": item.totalDeaths,
-                    "assists": item.totalAssists,
-                    "kd": item.totalKills / item.totalDeaths
+                    "games": item.total_games,
+                    "maps": item.total_maps,
+                    "kills": item.total_kills,
+                    "deaths": item.total_deaths,
+                    "assists": item.total_assists,
+                    "kd": item.total_kills / item.total_deaths,
+                    "kd_diff": item.total_kills - item.total_deaths
                 }
-
             }
         })
 
         return playersWithStats;
-    }
-
-
-    resultStats(stats: any[]) {
-        let kills = stats.reduce((sum, current) => sum + current.kills, 0)
-        let deaths = stats.reduce((sum, current) => sum + current.deaths, 0)
-        let assists = stats.reduce((sum, current) => sum + current.assist, 0)
-        let kd = kills / deaths
-
-        return {
-            "games": 0,
-            "maps": stats.length,
-            "kills": kills,
-            "deaths": deaths,
-            "assists": assists,
-            "kd": kd
-        }
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
@@ -73,7 +64,6 @@ export class PlayerController {
         return await this.playerRepository.findOne({
             relations: {
                 team: true,
-            
             },
             where: {
                 id: id
@@ -84,7 +74,7 @@ export class PlayerController {
     async stats(request: Request, response: Response, next: NextFunction) {
 
         let id = request.params.id
-        
+
         let player = await this.playerRepository.findOne({
             where: {
                 id: id
@@ -92,12 +82,13 @@ export class PlayerController {
         })
 
         return {
-            "games": player.totalGames,
-            "maps": player.totalMaps,
-            "kills": player.totalKills,
-            "deaths": player.totalDeaths,
-            "assists": player.totalAssists,
-            "kd": player.totalKills/player.totalDeaths
+            "games": player.total_games,
+            "maps": player.total_maps,
+            "kills": player.total_kills,
+            "deaths": player.total_deaths,
+            "assists": player.total_assists,
+            "kd": player.total_kills / player.total_deaths,
+            "kd_diff": player.total_kills - player.total_deaths
         }
 
     }

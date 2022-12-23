@@ -8,11 +8,14 @@ export class Team {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({ nullable: true })
     name: string
 
-    @Column()
+    @Column({ nullable: true })
     country: string
+
+    @Column({ nullable: true })
+    country_logo: string
 
     @Column({ nullable: true })
     logo: string
@@ -24,59 +27,59 @@ export class Team {
     players: Player[]
 
     @Column({ nullable: true })
-    totalKills: number
+    total_kills: number
 
     @BeforeInsert()
     setKills(){
-        this.totalKills = 0
+        this.total_kills = 0
     }
 
     @Column({ nullable: true })
-    totalGames: number
+    total_games: number
 
     @BeforeInsert()
     setGames(){
-        this.totalGames = 0
+        this.total_games = 0
     }
 
     @Column({ nullable: true })
-    totalMaps: number
+    total_maps: number
 
     @BeforeInsert()
     setMaps(){
-        this.totalMaps = 0
+        this.total_maps = 0
     }
 
     @Column({ nullable: true })
-    totalDeaths: number
+    total_deaths: number
 
     @BeforeInsert()
     setDeaths(){
-        this.totalDeaths = 0
+        this.total_deaths = 0
     }
 
     @Column({ nullable: true })
-    totalAssists: number
+    total_assists: number
 
     @BeforeInsert()
     setAssists(){
-        this.totalAssists = 0
+        this.total_assists = 0
     }
 
     @Column({ nullable: true })
-    totalWins: number
+    total_wins: number
 
     @BeforeInsert()
     setWins(){
-        this.totalWins = 0
+        this.total_wins = 0
     }
 
     @Column({ nullable: true })
-    totalLoses: number
+    total_loses: number
 
     @BeforeInsert()
     setLoses(){
-        this.totalLoses = 0
+        this.total_loses = 0
     }
 
 }

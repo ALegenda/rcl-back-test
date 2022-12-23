@@ -15,13 +15,6 @@ export class GameController {
         return this.gameRepository.find()
     }
 
-    async logs(request: Request, response: Response, next: NextFunction) {
-        console.log(request.data)
-        console.log(request.body)
-        console.log(request.message)
-        return "kek"
-    }
-
     async planMatch(request: Request, response: Response, next: NextFunction){
         var configs = request.body;
 
@@ -40,40 +33,40 @@ export class GameController {
             AppDataSource.manager.create(Game, {
                 teams: [team1, team2],
                 status: GameStatus.PENDING,
-                team1Id: team1.id,
-                team1Score: 0,
-                team2Id: team2.id,
-                team2Score: 0,
+                team1_id: team1.id,
+                team1_score: 0,
+                team2_id: team2.id,
+                team2_score: 0,
                 maps: [
                     {
-                        startedAt: configs.started_аt,
+                        started_at: configs.started_аt,
                         status: MapStatus.PENDING,
-                        team1Id: team1.id,
-                        team1Score: 0,
-                        team2Id: team2.id,
-                        team2Score: 0,
+                        team1_id: team1.id,
+                        team1_score: 0,
+                        team2_id: team2.id,
+                        team2_score: 0,
                         number: 1,
-                        mapName: null
+                        map_name: null
                     },
                     {
-                        startedAt: configs.started_аt,
+                        started_at: configs.started_аt,
                         status: MapStatus.PENDING,
-                        team1Id: team1.id,
-                        team1Score: 0,
-                        team2Id: team2.id,
-                        team2Score: 0,
+                        team1_id: team1.id,
+                        team1_score: 0,
+                        team2_id: team2.id,
+                        team2_score: 0,
                         number: 2,
-                        mapName: null
+                        map_name: null
                     },
                     {
-                        startedAt: configs.started_аt,
+                        started_at: configs.started_аt,
                         status: MapStatus.PENDING,
-                        team1Id: team1.id,
-                        team1Score: 0,
-                        team2Id: team2.id,
-                        team2Score: 0,
+                        team1_id: team1.id,
+                        team1_score: 0,
+                        team2_id: team2.id,
+                        team2_score: 0,
                         number: 3,
-                        mapName: null
+                        map_name: null
                     }
                 ]
             })
@@ -81,6 +74,16 @@ export class GameController {
 
         return game
     }
+
+
+    async createMapResult(request: Request, response: Response, next: NextFunction) {
+        var configs = request.body;
+
+
+
+
+    }
+
 
     async createMatch(request: Request, response: Response, next: NextFunction) {
         var configs = request.body;
@@ -129,8 +132,8 @@ export class GameController {
             }
         })
 
-        configs.team1_steam_ids = team1.players.map(player => player.steamId).join()
-        configs.team2_steam_ids = team2.players.map(player => player.steamId).join()
+        configs.team1_steam_ids = team1.players.map(player => player.steam_id).join()
+        configs.team2_steam_ids = team2.players.map(player => player.steam_id).join()
 
         
         
@@ -138,43 +141,43 @@ export class GameController {
             AppDataSource.manager.create(Game, {
                 teams: [team1, team2],
                 status: GameStatus.PENDING,
-                team1Id: team1.id,
-                team1Score: 0,
-                team2Id: team2.id,
-                team2Score: 0,
+                team1_id: team1.id,
+                team1_score: 0,
+                team2_id: team2.id,
+                team2_score: 0,
                 maps: [
                     {
-                        startedAt: new Date(),
+                        started_at: new Date(),
                         status: MapStatus.PENDING,
-                        team1Id: team1.id,
-                        team1Score: 0,
-                        team2Id: team2.id,
-                        team2Score: 0,
+                        team1_id: team1.id,
+                        team1_score: 0,
+                        team2_id: team2.id,
+                        team2_score: 0,
                         number: 1,
                         demo: "",
-                        mapName: configs.map1
+                        map_name: configs.map1
                     },
                     {
-                        startedAt: new Date(),
+                        started_at: new Date(),
                         status: MapStatus.PENDING,
-                        team1Id: team1.id,
-                        team1Score: 0,
-                        team2Id: team2.id,
-                        team2Score: 0,
+                        team1_id: team1.id,
+                        team1_score: 0,
+                        team2_id: team2.id,
+                        team2_score: 0,
                         number: 2,
                         demo: "",
-                        mapName: configs.map2
+                        map_name: configs.map2
                     },
                     {
-                        startedAt: new Date(),
+                        started_at: new Date(),
                         status: MapStatus.PENDING,
-                        team1Id: team1.id,
-                        team1Score: 0,
-                        team2Id: team2.id,
-                        team2Score: 0,
+                        team1_id: team1.id,
+                        team1_score: 0,
+                        team2_id: team2.id,
+                        team2_score: 0,
                         number: 3,
                         demo: "",
-                        mapName: configs.map3
+                        map_name: configs.map3
                     }
                 ]
             })
@@ -194,48 +197,15 @@ export class GameController {
             return dathost.data
         }).catch(err => console.error(err));
 
-        game.matchSeriesId = dathostResponse.id
+        game.match_series_id = dathostResponse.id
         game.maps.forEach(element => {
-            let dathostMatch = dathostResponse.matches.find(o => o.map === element.mapName).id
-            element.DatHostId = dathostMatch.id
-            element.mapName = dathostMatch.map
+            let dathostMatch = dathostResponse.matches.find(o => o.map === element.map_name).id
+            element.dathost_id = dathostMatch.id
+            element.map_name = dathostMatch.map
             element.demo = ""
         });
 
-
-
         return await AppDataSource.manager.save(game)
-    }
-
-    async test() {
-        let moq = {
-            id: '638725b0e5ddf593e4e433c6',
-            game_server_id: '63723bf9266a17e982253a86',
-            match_series_id: '638725b0e5ddf593e4e433c5',
-            map: 'de_dust2',
-            team1_steam_ids: ['STEAM_1:0:73838588'],
-            team2_steam_ids: ['STEAM_1:1:717580636'],
-            cancel_reason: null,
-            team1_stats: { score: 16 },
-            team2_stats: { score: 11 },
-            player_stats: [
-                { steam_id: 'BOT_1', kills: 0, deaths: 0, assists: 0 },
-                {
-                    steam_id: 'STEAM_1:0:73838588',
-                    kills: 11,
-                    deaths: 16,
-                    assists: 0
-                },
-                {
-                    steam_id: 'STEAM_1:1:717580636',
-                    kills: 16,
-                    deaths: 11,
-                    assists: 0
-                }]
-
-        }
-
-        return "kek"
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
@@ -270,13 +240,13 @@ export class GameController {
 
         console.log(game)
 
-        let mapId = game.maps.findIndex(map => map.DatHostId === datHostResponse.id)
+        let mapId = game.maps.findIndex(map => map.dathost_id === datHostResponse.id)
 
 
 
         if (datHostResponse.cancel_reason !== null) {
             if (datHostResponse.cancel_reason === 'CLINCH') {
-                game.maps[mapId].finishedAt = new Date()
+                game.maps[mapId].finished_at = new Date()
                 game.maps[mapId].status = MapStatus.CLINCH
 
                 let result = await this.gameRepository.save(game)
@@ -306,12 +276,12 @@ export class GameController {
             }
             return true;
         }).map(item => {
-            let player = players.find(player => player.steamId === item.steam_id)
+            let player = players.find(player => player.steam_id === item.steam_id)
 
-            player.totalKills += item.kills
-            player.totalDeaths += item.deaths
-            player.totalAssists += item.assists
-            player.totalMaps += 1
+            player.total_kills += item.kills
+            player.total_deaths += item.deaths
+            player.total_assists += item.assists
+            player.total_maps += 1
 
             console.log(`player - ${player}`)
             //console.log(`game - ${game}`)
@@ -320,13 +290,13 @@ export class GameController {
             console.log(`teamIndex - ${teamIndex}`)
             console.log(`game.teams[teamIndex] - ${game.teams[teamIndex]}`)
 
-            game.teams[teamIndex].totalKills += item.kills
-            game.teams[teamIndex].totalDeaths += item.deaths
-            game.teams[teamIndex].totalAssists += item.assists
-            game.teams[teamIndex].totalMaps += 1
+            game.teams[teamIndex].total_kills += item.kills
+            game.teams[teamIndex].total_deaths += item.deaths
+            game.teams[teamIndex].total_assists += item.assists
+            game.teams[teamIndex].total_maps += 1
 
             if (game.maps[mapId].number === 1) {
-                player.totalGames += 1
+                player.total_games += 1
             }
 
             return new PlayerStat(item.kills, item.deaths, item.assists, player)
@@ -335,28 +305,28 @@ export class GameController {
 
         console.log(`playerstats - ${playerstats}`)
 
-        game.maps[mapId].playerStats = playerstats
+        game.maps[mapId].player_stats = playerstats
 
-        game.maps[mapId].finishedAt = new Date()
+        game.maps[mapId].finished_at = new Date()
         game.maps[mapId].status = MapStatus.FINISHED
 
         let nextGameId = game.maps.findIndex(map => map.number === game.maps[mapId].number + 1)
 
         if (nextGameId !== -1) {
-            game.maps[nextGameId].startedAt = new Date()
+            game.maps[nextGameId].started_at = new Date()
         }
 
 
-        game.maps[mapId].team1Score = datHostResponse.team1_stats.score
-        game.maps[mapId].team2Score = datHostResponse.team2_stats.score
+        game.maps[mapId].team1_score = datHostResponse.team1_stats.score
+        game.maps[mapId].team2_score = datHostResponse.team2_stats.score
 
-        if (game.maps[mapId].team1Score > game.maps[mapId].team2Score) {
-            game.team1Score += 1
+        if (game.maps[mapId].team1_score > game.maps[mapId].team2_score) {
+            game.team1_score += 1
         } else {
-            game.team2Score += 1
+            game.team2_score += 1
         }
 
-        if (game.team1Score === 2 || game.team2Score === 2) {
+        if (game.team1_score === 2 || game.team2_score === 2) {
 
         }
         //totalgames totalmaps totalwins totalloses

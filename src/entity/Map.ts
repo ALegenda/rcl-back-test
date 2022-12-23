@@ -17,7 +17,7 @@ export class Map {
     id: number
 
     @Column({ nullable: true })
-    DatHostId: string
+    dathost_id: string
 
     @Column()
     number: number
@@ -26,16 +26,16 @@ export class Map {
     demo: string
 
     @Column({ type: 'timestamptz', nullable: true })
-    startedAt: Date
+    started_at: Date
 
     @Column({ type: 'timestamptz', nullable: true })
-    finishedAt: Date
+    finished_at: Date
 
     @ManyToOne(() => Game, (game) => game.maps, { onDelete: "SET NULL" })
     game: Game
 
     @OneToMany(() => PlayerStat, (stat) => stat.map, { cascade: true })
-    playerStats: PlayerStat[]
+    player_stats: PlayerStat[]
 
     @Column({
         type: "enum",
@@ -45,18 +45,18 @@ export class Map {
     status: MapStatus
 
     @Column()
-    team1Id: number
+    team1_id: number
 
     @Column()
-    team2Id: number
+    team2_id: number
 
     @Column()
-    team1Score: number
+    team1_score: number
 
     @Column()
-    team2Score: number
+    team2_score: number
 
     @Column({ nullable: true })
-    mapName: string
+    map_name: string
 
 }
