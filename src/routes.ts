@@ -37,6 +37,12 @@ export const Routes = [
     },
     {
         method: "get",
+        route: "/pending",
+        controller: GameController,
+        action: "pending"
+    },
+    {
+        method: "get",
         route: "/games",
         controller: GameController,
         action: "all"
