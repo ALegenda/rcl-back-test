@@ -19,9 +19,39 @@ export const Routes = [
     },
     {
         method: "post",
+        route: "/planmatch",
+        controller: GameController,
+        action: "planMatch"
+    },
+    {
+        method: "post",
         route: "/test",
         controller: GameController,
         action: "test"
+    },
+    {
+        method: "post",
+        route: "/games",
+        controller: GameController,
+        action: "save"
+    },
+    {
+        method: "get",
+        route: "/games",
+        controller: GameController,
+        action: "all"
+    },
+    {
+        method: "get",
+        route: "/games/:id",
+        controller: GameController,
+        action: "one"
+    },
+    {
+        method: "get",
+        route: "/maps/:id",
+        controller: GameController,
+        action: "findMap"
     },
     {
         method: "get",

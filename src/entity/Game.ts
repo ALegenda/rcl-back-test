@@ -15,6 +15,9 @@ export class Game {
     @PrimaryGeneratedColumn()
     id: number
 
+    @Column({ type: 'timestamptz', nullable: true })
+    started_at: Date
+
     @ManyToMany(() => Team, { onDelete: "SET NULL", cascade: true })
     @JoinTable()
     teams: Team[]
