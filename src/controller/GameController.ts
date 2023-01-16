@@ -16,13 +16,13 @@ export class GameController {
         const take = request.query.take || 10
         const skip = request.query.skip || 0
 
-        let games = await this.gameRepository.find({
+        let games = await this.gameRepository.findAndCount({
             take: take,
             skip: skip,
             order: {
                 started_at: "ASC"
             },
-            relations:{
+            relations: {
                 teams: true
             },
             where: {
@@ -30,17 +30,20 @@ export class GameController {
             }
         })
 
-        let gamesWithStats = games.map((item) => {
+        let gamesWithStats = games[0].map((item) => {
             return {
                 "team_1": item.teams[0],
                 "team_2": item.teams[1],
                 "started_at": item.started_at,
-                "team1_score" : item.team1_score,
-                "team2_score" : item.team2_score
+                "team1_score": item.team1_score,
+                "team2_score": item.team2_score
             }
         })
 
-        return gamesWithStats;
+        return {
+            "games" : gamesWithStats,
+            "total": games[1]
+        };
     }
 
     async pending(request: Request, response: Response, next: NextFunction) {
@@ -274,41 +277,41 @@ export class GameController {
 
         let map_stats = maps.map(item => item.player_stats)
         let result = {
-            "team1_stats" : [],
-            "team2_stats" : [],
+            "team1_stats": [],
+            "team2_stats": [],
             ...game
         }
-        
+
         maps.forEach(map => {
-            if(map.status === MapStatus.CLINCH){
+            if (map.status === MapStatus.CLINCH) {
                 return
             }
             map.player_stats.forEach(stat => {
-                if(stat.team_id === game.team1_id){
+                if (stat.team_id === game.team1_id) {
                     let index = result.team1_stats.findIndex(item => item.player_id === stat.player.id)
-                    if(index === -1){
+                    if (index === -1) {
                         result.team1_stats.push({
                             "kills": stat.kills,
                             "deaths": stat.deaths,
                             "assist": stat.assist,
                             "nick_name": stat.player.nick_name,
                             "player_id": stat.player.id,
-                            })
+                        })
                     } else {
                         result.team1_stats[index].kills += stat.kills
                         result.team1_stats[index].deaths += stat.deaths
                         result.team1_stats[index].assist += stat.assist
                     }
-                }else{
+                } else {
                     let index = result.team2_stats.findIndex(item => item.player_id === stat.player.id)
-                    if(index === -1){
+                    if (index === -1) {
                         result.team2_stats.push({
                             "kills": stat.kills,
                             "deaths": stat.deaths,
                             "assist": stat.assist,
                             "nick_name": stat.player.nick_name,
                             "player_id": stat.player.id,
-                            })
+                        })
                     } else {
                         result.team2_stats[index].kills += stat.kills
                         result.team2_stats[index].deaths += stat.deaths
@@ -331,45 +334,45 @@ export class GameController {
             .leftJoinAndSelect('map.player_stats', 'player_stats')
             .leftJoinAndSelect('player_stats.player', 'player')
             .getOne()
-        
+
         let team1_stats = []
         let team2_stats = []
 
         map.player_stats.forEach(item => {
-            if(item.team_id === map.team1_id){
+            if (item.team_id === map.team1_id) {
                 team1_stats.push({
-                    "kills" : item.kills,
-                "deaths" : item.deaths,
-                "assist" : item.assist,
-                "nick_name" : item.player.nick_name,
-                "player_id" : item.player.id,
+                    "kills": item.kills,
+                    "deaths": item.deaths,
+                    "assist": item.assist,
+                    "nick_name": item.player.nick_name,
+                    "player_id": item.player.id,
                 })
-            }            else{
+            } else {
                 team2_stats.push({
-                    "kills" : item.kills,
-                "deaths" : item.deaths,
-                "assist" : item.assist,
-                "nick_name" : item.player.nick_name,
-                "player_id" : item.player.id,
+                    "kills": item.kills,
+                    "deaths": item.deaths,
+                    "assist": item.assist,
+                    "nick_name": item.player.nick_name,
+                    "player_id": item.player.id,
                 })
-            }                
-            
+            }
+
         })
 
         return {
-            "id" : map.id,
-            "number" : map.number,
-            "demo" : map.demo,
-            "started_at" : map.started_at,
-            "finished_at" : map.finished_at,
-            "status" : map.status,
-            "team1_id" : map.team1_id,
-            "team2_id" : map.team2_id,
-            "team1_score" : map.team1_score,
-            "team2_score" : map.team2_score,
-            "map_name" : map.map_name,
-            "team1_stats" : team1_stats,
-            "team2_stats" : team2_stats
+            "id": map.id,
+            "number": map.number,
+            "demo": map.demo,
+            "started_at": map.started_at,
+            "finished_at": map.finished_at,
+            "status": map.status,
+            "team1_id": map.team1_id,
+            "team2_id": map.team2_id,
+            "team1_score": map.team1_score,
+            "team2_score": map.team2_score,
+            "map_name": map.map_name,
+            "team1_stats": team1_stats,
+            "team2_stats": team2_stats
         }
     }
 
@@ -392,14 +395,14 @@ export class GameController {
         game.maps[map_index].map_name = map_result.map_name
         game.maps[map_index].finished_at = map_result.finished_at
 
-        if(map_result.status === MapStatus.CLINCH){
+        if (map_result.status === MapStatus.CLINCH) {
             game.maps[map_index].status = MapStatus.CLINCH
             return await this.gameRepository.save(game)
         }
 
         let player_stats = [];
         let names = [];
-        
+
         map_result.player_stats.forEach(element => {
             names.push(element.nick_name)
         })
@@ -413,7 +416,7 @@ export class GameController {
 
         map_result.player_stats.forEach(element => {
             let player = players.find(item => item.nick_name === element.nick_name)
-            let stat = new PlayerStat(element.kills, element.deaths, element.assists, player )
+            let stat = new PlayerStat(element.kills, element.deaths, element.assists, player)
             stat.team_id = player.team.id
             player_stats.push(stat)
 
@@ -445,8 +448,8 @@ export class GameController {
         } else {
             game.team2_score += 1
         }
- 
-        
+
+
         return await this.gameRepository.save(game)
     }
 

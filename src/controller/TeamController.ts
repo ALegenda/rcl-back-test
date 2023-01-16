@@ -10,26 +10,26 @@ export class TeamController {
         const take = request.query.take || 10
         const skip = request.query.skip || 0
 
-        let teams = await this.teamRepository.find({
+        let teams = await this.teamRepository.findAndCount({
             take: take,
             skip: skip,
             order: {
                 total_wins: "ASC"
             }
         })
-        
+
         return teams
     }
 
     async lineup(request: Request, response: Response, next: NextFunction) {
-        return (await this.teamRepository.findOne({ 
-            relations:{
-                players:true
+        return (await this.teamRepository.findOne({
+            relations: {
+                players: true
             },
-            where:{
-                id:request.params.id
+            where: {
+                id: request.params.id
             }
-         })).players
+        })).players
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
@@ -40,7 +40,7 @@ export class TeamController {
         const take = request.query.take || 10
         const skip = request.query.skip || 0
 
-        let teams = await this.teamRepository.find({
+        let teams = await this.teamRepository.findAndCount({
             take: take,
             skip: skip,
             order: {
@@ -48,9 +48,10 @@ export class TeamController {
             }
         })
         let index = 1;
-        let teamsWithStats = teams.map((item) => {
+        let total = teams[1]
+        let teamsWithStats = teams[0].map((item) => {
             return {
-                "place" : index++,
+                "place": index++,
                 "team": {
                     "id": item.id,
                     "name": item.name,
@@ -58,12 +59,15 @@ export class TeamController {
                     "country_logo": item.country_logo,
                     "logo": item.logo,
                 },
-                "wins" : item.total_wins,
-                "loses" : item.total_loses
+                "wins": item.total_wins,
+                "loses": item.total_loses
             }
         })
 
-        return teamsWithStats;
+        return {
+            "teams" : teamsWithStats,
+            "total": total
+        };
 
     }
 

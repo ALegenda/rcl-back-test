@@ -14,7 +14,7 @@ export class PlayerController {
         const take = request.query.take || 10
         const skip = request.query.skip || 0
 
-        let players = await this.playerRepository.find({
+        let players = await this.playerRepository.findAndCount({
             relations: {
                 team: true
             },
@@ -25,7 +25,7 @@ export class PlayerController {
             }
         })
 
-        let playersWithStats = players.map((item) => {
+        let playersWithStats = players[0].map((item) => {
             return {
                 "player": {
                     "id": item.id,
@@ -55,7 +55,10 @@ export class PlayerController {
             }
         })
 
-        return playersWithStats;
+        return {
+            "players" : playersWithStats,
+            "total" : players[1]
+        };
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
