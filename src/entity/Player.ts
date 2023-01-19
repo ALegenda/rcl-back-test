@@ -27,6 +27,9 @@ export class Player {
     country: string
 
     @Column({ nullable: true })
+    countryLogo: string
+
+    @Column({ nullable: true })
     imageUrl: string
 
     @BeforeInsert()
