@@ -300,14 +300,14 @@ export class GameController {
                         result.team1Stats.push({
                             "kills": stat.kills,
                             "deaths": stat.deaths,
-                            "assists": stat.assist,
+                            "assists": stat.assists,
                             "nickName": stat.player.nickName,
                             "playerId": stat.player.id,
                         })
                     } else {
                         result.team1Stats[index].kills += stat.kills
                         result.team1Stats[index].deaths += stat.deaths
-                        result.team1Stats[index].assist += stat.assist
+                        result.team1Stats[index].assist += stat.assists
                     }
                 } else {
                     let index = result.team2Stats.findIndex(item => item.playerId === stat.player.id)
@@ -315,14 +315,14 @@ export class GameController {
                         result.team2Stats.push({
                             "kills": stat.kills,
                             "deaths": stat.deaths,
-                            "assists": stat.assist,
+                            "assists": stat.assists,
                             "nickName": stat.player.nickName,
                             "playerId": stat.player.id,
                         })
                     } else {
                         result.team2Stats[index].kills += stat.kills
                         result.team2Stats[index].deaths += stat.deaths
-                        result.team2Stats[index].assist += stat.assist
+                        result.team2Stats[index].assist += stat.assists
                     }
                 }
             })
@@ -350,7 +350,7 @@ export class GameController {
                 team1Stats.push({
                     "kills": item.kills,
                     "deaths": item.deaths,
-                    "assists": item.assist,
+                    "assists": item.assists,
                     "nickName": item.player.nickName,
                     "playerId": item.player.id,
                 })
@@ -358,7 +358,7 @@ export class GameController {
                 team2Stats.push({
                     "kills": item.kills,
                     "deaths": item.deaths,
-                    "assists": item.assist,
+                    "assists": item.assists,
                     "nickName": item.player.nickName,
                     "playerId": item.player.id,
                 })

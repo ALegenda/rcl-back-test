@@ -5,10 +5,10 @@ import { Player } from "./Player"
 @Entity()
 export class PlayerStat {
 
-    constructor(kills,deaths,assist, player){
+    constructor(kills,deaths,assists, player){
         this.kills = kills
         this.deaths = deaths
-        this.assist = assist
+        this.assists = assists
         this.player = player
     }
     
@@ -22,7 +22,7 @@ export class PlayerStat {
     deaths: number
 
     @Column()
-    assist: number
+    assists: number
 
     @ManyToOne(() => Map, (map) => map.playerStats, { onDelete: "SET NULL" })
     map: Map
