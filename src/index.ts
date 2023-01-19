@@ -53,9 +53,10 @@ async function init() {
     let new1 = await AppDataSource.manager.save(
         AppDataSource.manager.create(
             New, {
-            title: "🔥Российская Киберспортивная Лига представляет первую профессиональную киберспортивную лигу по спортивной дисциплине Counter-Strike: Global Offensive!",
-            promo: "В соревнованиях примут участие 14 команд из России и ближнего зарубежья: Websterz, Insilio, 9 Pandas, ARCRED, Forward Gaming, forZe, K23, Cosmo, VLADIVOSTOK, HOTU, VIBE, iG Int, SUN, YNT.",
-            content: `В соревнованиях примут участие 14 команд из России и ближнего зарубежья: Websterz, Insilio, 9 Pandas, ARCRED, Forward Gaming, forZe, K23, Cosmo, VLADIVOSTOK, HOTU, VIBE, iG Int, SUN, YNT.
+            title: "🔥 Анонос Российской Киберспортивной Лиги",
+            promo: "🔥Российская Киберспортивная Лига представляет первую профессиональную киберспортивную лигу по спортивной дисциплине Counter-Strike: Global Offensive!",
+            content: `🔥Российская Киберспортивная Лига представляет первую профессиональную киберспортивную лигу по спортивной дисциплине Counter-Strike: Global Offensive!
+            В соревнованиях примут участие 14 команд из России и ближнего зарубежья: Websterz, Insilio, 9 Pandas, ARCRED, Forward Gaming, forZe, K23, Cosmo, VLADIVOSTOK, HOTU, VIBE, iG Int, SUN, YNT.
             💰 Призовой фонд составляет 6.000.000 рублей и распределяется на 8 мест.
             📆 С 20 января по 16 июля все коллективы проведут между собой по две встречи онлайн в формате bo2. По итогу регулярного чемпионата лучшие 8 команд пройдут в LAN плей-офф, а завершится всё грандиозным финалом в августе.`,
             imageUrl: "https://sun9-7.userapi.com/impg/ymZrEI9AigIfslsOGhSkiNC2Nbh7I4xmKzSbJw/i7fwoiiokho.jpg?size=1920x1080&quality=95&sign=b2a62907222e622bb55da13c81ba088d&type=album"
@@ -85,7 +86,7 @@ async function init() {
 
     let team_Forward = await AppDataSource.manager.save(
         AppDataSource.manager.create(Team, {
-            name: "Forward",
+            name: "Forward Gaming",
             country: "Россия",
             city: "Москва",
             countryLogo: "https://iili.io/HayQ9dQ.png",
@@ -99,7 +100,7 @@ async function init() {
             country: "Россия",
             countryLogo: "https://iili.io/HayQ9dQ.png",
             city: "Москва",
-            logo: "https://iili.io/HaZQ5es.png",
+            logo: "https://iili.io/Hc96Csj.png",
         }))
 
     let team_Websterz = await AppDataSource.manager.save(
@@ -126,7 +127,7 @@ async function init() {
             country: "Россия",
             countryLogo: "https://iili.io/HayQ9dQ.png",
             city: "Москва",
-            logo: "https://iili.io/HaZQnXR.png",
+            logo: "https://iili.io/Hc96Kbe.png",
         }))
 
     let team_Vladivostok = await AppDataSource.manager.save(
@@ -144,7 +145,7 @@ async function init() {
             country: "Россия",
             countryLogo: "https://iili.io/HayQ9dQ.png",
             city: "Якутск",
-            logo: "https://iili.io/HaZQ1B2.png",
+            logo: "https://iili.io/Hc96TdB.png",
         }))
 
     let team_ARCRED = await AppDataSource.manager.save(
@@ -153,7 +154,7 @@ async function init() {
             country: "Россия",
             countryLogo: "https://iili.io/HayQ9dQ.png",
             city: "Москва",
-            logo: "https://iili.io/HaZQ7mG.png",
+            logo: "https://iili.io/Hc96x0Q.png",
         }))
 
 
@@ -163,7 +164,7 @@ async function init() {
             country: "Россия",
             countryLogo: "https://iili.io/HayQ9dQ.png",
             city: "Москва",
-            logo: "https://iili.io/HaZQE1S.png",
+            logo: "https://iili.io/Hc96BWb.png",
         }))
 
     let team_Vibe = await AppDataSource.manager.save(
@@ -191,7 +192,7 @@ async function init() {
             country: "Россия",
             countryLogo: "https://iili.io/HayQ9dQ.png",
             city: "Москва",
-            logo: "https://iili.io/HaZQaIf.png",
+            logo: "https://iili.io/Hc96zgV.png",
         }))
 
 
@@ -201,7 +202,7 @@ async function init() {
             country: "Россия",
             countryLogo: "https://iili.io/HayQ9dQ.png",
             city: "Москва",
-            logo: "https://iili.io/HaZQosp.png",
+            logo: "https://iili.io/Hc96qzu.png",
         }))
 
 
@@ -211,7 +212,7 @@ async function init() {
             country: "Россия",
             countryLogo: "https://iili.io/HayQ9dQ.png",
             city: "Москва",
-            logo: "https://iili.io/HaZQR7n.png",
+            logo: "https://iili.io/Hc96oqx.png",
         }))
 
 
@@ -342,6 +343,7 @@ async function init() {
         firstName: "Антон",
         lastName: "Бурко",
         country: "Беларусь",
+        countryLogo: "https://iili.io/HayZGcv.png",
         imageUrl: "",
         steamId: "",
         team: team_Websterz
@@ -353,6 +355,7 @@ async function init() {
         firstName: "Александр",
         lastName: "Рубец",
         country: "Беларусь",
+        countryLogo: "https://iili.io/HayZGcv.png",
         imageUrl: "",
         steamId: "",
         team: team_Websterz
@@ -364,6 +367,7 @@ async function init() {
         firstName: "Андрей",
         lastName: "Татаринович",
         country: "Беларусь",
+        countryLogo: "https://iili.io/HayZGcv.png",
         imageUrl: "",
         steamId: "",
         team: team_Websterz
@@ -375,6 +379,7 @@ async function init() {
         firstName: "Алексей",
         lastName: "Златковский",
         country: "Беларусь",
+        countryLogo: "https://iili.io/HayZGcv.png",
         imageUrl: "",
         steamId: "",
         team: team_Websterz
@@ -386,6 +391,7 @@ async function init() {
         firstName: "Игорь",
         lastName: "Солодков",
         country: "Беларусь",
+        countryLogo: "https://iili.io/HayZGcv.png",
         imageUrl: "",
         steamId: "",
         team: team_Websterz
@@ -636,6 +642,7 @@ async function init() {
         firstName: "Ренат",
         lastName: "Сапаров",
         country: "Беларусь",
+        countryLogo: "https://iili.io/HayZGcv.png",
         imageUrl: "",
         steamId: "76561198095504459",
         team: team_ARCRED
@@ -681,6 +688,7 @@ async function init() {
         firstName: "Кирилл",
         lastName: "Ковалёв",
         country: "Беларусь",
+        countryLogo: "https://iili.io/HayZGcv.png",
         imageUrl: "",
         steamId: "76561198843894201",
         team: team_ARCRED

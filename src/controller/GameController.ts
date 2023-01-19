@@ -64,8 +64,6 @@ export class GameController {
             }
         })
 
-        console.log(games)
-
         let gamesWithStats = games.map((item) => {
             return {
                 "id": item.id,
@@ -412,6 +410,8 @@ export class GameController {
         let playerStats = [];
         let names = [];
 
+        
+
         map_result.playerStats.forEach(element => {
             names.push(element.nickName)
         })
@@ -579,8 +579,6 @@ export class GameController {
 
 
         let result = await this.gameRepository.save(game)
-
-        console.log(result)
 
         return "ok"
     }
