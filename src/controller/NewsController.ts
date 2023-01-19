@@ -7,14 +7,29 @@ export class NewsController {
     private newsRepository = AppDataSource.getRepository(New)
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return (await this.newsRepository.find()).map(item => {
-            return {
-                "id" : item.id,
-                "title" : item.title,
-                "promo" : item.promo,
-                "image_url" : item.image_url
+        const take = request.query.take || 10
+        const skip = request.query.skip || 0
+
+        let news = await this.newsRepository.findAndCount({
+            take: take,
+            skip: skip,
+            order: {
+                createdDate: "DESC"
             }
         })
+        
+        
+        return {
+            "news" : news[0].map(item => {
+                return {
+                    "id" : item.id,
+                    "title" : item.title,
+                    "promo" : item.promo,
+                    "imageUrl" : item.imageUrl
+                }
+            }),
+            "total" : news[1]
+        }
     }
 
     async one(request: Request, response: Response, next: NextFunction) {

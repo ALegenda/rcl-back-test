@@ -14,11 +14,14 @@ export class TeamController {
             take: take,
             skip: skip,
             order: {
-                total_wins: "ASC"
+                totalWins: "ASC"
             }
         })
 
-        return teams
+        return {
+            "teams" : teams[0],
+            "total" : teams[1]
+        }
     }
 
     async lineup(request: Request, response: Response, next: NextFunction) {
@@ -44,7 +47,7 @@ export class TeamController {
             take: take,
             skip: skip,
             order: {
-                total_wins: "ASC"
+                totalWins: "ASC"
             }
         })
         let index = 1;
@@ -56,11 +59,11 @@ export class TeamController {
                     "id": item.id,
                     "name": item.name,
                     "country": item.country,
-                    "country_logo": item.country_logo,
+                    "countryLogo": item.countryLogo,
                     "logo": item.logo,
                 },
-                "wins": item.total_wins,
-                "loses": item.total_loses
+                "wins": item.totalWins,
+                "loses": item.totalLoses
             }
         })
 
@@ -81,13 +84,13 @@ export class TeamController {
         })
 
         return {
-            "games": team.total_games,
-            "maps": team.total_maps,
-            "kills": team.total_kills,
-            "deaths": team.total_deaths,
-            "assists": team.total_assists,
-            "kd": team.total_kills / team.total_deaths,
-            "kd_diff": team.total_kills - team.total_deaths
+            "games": team.totalGames,
+            "maps": team.totalMaps,
+            "kills": team.totalKills,
+            "deaths": team.totalDeaths,
+            "assists": team.totalAssists,
+            "kd": team.totalKills / team.totalDeaths,
+            "kdDiff": team.totalKills - team.totalDeaths
         }
     }
 

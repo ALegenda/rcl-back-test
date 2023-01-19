@@ -9,16 +9,16 @@ export class Player {
     id: number
 
     @Column()
-    first_name: string
+    firstName: string
 
     @Column()
-    last_name: string
+    lastName: string
 
     @Column()
-    nick_name: string
+    nickName: string
 
     @Column()
-    steam_id: string
+    steamId: string
 
     @Column()
     age: number
@@ -27,7 +27,14 @@ export class Player {
     country: string
 
     @Column({ nullable: true })
-    image_url: string
+    imageUrl: string
+
+    @BeforeInsert()
+    setImage(){
+        if(this.imageUrl === "" || this.imageUrl === null){
+            this.imageUrl = ""
+        }
+    }
 
     @ManyToOne(() => Team, (team) => team.players, { onDelete: "SET NULL" })
     team: Team
@@ -36,43 +43,43 @@ export class Player {
     playerStats: PlayerStat[]
 
     @Column({ nullable: true })
-    total_kills: number
+    totalKills: number
 
     @BeforeInsert()
     setKills(){
-        this.total_kills = 0
+        this.totalKills = 0
     }
 
     @Column({ nullable: true })
-    total_games: number
+    totalGames: number
 
     @BeforeInsert()
     setGames(){
-        this.total_games = 0
+        this.totalGames = 0
     }
 
     @Column({ nullable: true })
-    total_maps: number
+    totalMaps: number
 
     @BeforeInsert()
     setMaps(){
-        this.total_maps = 0
+        this.totalMaps = 0
     }
 
     @Column({ nullable: true })
-    total_deaths: number
+    totalDeaths: number
 
     @BeforeInsert()
     setDeaths(){
-        this.total_deaths = 0
+        this.totalDeaths = 0
     }
 
     @Column({ nullable: true })
-    total_assists: number
+    totalAssists: number
 
     @BeforeInsert()
     setAssists(){
-        this.total_assists = 0
+        this.totalAssists = 0
     }
 
 }

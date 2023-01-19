@@ -9,11 +9,11 @@ export class New {
     id: number
 
     @Column({ type: 'timestamptz' })
-    created_date: Date
+    createdDate: Date
 
     @BeforeInsert()
     updateDates() {
-        this.created_date = new Date()
+        this.createdDate = new Date()
     }
 
     @Column()
@@ -26,6 +26,6 @@ export class New {
     content: string
 
     @Column()
-    image_url: string
+    imageUrl: string
 
 }

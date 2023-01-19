@@ -40,7 +40,7 @@ AppDataSource.initialize().then(async () => {
     // start express server
     app.listen(process.env.PORT || 4000)
 
-    //init()
+    init()
     //test()
     //initQuals()
 
@@ -50,858 +50,928 @@ AppDataSource.initialize().then(async () => {
 
 async function init() {
 
-    let news = await AppDataSource.manager.save(
+    let new1 = await AppDataSource.manager.save(
         AppDataSource.manager.create(
             New, {
-            title: "title",
-            promo: "promo",
-            content: "content",
-            image_url: "url"
+            title: "🔥Российская Киберспортивная Лига представляет первую профессиональную киберспортивную лигу по спортивной дисциплине Counter-Strike: Global Offensive!",
+            promo: "В соревнованиях примут участие 14 команд из России и ближнего зарубежья: Websterz, Insilio, 9 Pandas, ARCRED, Forward Gaming, forZe, K23, Cosmo, VLADIVOSTOK, HOTU, VIBE, iG Int, SUN, YNT.",
+            content: `В соревнованиях примут участие 14 команд из России и ближнего зарубежья: Websterz, Insilio, 9 Pandas, ARCRED, Forward Gaming, forZe, K23, Cosmo, VLADIVOSTOK, HOTU, VIBE, iG Int, SUN, YNT.
+            💰 Призовой фонд составляет 6.000.000 рублей и распределяется на 8 мест.
+            📆 С 20 января по 16 июля все коллективы проведут между собой по две встречи онлайн в формате bo2. По итогу регулярного чемпионата лучшие 8 команд пройдут в LAN плей-офф, а завершится всё грандиозным финалом в августе.`,
+            imageUrl: "https://sun9-7.userapi.com/impg/ymZrEI9AigIfslsOGhSkiNC2Nbh7I4xmKzSbJw/i7fwoiiokho.jpg?size=1920x1080&quality=95&sign=b2a62907222e622bb55da13c81ba088d&type=album"
         }
         )
     )
 
-    let teams = []
+    let new2 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(
+            New, {
+            title: "📆 Российская Киберспортивная Лига | Расписание 1 тура",
+            promo: "Анонс трансляций дополнительно будет выложен перед матчами. Официальный канал трансляции: twitch.tv/ruscyberleague",
+            content:
+                `20 янв. 14:00 | K23 -vs- YNT
+            21 янв. 14:00 | Websterz -vs- 9 Pandas
+            21 янв. 17:00 | forZe -vs- Forward Gaming
+            21 янв. 20:00 | ARCRED -vs- iG Int
+            22 янв. 14:00 | HOTU -vs- SUN
+            22 янв. 17:00 | VLADIVOSTOK -vs- Cosmo
+            24 янв. 17:00 | Insilio -vs- VIBE
+            
+            Анонс трансляций дополнительно будет выложен перед матчами. Официальный канал трансляции: https://twitch.tv/ruscyberleague`,
+            imageUrl: "https://sun9-15.userapi.com/impg/dAScT12pvELuQibFEPLoOdSRMfL-RByBjHyJSQ/SeDQuEsoNw4.jpg?size=1920x1080&quality=95&sign=b17b8a1aa5ff5184e9466ebcd6e9bfee&type=album"
+        }
+        )
+    )
 
-    let team_Forward = AppDataSource.manager.create(Team, {
-        name: "Forward",
-        country: "Россия",
-        city: "Москва",
-        logo: "https://iili.io/HYaXRhx.png",
-    })
-
-    teams.push(team_Forward)
-
-    let team_9_Pandas = AppDataSource.manager.create(Team, {
-        name: "9 Pandas",
-        country: "Россия",
-        city: "Москва",
-        logo: "https://img-cdn.hltv.org/teamlogo/m0wZSJulILDkRooXHsd97i.png?ixlib=java-2.1.0&w=200&s=6cd105be25f61ebe92662247fb9830fa",
-    })
-
-    teams.push(team_9_Pandas)
-
-    let team_Websterz = AppDataSource.manager.create(Team, {
-        name: "Websterz",
-        country: "Беларусь",
-        city: "Минск",
-        logo: "https://img-cdn.hltv.org/teamlogo/fV_RQeFanEK5HDw4uChDX4.png?ixlib=java-2.1.0&w=100&s=e75b87cee9a0abaf21a11cd397b50074",
-    })
-
-    teams.push(team_Websterz)
+    let team_Forward = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Forward",
+            country: "Россия",
+            city: "Москва",
+            logo: "https://iili.io/HaZQcX4.png",
+        }))
 
 
-    let team_forZe = AppDataSource.manager.create(Team, {
-        name: "forZe",
-        country: "Россия",
-        city: "Москва",
-        logo: "https://img-cdn.hltv.org/teamlogo/CnkiXvqQY48-pBo9ahnKm-.png?ixlib=java-2.1.0&w=100&s=0d7e090bb2a39bb27b09021c2a57fe8b",
-    })
+    let team_9_Pandas = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "9 Pandas",
+            country: "Россия",
+            city: "Москва",
+            logo: "https://iili.io/HaZQ5es.png",
+        }))
 
-    teams.push(team_forZe)
+    let team_Websterz = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Websterz",
+            country: "Беларусь",
+            city: "Минск",
+            logo: "https://iili.io/HaZQTgt.png",
+        }))
 
-    let team_K23 = AppDataSource.manager.create(Team, {
-        name: "team_K23",
-        country: "Россия",
-        city: "Москва",
-        logo: "https://img-cdn.hltv.org/teamlogo/e-KLQKZ-WCaZQPpqkwYEAg.png?ixlib=java-2.1.0&w=100&s=a980f4d1d650922d123a7ca2837dc268",
-    })
+    let team_forZe = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "forZe",
+            country: "Россия",
+            city: "Москва",
+            logo: "https://iili.io/HaZQGr7.png",
+        }))
 
-    teams.push(team_K23)
+    let team_K23 = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "team_K23",
+            country: "Россия",
+            city: "Москва",
+            logo: "https://iili.io/HaZQnXR.png",
+        }))
 
-    let team_Vladivostok = AppDataSource.manager.create(Team, {
-        name: "Vladivostok",
-        country: "Россия",
-        city: "Владивосток",
-        logo: "",
-    })
+    let team_Vladivostok = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Vladivostok",
+            country: "Россия",
+            city: "Владивосток",
+            logo: "https://iili.io/HaZQAdX.png",
+        }))
 
-    teams.push(team_Vladivostok)
+    let team_HOTU = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "HOTU",
+            country: "Россия",
+            city: "Якутск",
+            logo: "https://iili.io/HaZQ1B2.png",
+        }))
 
-    let team_HOTU = AppDataSource.manager.create(Team, {
-        name: "HOTU",
-        country: "Россия",
-        city: "Якутск",
-        logo: "",
-    })
+    let team_ARCRED = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "ARCRED",
+            country: "Россия",
+            city: "Москва",
+            logo: "https://iili.io/HaZQ7mG.png",
+        }))
 
-    teams.push(team_HOTU)
 
-    let team_ARCRED = AppDataSource.manager.create(Team, {
-        name: "ARCRED",
-        country: "Россия",
-        city: "Москва",
-        logo: "",
-    })
+    let team_insilio = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "insilio",
+            country: "Россия",
+            city: "Москва",
+            logo: "https://iili.io/HaZQE1S.png",
+        }))
 
-    teams.push(team_ARCRED)
+    let team_Vibe = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "VIBE",
+            country: "Россия",
+            city: "Москва",
+            logo: "https://iili.io/HaZQzqN.png",
+        }))
 
-    let team_insilio = AppDataSource.manager.create(Team, {
-        name: "insilio",
-        country: "Россия",
-        city: "Москва",
-        logo: "",
-    })
+    let team_SUN = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "SUN",
+            country: "Россия",
+            city: "Москва",
+            logo: "https://iili.io/HaZQI1I.png",
+        }))
 
-    teams.push(team_insilio)
 
-    let team_Vibe = AppDataSource.manager.create(Team, {
-        name: "Vibe",
-        country: "Россия",
-        city: "Москва",
-        logo: "",
-    })
+    let team_Cosmo = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Cosmo",
+            country: "Россия",
+            city: "Москва",
+            logo: "https://iili.io/HaZQaIf.png",
+        }))
 
-    teams.push(team_Vibe)
 
-    let team_kinqie = AppDataSource.manager.create(Team, {
-        name: "kinqie",
-        country: "Россия",
-        city: "Москва",
-        logo: "",
-    })
+    let team_Invictus_Gaming = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "Invictus Gaming",
+            country: "Китай",
+            city: "",
+            logo: "https://iili.io/HaZQosp.png",
+        }))
 
-    teams.push(team_kinqie)
 
-    let team_Cosmo = AppDataSource.manager.create(Team, {
-        name: "Cosmo",
-        country: "Россия",
-        city: "Москва",
-        logo: "",
-    })
-
-    teams.push(team_Cosmo)
-
-    let team_Quazar = AppDataSource.manager.create(Team, {
-        name: "Quazar",
-        country: "Россия",
-        city: "Москва",
-        logo: "",
-    })
-
-    teams.push(team_Quazar)
+    let team_YNT = await AppDataSource.manager.save(
+        AppDataSource.manager.create(Team, {
+            name: "YNT",
+            country: "Россия",
+            city: "",
+            logo: "https://iili.io/HaZQosp.png",
+        }))
 
 
     let players = []
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "JIaYm",
+        nickName: "JIaYm",
         age: 24,
-        first_name: "Никита",
-        last_name: "Panyushkin",
+        firstName: "Никита",
+        lastName: "Панюшкин",
         country: "Россия",
-        image_url: "https://img-cdn.hltv.org/playerbodyshot/hEAiip9_rkFR3rLarncwIR.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=117%2C8%2C467%2C467&w=200&s=a0432b5e0c4135cbb7400bc69cf882a6",
-        steam_id: "",
+        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/hEAiip9_rkFR3rLarncwIR.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=117%2C8%2C467%2C467&w=200&s=a0432b5e0c4135cbb7400bc69cf882a6",
+        steamId: "",
         team: team_Forward
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "k0s",
+        nickName: "k0s",
         age: 20,
-        first_name: "Матвей",
-        last_name: "Абрамов",
+        firstName: "Матвей",
+        lastName: "Абрамов",
         country: "Россия",
-        image_url: "https://img-cdn.hltv.org/playerbodyshot/cLAsty6FKq4dqPuHulNbFN.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=9e82512ee8cd3f2335d053c22f6e26fa",
-        steam_id: "",
+        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/cLAsty6FKq4dqPuHulNbFN.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=9e82512ee8cd3f2335d053c22f6e26fa",
+        steamId: "",
         team: team_Forward
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "mou",
+        nickName: "mou",
         age: 31,
-        first_name: "Рустем",
-        last_name: "Телепов",
+        firstName: "Рустем",
+        lastName: "Телепов",
         country: "Казахстан",
-        image_url: "https://img-cdn.hltv.org/playerbodyshot/73Mu8hyG9BenGtOM21p28j.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=117%2C4%2C467%2C467&w=200&s=36f24d367d4dccebec188bb1c49c9157",
-        steam_id: "",
+        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/73Mu8hyG9BenGtOM21p28j.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=117%2C4%2C467%2C467&w=200&s=36f24d367d4dccebec188bb1c49c9157",
+        steamId: "",
         team: team_Forward
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "ProbLeM",
+        nickName: "ProbLeM",
         age: 24,
-        first_name: "Дмитрий",
-        last_name: "Martinov",
+        firstName: "Дмитрий",
+        lastName: "Мартынов",
         country: "Россия",
-        image_url: "https://img-cdn.hltv.org/playerbodyshot/5OmmRkmDENw2zy6HL3cCRh.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=121%2C0%2C467%2C467&w=200&s=5f5e27bf4652344d297f0804cc7540fb",
-        steam_id: "",
+        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/5OmmRkmDENw2zy6HL3cCRh.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=121%2C0%2C467%2C467&w=200&s=5f5e27bf4652344d297f0804cc7540fb",
+        steamId: "",
         team: team_Forward
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "xiELO",
+        nickName: "xiELO",
         age: 16,
-        first_name: "Владислав",
-        last_name: "Lysov",
+        firstName: "Владислав",
+        lastName: "Лысов",
         country: "Россия",
-        image_url: "https://img-cdn.hltv.org/playerbodyshot/EU15iCflXSa1AOvQPdTFbg.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=117%2C8%2C467%2C467&w=200&s=294e08812171b69401f941351180def7",
-        steam_id: "",
+        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/EU15iCflXSa1AOvQPdTFbg.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=117%2C8%2C467%2C467&w=200&s=294e08812171b69401f941351180def7",
+        steamId: "",
         team: team_Forward
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "d1Ledez",
+        nickName: "d1Ledez",
         age: 19,
-        first_name: "Даниил",
-        last_name: "Кустов",
+        firstName: "Даниил",
+        lastName: "Кустов",
         country: "Россия",
-        image_url: "https://img-cdn.hltv.org/playerbodyshot/L9rdOscThTlPujLKN-txcC.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=ff2010975fc9ae9f5c273a0030d58467",
-        steam_id: "",
+        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/L9rdOscThTlPujLKN-txcC.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=ff2010975fc9ae9f5c273a0030d58467",
+        steamId: "",
         team: team_9_Pandas
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "FpSSS",
+        nickName: "FpSSS",
         age: 24,
-        first_name: "Дмитрий",
-        last_name: "Софронов",
+        firstName: "Дмитрий",
+        lastName: "Софронов",
         country: "Россия",
-        image_url: "https://img-cdn.hltv.org/playerbodyshot/XfCe_-SE60ZV89ejctcoAo.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=124%2C4%2C467%2C467&w=200&s=3030a66268d05f71e59acbcdde41bd91",
-        steam_id: "",
+        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/XfCe_-SE60ZV89ejctcoAo.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=124%2C4%2C467%2C467&w=200&s=3030a66268d05f71e59acbcdde41bd91",
+        steamId: "",
         team: team_9_Pandas
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Porya",
+        nickName: "Porya",
         age: 21,
-        first_name: "Данил",
-        last_name: "Poryadin",
+        firstName: "Данил",
+        lastName: "Порядин",
         country: "Россия",
-        image_url: "https://img-cdn.hltv.org/playerbodyshot/NBNxfbmktE7D7Rp-TcPPi3.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=2b425980b04c4a271cd6656befeacd1a",
-        steam_id: "",
+        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/NBNxfbmktE7D7Rp-TcPPi3.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=2b425980b04c4a271cd6656befeacd1a",
+        steamId: "",
         team: team_9_Pandas
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "seized",
+        nickName: "seized",
         age: 28,
-        first_name: "Денис",
-        last_name: "Костин",
+        firstName: "Денис",
+        lastName: "Костин",
         country: "Россия",
-        image_url: "https://img-cdn.hltv.org/playerbodyshot/V9PzrUFWcXrxdpGlj9NmW4.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=e908c6c588b2f6087ddc6817630fb034",
-        steam_id: "",
+        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/V9PzrUFWcXrxdpGlj9NmW4.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=e908c6c588b2f6087ddc6817630fb034",
+        steamId: "",
         team: team_9_Pandas
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "TruNiQ",
+        nickName: "TruNiQ",
         age: 18,
-        first_name: "Данилa",
-        last_name: "Polymordvinov",
+        firstName: "Данилa",
+        lastName: "Полумордвинов",
         country: "Россия",
-        image_url: "https://img-cdn.hltv.org/playerbodyshot/DWiHuMTaMMAC24_K-QFFQ2.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=b6790d2d92446db7c97feef2bf0f7549",
-        steam_id: "",
+        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/DWiHuMTaMMAC24_K-QFFQ2.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=b6790d2d92446db7c97feef2bf0f7549",
+        steamId: "",
         team: team_9_Pandas
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "boX",
+        nickName: "boX",
         age: 27,
-        first_name: "Антон",
-        last_name: "Бурко",
-        country: "Belarus",
-        image_url: "",
-        steam_id: "",
+        firstName: "Антон",
+        lastName: "Бурко",
+        country: "Беларусь",
+        imageUrl: "",
+        steamId: "",
         team: team_Websterz
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "mds",
+        nickName: "mds",
         age: 24,
-        first_name: "Александр",
-        last_name: "Rubets",
-        country: "Belarus",
-        image_url: "",
-        steam_id: "",
+        firstName: "Александр",
+        lastName: "Рубец",
+        country: "Беларусь",
+        imageUrl: "",
+        steamId: "",
         team: team_Websterz
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "tN1R",
+        nickName: "tN1R",
         age: 21,
-        first_name: "Андрей",
-        last_name: "Tatarinovich",
-        country: "Belarus",
-        image_url: "",
-        steam_id: "",
+        firstName: "Андрей",
+        lastName: "Татаринович",
+        country: "Беларусь",
+        imageUrl: "",
+        steamId: "",
         team: team_Websterz
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "znxxX",
+        nickName: "znxxX",
         age: 21,
-        first_name: "Алексей",
-        last_name: "Zlotkovskiy",
-        country: "Belarus",
-        image_url: "",
-        steam_id: "",
+        firstName: "Алексей",
+        lastName: "Златковский",
+        country: "Беларусь",
+        imageUrl: "",
+        steamId: "",
         team: team_Websterz
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "lollipop21k",
+        nickName: "lollipop21k",
         age: 26,
-        first_name: "Igor",
-        last_name: "Solodkov",
-        country: "Belarus",
-        image_url: "",
-        steam_id: "",
+        firstName: "Игорь",
+        lastName: "Солодков",
+        country: "Беларусь",
+        imageUrl: "",
+        steamId: "",
         team: team_Websterz
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Jerry",
+        nickName: "Jerry",
         age: 24,
-        first_name: "Андрей",
-        last_name: "Mekhriakov",
+        firstName: "Андрей",
+        lastName: "Мехряков",
         country: "Россия",
-        image_url: "",
-        steam_id: "",
+        imageUrl: "",
+        steamId: "",
         team: team_forZe
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "zorte",
+        nickName: "zorte",
         age: 24,
-        first_name: "Александр",
-        last_name: "Zagodyrenko",
+        firstName: "Александр",
+        lastName: "Загодыренко",
         country: "Россия",
-        image_url: "",
-        steam_id: "",
+        imageUrl: "",
+        steamId: "",
         team: team_forZe
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "shalfey",
+        nickName: "shalfey",
         age: 20,
-        first_name: "Александр",
-        last_name: "Marenov",
+        firstName: "Александр",
+        lastName: "Маренов",
         country: "Россия",
-        image_url: "",
-        steam_id: "",
+        imageUrl: "",
+        steamId: "",
         team: team_forZe
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Krad",
+        nickName: "Krad",
         age: 24,
-        first_name: "Владислав",
-        last_name: "Kravchenko",
+        firstName: "Владислав",
+        lastName: "Кравченко",
         country: "Россия",
-        image_url: "",
-        steam_id: "",
+        imageUrl: "",
+        steamId: "",
         team: team_forZe
     }))
 
-    // Пятный игрок forZe
-    // players.push(AppDataSource.manager.create(Player, {
-    //     nick_name: "",
-    //     age: ,
-    //     first_name: "",
-    //     last_name: "",
-    //     country: "Россия",  
-    //     image_url: "",
-    //     steam_id: "",
-    //     team: team_forZe
-    // }))
+    players.push(AppDataSource.manager.create(Player, {
+        nickName: "Forester",
+        age: 23,
+        firstName: "Игорь",
+        lastName: "Безотеческий",
+        country: "Россия",
+        imageUrl: "",
+        steamId: "",
+        team: team_forZe
+    }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "X5G7V",
+        nickName: "X5G7V",
         age: 19,
-        first_name: "Даниил",
-        last_name: "Maryshev",
-        country: "",
-        image_url: "",
-        steam_id: "",
+        firstName: "Даниил",
+        lastName: "Марышев",
+        country: "Россия",
+        imageUrl: "",
+        steamId: "",
         team: team_K23
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Raijin",
+        nickName: "Raijin",
         age: 22,
-        first_name: "Константин",
-        last_name: "Trubarov",
-        country: "",
-        image_url: "",
-        steam_id: "",
+        firstName: "Константин",
+        lastName: "Трубаров",
+        country: "Россия",
+        imageUrl: "",
+        steamId: "",
         team: team_K23
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "iDISBALANCE",
+        nickName: "iDISBALANCE",
         age: 26,
-        first_name: "Артём",
-        last_name: "Egorov",
-        country: "",
-        image_url: "",
-        steam_id: "",
+        firstName: "Артём",
+        lastName: "Егоров",
+        country: "Россия",
+        imageUrl: "",
+        steamId: "",
         team: team_K23
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Jyo",
+        nickName: "Jyo",
         age: 27,
-        first_name: "Рассим",
-        last_name: "Valijev",
-        country: "Estonia",
-        image_url: "",
-        steam_id: "",
+        firstName: "Рассим",
+        lastName: "Валиев",
+        country: "Эстония",
+        imageUrl: "",
+        steamId: "",
         team: team_K23
     }))
 
-    // Пятный игрок K23
-    // players.push(AppDataSource.manager.create(Player, {
-    //     nick_name: "",
-    //     age: ,
-    //     first_name: "",
-    //     last_name: "",
-    //     country: "",
-    //     image_url: "",
-    //     steam_id: "",
-    //     team: team_K23
-    // }))
+    players.push(AppDataSource.manager.create(Player, {
+        nickName: "Magnojez",
+        age: 18,
+        firstName: "Кирилл",
+        lastName: "Роднов",
+        country: "Россия",
+        imageUrl: "",
+        steamId: "",
+        team: team_K23
+    }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "ginger",
+        nickName: "ginger",
         age: 24,
-        first_name: "Даниил",
-        last_name: "Dubkov",
+        firstName: "Даниил",
+        lastName: "Дубков",
         country: "Россия",
-        image_url: "",
-        steam_id: "STEAM_0:1:24471802",
+        imageUrl: "",
+        steamId: "STEAM_0:1:24471802",
         team: team_Vladivostok
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "ViRESUS",
+        nickName: "ViRESUS",
         age: 20,
-        first_name: "Александр",
-        last_name: "Kobilyanskiy",
+        firstName: "Александр",
+        lastName: "Кобылянский",
         country: "Россия",
-        image_url: "",
-        steam_id: "STEAM_1:0:115999303",
+        imageUrl: "",
+        steamId: "STEAM_1:0:115999303",
         team: team_Vladivostok
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "kLIVIC",
+        nickName: "kLIVIC",
         age: 20,
-        first_name: "Виктор",
-        last_name: "Климов",
+        firstName: "Виктор",
+        lastName: "Климов",
         country: "Россия",
-        image_url: "",
-        steam_id: "STEAM_1:0:215715314",
+        imageUrl: "",
+        steamId: "STEAM_1:0:215715314",
         team: team_Vladivostok
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "la3euka",
+        nickName: "la3euka",
         age: 21,
-        first_name: "Владимир",
-        last_name: "Shurigin",
+        firstName: "Владимир",
+        lastName: "Шурыгин",
         country: "Россия",
-        image_url: "",
-        steam_id: "STEAM_0:1:63622532",
+        imageUrl: "",
+        steamId: "STEAM_0:1:63622532",
         team: team_Vladivostok
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "ZzZoOM",
+        nickName: "ZzZoOM",
         age: 10,
-        first_name: "Михаил",
-        last_name: "Andreev",
+        firstName: "Михаил",
+        lastName: "Андреев",
         country: "Россия",
-        image_url: "",
-        steam_id: "",
+        imageUrl: "",
+        steamId: "",
         team: team_Vladivostok
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "mizu",
+        nickName: "mizu",
         age: 18,
-        first_name: "Дмитрий",
-        last_name: "Kondratiev",
+        firstName: "Дмитрий",
+        lastName: "Кондратьев",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198153097618",
+        imageUrl: "",
+        steamId: "76561198153097618",
         team: team_HOTU
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "gokushima",
+        nickName: "gokushima",
         age: 22,
-        first_name: "Erkhan",
-        last_name: "Bagynanov",
+        firstName: "Erkhan",
+        lastName: "Багынанов",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198262313668",
+        imageUrl: "",
+        steamId: "76561198262313668",
         team: team_HOTU
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "swiftsteel",
+        nickName: "swiftsteel",
         age: 29,
-        first_name: "Nyurgun",
-        last_name: "Avvakumov",
+        firstName: "Nyurgun",
+        lastName: "Аввакумов",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198869335703",
+        imageUrl: "",
+        steamId: "76561198869335703",
         team: team_HOTU
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "casE",
+        nickName: "casE",
         age: 26,
-        first_name: "Александр",
-        last_name: "Kornilov",
+        firstName: "Александр",
+        lastName: "Корнилов",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198202811088",
+        imageUrl: "",
+        steamId: "76561198202811088",
         team: team_HOTU
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "nitzie",
+        nickName: "nitzie",
         age: 21,
-        first_name: "Никита",
-        last_name: "Prokhorov",
+        firstName: "Никита",
+        lastName: "Прохоров",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198203086387",
+        imageUrl: "",
+        steamId: "76561198203086387",
         team: team_HOTU
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "hurtslxrd",
+        nickName: "hurtslxrd",
         age: 20,
-        first_name: "Ренат",
-        last_name: "Saparov",
-        country: "Belarus",
-        image_url: "",
-        steam_id: "76561198095504459",
+        firstName: "Ренат",
+        lastName: "Сапаров",
+        country: "Беларусь",
+        imageUrl: "",
+        steamId: "76561198095504459",
         team: team_ARCRED
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "1NVISIBLEE",
+        nickName: "1NVISIBLEE",
         age: 19,
-        first_name: "Данилa",
-        last_name: "Simagin",
+        firstName: "Данилa",
+        lastName: "Симагин",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198347665147",
+        imageUrl: "",
+        steamId: "76561198347665147",
         team: team_ARCRED
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Ryujin",
+        nickName: "Ryujin",
         age: 20,
-        first_name: "Борис",
-        last_name: "Kim",
-        country: "Uzbekistan",
-        image_url: "",
-        steam_id: "76561198116280987",
+        firstName: "Борис",
+        lastName: "Ким",
+        country: "Узбекистан",
+        imageUrl: "",
+        steamId: "76561198116280987",
         team: team_ARCRED
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "DSSj",
+        nickName: "DSSj",
         age: 24,
-        first_name: "Тимур",
-        last_name: "Abdullin",
-        country: "Uzbekistan",
-        image_url: "",
-        steam_id: "76561198860030314",
+        firstName: "Тимур",
+        lastName: "Абдуллин",
+        country: "Узбекистан",
+        imageUrl: "",
+        steamId: "76561198860030314",
         team: team_ARCRED
     }))
 
-    //team_ARCRED
-    // players.push(AppDataSource.manager.create(Player, {
-    //     nick_name: "",
-    //     age: ,
-    //     first_name: "",
-    //     last_name: "",
-    //     country: "",
-    //     image_url: "",
-    //     steam_id: "",
-    //     team: team_ARCRED
-    // }))
+    players.push(AppDataSource.manager.create(Player, {
+        nickName: "T4RG3T",
+        age: 19,
+        firstName: "Кирилл",
+        lastName: "Ковалёв",
+        country: "Беларусь",
+        imageUrl: "",
+        steamId: "76561198843894201",
+        team: team_ARCRED
+    }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "DaDte",
+        nickName: "DaDte",
         age: 23,
-        first_name: "Никита",
-        last_name: "Ziganshin",
+        firstName: "Никита",
+        lastName: "Зиганьшин",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198080397810",
+        imageUrl: "",
+        steamId: "76561198080397810",
         team: team_insilio
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Xant3r",
+        nickName: "Xant3r",
         age: 18,
-        first_name: "Кирилл",
-        last_name: "Kononov",
+        firstName: "Кирилл",
+        lastName: "Кононов",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198839305865",
+        imageUrl: "",
+        steamId: "76561198839305865",
         team: team_insilio
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "k4sl",
+        nickName: "k4sl",
         age: 23,
-        first_name: "Тамирлан",
-        last_name: "Kahrimanov",
+        firstName: "Тамирлан",
+        lastName: "Кахриманов",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198133766215",
+        imageUrl: "",
+        steamId: "76561198133766215",
         team: team_insilio
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Pipw",
+        nickName: "Pipw",
         age: 20,
-        first_name: "Артём",
-        last_name: "Ivankin",
+        firstName: "Артём",
+        lastName: "Иванкин",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198343321573",
+        imageUrl: "",
+        steamId: "76561198343321573",
         team: team_insilio
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Polt ",
+        nickName: "Polt",
         age: 28,
-        first_name: "Вадим",
-        last_name: "Tsyrov",
+        firstName: "Вадим",
+        lastName: "Циров",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198046102181",
+        imageUrl: "",
+        steamId: "76561198046102181",
         team: team_insilio
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "s7xWn",
+        nickName: "s7xWn",
         age: 21,
-        first_name: "Алексей",
-        last_name: "Novakov",
+        firstName: "Алексей",
+        lastName: "Новаков",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198326106740",
+        imageUrl: "",
+        steamId: "76561198326106740",
         team: team_Vibe
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "K1ssly",
+        nickName: "K1ssly",
         age: 20,
-        first_name: "Дмитрий",
-        last_name: "Gostev",
+        firstName: "Дмитрий",
+        lastName: "Гостев",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198156866535",
+        imageUrl: "",
+        steamId: "76561198156866535",
         team: team_Vibe
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "NeoLife",
+        nickName: "NeoLife",
         age: 21,
-        first_name: "Никита",
-        last_name: "Sazanov",
+        firstName: "Никита",
+        lastName: "Сазанов",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561199099257626",
+        imageUrl: "",
+        steamId: "76561199099257626",
         team: team_Vibe
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Xerison",
+        nickName: "Xerison",
         age: 21,
-        first_name: "Никита",
-        last_name: "Sergeev",
+        firstName: "Никита",
+        lastName: "Сергеев",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198211030531",
+        imageUrl: "",
+        steamId: "76561198211030531",
         team: team_Vibe
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Zealot",
+        nickName: "Zealot",
         age: 20,
-        first_name: "Сергей",
-        last_name: "Zhukovich",
+        firstName: "Сергей",
+        lastName: "Жукович",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198089355616",
+        imageUrl: "",
+        steamId: "76561198089355616",
         team: team_Vibe
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "ka1do",
+        nickName: "DavCost",
         age: 20,
-        first_name: "ka1do",
-        last_name: "ka1do",
+        firstName: "Вадим",
+        lastName: "Васильев",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198243305376",
-        team: team_Quazar
+        imageUrl: "",
+        steamId: "76561198243305376",
+        team: team_Invictus_Gaming
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Gladik",
+        nickName: "facecrack",
         age: 23,
-        first_name: "Валерий",
-        last_name: "Gorevoy",
+        firstName: "Дмитрий",
+        lastName: "Алексеев",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198058377876",
-        team: team_Quazar
+        imageUrl: "",
+        steamId: "76561198058377876",
+        team: team_Invictus_Gaming
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Olymp1c",
+        nickName: "meztal",
         age: 20,
-        first_name: "Константин",
-        last_name: "Bulychev",
+        firstName: "Тал",
+        lastName: "Хахиашвили",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198836322811",
-        team: team_Quazar
+        imageUrl: "",
+        steamId: "76561198836322811",
+        team: team_Invictus_Gaming
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "HEADBANGER",
+        nickName: "MOREE",
         age: 22,
-        first_name: "Руслан",
-        last_name: "Mukhaev",
+        firstName: "Мори",
+        lastName: "Мизрахи",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198098691702",
-        team: team_Quazar
+        imageUrl: "",
+        steamId: "76561198098691702",
+        team: team_Invictus_Gaming
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "n1ckeiy",
+        nickName: "TBA",
         age: 17,
-        first_name: "Дмитрий",
-        last_name: "Tsepilov",
-        country: "Россия",
-        image_url: "",
-        steam_id: "76561198216455267",
-        team: team_Quazar
+        firstName: "TBA",
+        lastName: "TBA",
+        country: "TBA",
+        imageUrl: "",
+        steamId: "",
+        team: team_Invictus_Gaming
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "kinqie",
+        nickName: "kinqie",
         age: 31,
-        first_name: "Семён",
-        last_name: "Lisitsyn",
+        firstName: "Семён",
+        lastName: "Лисицын",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198002372151",
-        team: team_kinqie
+        imageUrl: "",
+        steamId: "76561198002372151",
+        team: team_SUN
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "executor",
+        nickName: "executor",
         age: 18,
-        first_name: "Илья",
-        last_name: "Вебер",
+        firstName: "Илья",
+        lastName: "Вебер",
         country: "Россия",
-        image_url: "Картинка",
-        steam_id: "STEAM_1:1:567452807",
-        team: team_kinqie
+        imageUrl: "Картинка",
+        steamId: "STEAM_1:1:567452807",
+        team: team_SUN
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "nota",
+        nickName: "nota",
         age: 15,
-        first_name: "Эмиль",
-        last_name: "Москвитин",
+        firstName: "Эмиль",
+        lastName: "Москвитин",
         country: "Россия",
-        image_url: "Картинка",
-        steam_id: "STEAM_1:1:507402149",
-        team: team_kinqie
+        imageUrl: "Картинка",
+        steamId: "STEAM_1:1:507402149",
+        team: team_SUN
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "j3zyy",
+        nickName: "j3zyy",
         age: 17,
-        first_name: "Азиз",
-        last_name: "Aliev",
+        firstName: "Азиз",
+        lastName: "Алиев",
         country: "Россия",
-        image_url: "",
-        steam_id: "",
-        team: team_kinqie
+        imageUrl: "",
+        steamId: "",
+        team: team_SUN
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "tex1y",
+        nickName: "tex1y",
         age: 16,
-        first_name: "Филипп",
-        last_name: "Moskvitin",
+        firstName: "Филипп",
+        lastName: "Москвитин",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561199173322766",
-        team: team_kinqie
+        imageUrl: "",
+        steamId: "76561199173322766",
+        team: team_SUN
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "JACKPOT",
+        nickName: "JACKPOT",
         age: 23,
-        first_name: "Владимир",
-        last_name: "Dyakonov",
+        firstName: "Владимир",
+        lastName: "Дьяконов",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198107648113 ",
+        imageUrl: "",
+        steamId: "76561198107648113 ",
         team: team_Cosmo
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "HUckLer",
+        nickName: "HUckLer",
         age: 21,
-        first_name: "Николай",
-        last_name: "Rudov",
+        firstName: "Николай",
+        lastName: "Рудов",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198146896894",
+        imageUrl: "",
+        steamId: "76561198146896894",
         team: team_Cosmo
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "lesswill",
+        nickName: "lesswill",
         age: 25,
-        first_name: "Дмитрий",
-        last_name: "Medvedev",
+        firstName: "Дмитрий",
+        lastName: "Медведев",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198002358610 ",
+        imageUrl: "",
+        steamId: "76561198002358610 ",
         team: team_Cosmo
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "sp1nt",
+        nickName: "sp1nt",
         age: 23,
-        first_name: "Глеб",
-        last_name: "Gorelov",
+        firstName: "Глеб",
+        lastName: "Горелов",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198167028008 ",
+        imageUrl: "",
+        steamId: "76561198167028008 ",
         team: team_Cosmo
     }))
 
     players.push(AppDataSource.manager.create(Player, {
-        nick_name: "Kiro",
+        nickName: "Kiro",
         age: 20,
-        first_name: "Александр",
-        last_name: "Sherov",
+        firstName: "Александр",
+        lastName: "Шеров",
         country: "Россия",
-        image_url: "",
-        steam_id: "76561198145768818",
+        imageUrl: "",
+        steamId: "76561198145768818",
         team: team_Cosmo
     }))
 
-    AppDataSource.manager.save(teams);
+    players.push(AppDataSource.manager.create(Player, {
+        nickName: "HeaveN",
+        age: 0,
+        firstName: "Егор",
+        lastName: "Ковалёв",
+        country: "Россия",
+        imageUrl: "",
+        steamId: "",
+        team: team_YNT
+    }))
+
+    players.push(AppDataSource.manager.create(Player, {
+        nickName: "Gospadarov",
+        age: 0,
+        firstName: "Кирилл",
+        lastName: "Господаров",
+        country: "",
+        imageUrl: "",
+        steamId: "",
+        team: team_YNT
+    }))
+
+    players.push(AppDataSource.manager.create(Player, {
+        nickName: "VILBy",
+        age: 0,
+        firstName: "Виталий",
+        lastName: "Захарюта",
+        country: "",
+        imageUrl: "",
+        steamId: "",
+        team: team_YNT
+    }))
+
+    players.push(AppDataSource.manager.create(Player, {
+        nickName: "bluewhite",
+        age: 0,
+        firstName: "Лубсан",
+        lastName: "Мулонов",
+        country: "",
+        imageUrl: "",
+        steamId: "",
+        team: team_YNT
+    }))
+
+    players.push(AppDataSource.manager.create(Player, {
+        nickName: "z1Nny",
+        age: 0,
+        firstName: "Павел",
+        lastName: "Прокопьев",
+        country: "",
+        imageUrl: "",
+        steamId: "",
+        team: team_YNT
+    }))
+
     AppDataSource.manager.save(players);
 }

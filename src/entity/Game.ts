@@ -16,7 +16,7 @@ export class Game {
     id: number
 
     @Column({ type: 'timestamptz', nullable: true })
-    started_at: Date
+    startedAt: Date
 
     @ManyToMany(() => Team, { onDelete: "SET NULL", cascade: true })
     @JoinTable()
@@ -26,19 +26,19 @@ export class Game {
     maps: Map[]
 
     @Column({ nullable: true })
-    match_series_id: string
+    matchSeriesId: string
 
     @Column()
-    team1_id: number
+    team1Id: number
 
     @Column()
-    team2_id: number
+    team2Id: number
 
     @Column()
-    team1_score: number
+    team1Score: number
 
     @Column()
-    team2_score: number
+    team2Score: number
 
     @Column({
         type: "enum",
