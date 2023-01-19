@@ -11,6 +11,8 @@ import { Team } from "../entity/Team"
 export class GameController {
 
     private gameRepository = AppDataSource.getRepository(Game)
+    private teamRepository = AppDataSource.getRepository(Team)
+    private playerRepository = AppDataSource.getRepository(Player)
 
     async all(request: Request, response: Response, next: NextFunction) {
         const take = request.query.take || 10
@@ -79,12 +81,12 @@ export class GameController {
     async planMatch(request: Request, response: Response, next: NextFunction) {
         var configs = request.body;
 
-        let team1 = await AppDataSource.getRepository(Team).findOne({
+        let team1 = await this.teamRepository.findOne({
             where: {
                 name: configs.team1Name
             }
         })
-        let team2 = await AppDataSource.getRepository(Team).findOne({
+        let team2 = await this.teamRepository.findOne({
             where: {
                 name: configs.team2Name
             }
@@ -167,7 +169,7 @@ export class GameController {
             }
         })
 
-        let team1 = await AppDataSource.getRepository(Team).findOne({
+        let team1 = await this.teamRepository.findOne({
             relations: {
                 players: true
             },
@@ -175,7 +177,7 @@ export class GameController {
                 name: configs.team1Name
             }
         })
-        let team2 = await AppDataSource.getRepository(Team).findOne({
+        let team2 = await this.teamRepository.findOne({
             relations: {
                 players: true
             },
@@ -256,7 +258,7 @@ export class GameController {
             element.demo = ""
         });
 
-        return await AppDataSource.manager.save(game)
+        return await this.gameRepository.save(game)
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
@@ -300,7 +302,7 @@ export class GameController {
                         result.team1Stats.push({
                             "kills": stat.kills,
                             "deaths": stat.deaths,
-                            "assist": stat.assist,
+                            "assists": stat.assist,
                             "nickName": stat.player.nickName,
                             "playerId": stat.player.id,
                         })
@@ -315,7 +317,7 @@ export class GameController {
                         result.team2Stats.push({
                             "kills": stat.kills,
                             "deaths": stat.deaths,
-                            "assist": stat.assist,
+                            "assists": stat.assist,
                             "nickName": stat.player.nickName,
                             "playerId": stat.player.id,
                         })
@@ -350,7 +352,7 @@ export class GameController {
                 team1Stats.push({
                     "kills": item.kills,
                     "deaths": item.deaths,
-                    "assist": item.assist,
+                    "assists": item.assist,
                     "nickName": item.player.nickName,
                     "playerId": item.player.id,
                 })
@@ -358,7 +360,7 @@ export class GameController {
                 team2Stats.push({
                     "kills": item.kills,
                     "deaths": item.deaths,
-                    "assist": item.assist,
+                    "assists": item.assist,
                     "nickName": item.player.nickName,
                     "playerId": item.player.id,
                 })
@@ -414,8 +416,7 @@ export class GameController {
             names.push(element.nickName)
         })
 
-        let players = await AppDataSource
-            .getRepository(Player)
+        let players = await this.playerRepository
             .createQueryBuilder("player")
             .where("player.nickName IN (:...names)", { names: names })
             .leftJoinAndSelect('player.team', 'team')
