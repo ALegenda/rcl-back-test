@@ -51,6 +51,9 @@ export class GameController {
 
         let games = await this.gameRepository.find({
             take: 10,
+            relations:{
+                teams: true
+            },
             order: {
                 startedAt: "ASC"
             },
@@ -58,6 +61,8 @@ export class GameController {
                 status: GameStatus.PENDING
             }
         })
+
+        console.log(games)
 
         let gamesWithStats = games.map((item) => {
             return {

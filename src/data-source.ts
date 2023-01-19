@@ -9,7 +9,7 @@ import { Team } from "./entity/Team"
 
 export const AppDataSource = new DataSource({
     type: "postgres",
-    url: "postgres://giuhkmnt:E-BOcxkbPfllVAkPBf7VmDXPBlOlr0uM@dumbo.db.elephantsql.com/giuhkmnt",
+    url: "postgres://omhdxsyu:CHy1pCq5vcRL_8CjbWysMHrMxb9zXMY7@dumbo.db.elephantsql.com/omhdxsyu",
     //url: "postgres://ndkxauia:99AuBb_pONctzMBDImcGZDHVO75dY3Nb@ella.db.elephantsql.com/ndkxauia",
     //dropSchema: true,
     poolSize: 100,
