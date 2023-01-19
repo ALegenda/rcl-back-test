@@ -14,7 +14,7 @@ export class TeamController {
             take: take,
             skip: skip,
             order: {
-                totalWins: "ASC"
+                id: "ASC"
             }
         })
 
@@ -47,7 +47,8 @@ export class TeamController {
             take: take,
             skip: skip,
             order: {
-                totalWins: "ASC"
+                totalWins: "DESC",
+                totalLoses: "ASC"
             }
         })
         let index = 1;

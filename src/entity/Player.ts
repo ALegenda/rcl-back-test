@@ -32,7 +32,7 @@ export class Player {
     @BeforeInsert()
     setImage(){
         if(this.imageUrl === "" || this.imageUrl === null){
-            this.imageUrl = ""
+            this.imageUrl = "https://iili.io/HayAEdb.png"
         }
     }
 

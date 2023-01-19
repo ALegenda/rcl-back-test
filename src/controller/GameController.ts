@@ -94,14 +94,14 @@ export class GameController {
             AppDataSource.manager.create(Game, {
                 teams: [team1, team2],
                 status: GameStatus.PENDING,
-                startedAt: configs.started_аt,
+                startedAt: configs.startedAt,
                 team1Id: team1.id,
                 team1Score: 0,
                 team2Id: team2.id,
                 team2Score: 0,
                 maps: [
                     {
-                        startedAt: configs.started_аt,
+                        startedAt: configs.startedAt,
                         status: MapStatus.PENDING,
                         team1Id: team1.id,
                         team1Score: 0,
@@ -111,7 +111,7 @@ export class GameController {
                         mapName: null
                     },
                     {
-                        startedAt: configs.started_аt,
+                        startedAt: configs.startedAt,
                         status: MapStatus.PENDING,
                         team1Id: team1.id,
                         team1Score: 0,
@@ -121,7 +121,7 @@ export class GameController {
                         mapName: null
                     },
                     {
-                        startedAt: configs.started_аt,
+                        startedAt: configs.startedAt,
                         status: MapStatus.PENDING,
                         team1Id: team1.id,
                         team1Score: 0,

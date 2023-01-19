@@ -118,7 +118,7 @@ async function init() {
 
     let team_K23 = await AppDataSource.manager.save(
         AppDataSource.manager.create(Team, {
-            name: "team_K23",
+            name: "K23",
             country: "Россия",
             city: "Москва",
             logo: "https://iili.io/HaZQnXR.png",
@@ -197,7 +197,7 @@ async function init() {
             name: "YNT",
             country: "Россия",
             city: "",
-            logo: "https://iili.io/HaZQosp.png",
+            logo: "https://iili.io/HaZQR7n.png",
         }))
 
 
