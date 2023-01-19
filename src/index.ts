@@ -40,7 +40,7 @@ AppDataSource.initialize().then(async () => {
     // start express server
     app.listen(process.env.PORT || 4000)
 
-    init()
+    //init()
     //test()
     //initQuals()
 

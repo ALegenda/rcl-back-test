@@ -29,18 +29,18 @@ export class PlayerController {
             return {
                 "player": {
                     "id": item.id,
-                    "first_name": item.firstName,
-                    "last_name": item.lastName,
-                    "nick_name": item.nickName,
+                    "firstName": item.firstName,
+                    "lastName": item.lastName,
+                    "nickName": item.nickName,
                     "age": item.age,
                     "country": item.country,
-                    "image_url": item.imageUrl
+                    "imageUrl": item.imageUrl
                 },
                 "team": {
                     "id": item.team.id,
                     "name": item.team.name,
                     "country": item.team.country,
-                    "country_logo": item.team.countryLogo,
+                    "countryLogo": item.team.countryLogo,
                     "logo": item.team.logo,
                 },
                 "stats": {
@@ -50,7 +50,7 @@ export class PlayerController {
                     "deaths": item.totalDeaths,
                     "assists": item.totalAssists,
                     "kd": item.totalKills / item.totalDeaths,
-                    "kd_diff": item.totalKills - item.totalDeaths
+                    "kdDiff": item.totalKills - item.totalDeaths
                 }
             }
         })
@@ -91,7 +91,7 @@ export class PlayerController {
             "deaths": player.totalDeaths,
             "assists": player.totalAssists,
             "kd": player.totalKills / player.totalDeaths,
-            "kd_diff": player.totalKills - player.totalDeaths
+            "kdDiff": player.totalKills - player.totalDeaths
         }
 
     }
