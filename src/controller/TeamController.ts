@@ -47,6 +47,7 @@ export class TeamController {
             take: take,
             skip: skip,
             order: {
+                totalPoints: "DESC",
                 totalWins: "DESC",
                 totalLoses: "ASC"
             }
@@ -64,7 +65,9 @@ export class TeamController {
                     "logo": item.logo,
                 },
                 "wins": item.totalWins,
-                "loses": item.totalLoses
+                "loses": item.totalLoses,
+                "draws": item.totalDraws,
+                "points": item.totalPoints
             }
         })
 

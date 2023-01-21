@@ -36,6 +36,7 @@ export class Team {
 
     @Column({ nullable: true })
     totalGames: number
+    
 
     @BeforeInsert()
     setGames(){
@@ -75,11 +76,27 @@ export class Team {
     }
 
     @Column({ nullable: true })
+    totalDraws: number
+
+    @BeforeInsert()
+    setDraws(){
+        this.totalDraws = 0
+    }
+
+    @Column({ nullable: true })
     totalLoses: number
 
     @BeforeInsert()
     setLoses(){
         this.totalLoses = 0
+    }
+
+    @Column({ nullable: true })
+    totalPoints: number
+
+    @BeforeInsert()
+    setPoints(){
+        this.totalPoints = 0
     }
 
 }

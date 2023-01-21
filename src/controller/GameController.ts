@@ -53,7 +53,7 @@ export class GameController {
 
         let games = await this.gameRepository.find({
             take: 10,
-            relations:{
+            relations: {
                 teams: true
             },
             order: {
@@ -410,7 +410,7 @@ export class GameController {
         let playerStats = [];
         let names = [];
 
-        
+
 
         map_result.playerStats.forEach(element => {
             names.push(element.nickName)
@@ -453,22 +453,36 @@ export class GameController {
 
         if (game.maps[mapIndex].team1Score > game.maps[mapIndex].team2Score) {
             game.team1Score += 1
-            if (game.team1Score === 2){
-                let team1Index = game.teams.findIndex(team => team.id === game.team1Id)
-                let team2Index = game.teams.findIndex(team => team.id === game.team2Id)
-                game.teams[team1Index].totalWins += 1
-                game.teams[team2Index].totalLoses += 1
-            }
         } else {
             game.team2Score += 1
-            if (game.team2Score === 2){
-                let team1Index = game.teams.findIndex(team => team.id === game.team1Id)
-                let team2Index = game.teams.findIndex(team => team.id === game.team2Id)
-                game.teams[team2Index].totalWins += 1
-                game.teams[team1Index].totalLoses += 1
-            }
         }
-        
+
+        if (game.team1Score === 1 && game.team2Score === 1) {
+            game.teams[0].totalDraws += 1
+            game.teams[0].totalPoints += 1
+            game.teams[1].totalDraws += 1
+            game.teams[1].totalPoints += 1
+        }
+
+        if (game.team1Score === 2) {
+            let team1Index = game.teams.findIndex(team => team.id === game.team1Id)
+            let team2Index = game.teams.findIndex(team => team.id === game.team2Id)
+            game.teams[team1Index].totalWins += 1
+            game.teams[team1Index].totalPoints += 3
+            game.teams[team2Index].totalLoses += 1
+        }
+
+        if (game.team2Score === 2) {
+            let team1Index = game.teams.findIndex(team => team.id === game.team1Id)
+            let team2Index = game.teams.findIndex(team => team.id === game.team2Id)
+            game.teams[team1Index].totalLoses += 1
+            game.teams[team2Index].totalWins += 1
+            game.teams[team2Index].totalPoints += 3
+        }
+
+        if (map_result.number === 2) {
+            game.status = GameStatus.FINISHED
+        }
 
 
         return await this.gameRepository.save(game)

@@ -124,8 +124,8 @@ async function init() {
     let team_K23 = await AppDataSource.manager.save(
         AppDataSource.manager.create(Team, {
             name: "K23",
-            country: "Россия",
-            countryLogo: "https://iili.io/HayQ9dQ.png",
+            country: "Казахстан",
+            countryLogo: "https://iili.io/HcdIuXp.png",
             city: "Москва",
             logo: "https://iili.io/Hc96Kbe.png",
         }))
@@ -225,7 +225,7 @@ async function init() {
         lastName: "Панюшкин",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/hEAiip9_rkFR3rLarncwIR.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=117%2C8%2C467%2C467&w=200&s=a0432b5e0c4135cbb7400bc69cf882a6",
+        imageUrl: "https://iili.io/HYaXx29.png",
         steamId: "",
         team: team_Forward
     }))
@@ -237,7 +237,7 @@ async function init() {
         lastName: "Абрамов",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/cLAsty6FKq4dqPuHulNbFN.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=9e82512ee8cd3f2335d053c22f6e26fa",
+        imageUrl: "https://iili.io/HYaXIku.png",
         steamId: "",
         team: team_Forward
     }))
@@ -248,7 +248,8 @@ async function init() {
         firstName: "Рустем",
         lastName: "Телепов",
         country: "Казахстан",
-        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/73Mu8hyG9BenGtOM21p28j.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=117%2C4%2C467%2C467&w=200&s=36f24d367d4dccebec188bb1c49c9157",
+        countryLogo: "https://iili.io/HcdIuXp.png",
+        imageUrl: "https://iili.io/HYaXTmb.png",
         steamId: "",
         team: team_Forward
     }))
@@ -260,7 +261,7 @@ async function init() {
         lastName: "Мартынов",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/5OmmRkmDENw2zy6HL3cCRh.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=121%2C0%2C467%2C467&w=200&s=5f5e27bf4652344d297f0804cc7540fb",
+        imageUrl: "https://iili.io/HYaXAIj.png",
         steamId: "",
         team: team_Forward
     }))
@@ -272,7 +273,7 @@ async function init() {
         lastName: "Лысов",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/EU15iCflXSa1AOvQPdTFbg.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=117%2C8%2C467%2C467&w=200&s=294e08812171b69401f941351180def7",
+        imageUrl: "https://iili.io/HYaXz7e.png",
         steamId: "",
         team: team_Forward
     }))
@@ -284,7 +285,7 @@ async function init() {
         lastName: "Кустов",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/L9rdOscThTlPujLKN-txcC.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=ff2010975fc9ae9f5c273a0030d58467",
+        imageUrl: "https://iili.io/HYaMHdu.png",
         steamId: "",
         team: team_9_Pandas
     }))
@@ -296,7 +297,7 @@ async function init() {
         lastName: "Софронов",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/XfCe_-SE60ZV89ejctcoAo.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=124%2C4%2C467%2C467&w=200&s=3030a66268d05f71e59acbcdde41bd91",
+        imageUrl: "https://iili.io/HYaMJ5b.png",
         steamId: "",
         team: team_9_Pandas
     }))
@@ -308,7 +309,7 @@ async function init() {
         lastName: "Порядин",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/NBNxfbmktE7D7Rp-TcPPi3.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=2b425980b04c4a271cd6656befeacd1a",
+        imageUrl: "https://iili.io/HYaGp19.png",
         steamId: "",
         team: team_9_Pandas
     }))
@@ -332,7 +333,7 @@ async function init() {
         lastName: "Полумордвинов",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "https://img-cdn.hltv.org/playerbodyshot/DWiHuMTaMMAC24_K-QFFQ2.png?bg=3e4c54&h=200&ixlib=java-2.1.0&rect=116%2C8%2C467%2C467&w=200&s=b6790d2d92446db7c97feef2bf0f7549",
+        imageUrl: "https://iili.io/HYaGyge.png",
         steamId: "",
         team: team_9_Pandas
     }))
@@ -344,7 +345,7 @@ async function init() {
         lastName: "Бурко",
         country: "Беларусь",
         countryLogo: "https://iili.io/HayZGcv.png",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYaYQ6b.png",
         steamId: "",
         team: team_Websterz
     }))
@@ -356,7 +357,7 @@ async function init() {
         lastName: "Рубец",
         country: "Беларусь",
         countryLogo: "https://iili.io/HayZGcv.png",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYaYLMu.png",
         steamId: "",
         team: team_Websterz
     }))
@@ -368,7 +369,7 @@ async function init() {
         lastName: "Татаринович",
         country: "Беларусь",
         countryLogo: "https://iili.io/HayZGcv.png",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYaY6w7.png",
         steamId: "",
         team: team_Websterz
     }))
@@ -380,7 +381,7 @@ async function init() {
         lastName: "Златковский",
         country: "Беларусь",
         countryLogo: "https://iili.io/HayZGcv.png",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYaYPt9.png",
         steamId: "",
         team: team_Websterz
     }))
@@ -404,7 +405,7 @@ async function init() {
         lastName: "Мехряков",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYaaIoX.png",
         steamId: "",
         team: team_forZe
     }))
@@ -416,7 +417,7 @@ async function init() {
         lastName: "Загодыренко",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYaaC9p.png",
         steamId: "",
         team: team_forZe
     }))
@@ -428,7 +429,7 @@ async function init() {
         lastName: "Маренов",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYaaxtt.png",
         steamId: "",
         team: team_forZe
     }))
@@ -440,7 +441,7 @@ async function init() {
         lastName: "Кравченко",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYaaoNI.png",
         steamId: "",
         team: team_forZe
     }))
@@ -464,7 +465,7 @@ async function init() {
         lastName: "Марышев",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYacXLX.png",
         steamId: "",
         team: team_K23
     }))
@@ -476,7 +477,7 @@ async function init() {
         lastName: "Трубаров",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYacjBn.png",
         steamId: "",
         team: team_K23
     }))
@@ -488,7 +489,7 @@ async function init() {
         lastName: "Егоров",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYacGmN.png",
         steamId: "",
         team: team_K23
     }))
@@ -499,7 +500,7 @@ async function init() {
         firstName: "Рассим",
         lastName: "Валиев",
         country: "Эстония",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYacVII.png",
         steamId: "",
         team: team_K23
     }))
