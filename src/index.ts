@@ -656,7 +656,7 @@ async function init() {
         lastName: "Симагин",
         country: "Россия",
         countryLogo: "https://iili.io/HayQ9dQ.png",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYaXPG2.png",
         steamId: "76561198347665147",
         team: team_ARCRED
     }))
@@ -667,7 +667,7 @@ async function init() {
         firstName: "Борис",
         lastName: "Ким",
         country: "Узбекистан",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYaXi4S.png",
         steamId: "76561198116280987",
         team: team_ARCRED
     }))
@@ -678,7 +678,7 @@ async function init() {
         firstName: "Тимур",
         lastName: "Абдуллин",
         country: "Узбекистан",
-        imageUrl: "",
+        imageUrl: "https://iili.io/HYaX6Cl.png",
         steamId: "76561198860030314",
         team: team_ARCRED
     }))

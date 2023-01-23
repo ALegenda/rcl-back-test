@@ -119,16 +119,6 @@ export class GameController {
                         team2Score: 0,
                         number: 2,
                         mapName: null
-                    },
-                    {
-                        startedAt: configs.startedAt,
-                        status: MapStatus.PENDING,
-                        team1Id: team1.id,
-                        team1Score: 0,
-                        team2Id: team2.id,
-                        team2Score: 0,
-                        number: 3,
-                        mapName: null
                     }
                 ]
             })
@@ -307,7 +297,7 @@ export class GameController {
                     } else {
                         result.team1Stats[index].kills += stat.kills
                         result.team1Stats[index].deaths += stat.deaths
-                        result.team1Stats[index].assist += stat.assists
+                        result.team1Stats[index].assists += stat.assists
                     }
                 } else {
                     let index = result.team2Stats.findIndex(item => item.playerId === stat.player.id)
@@ -322,7 +312,7 @@ export class GameController {
                     } else {
                         result.team2Stats[index].kills += stat.kills
                         result.team2Stats[index].deaths += stat.deaths
-                        result.team2Stats[index].assist += stat.assists
+                        result.team2Stats[index].assists += stat.assists
                     }
                 }
             })
