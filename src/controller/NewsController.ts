@@ -18,14 +18,14 @@ export class NewsController {
             }
         })
         
-        
         return {
             "news" : news[0].map(item => {
                 return {
                     "id" : item.id,
                     "title" : item.title,
                     "promo" : item.promo,
-                    "imageUrl" : item.imageUrl
+                    "imageUrl" : item.imageUrl,
+                    "createdDate" : item.createdDate
                 }
             }),
             "total" : news[1]

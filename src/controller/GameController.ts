@@ -22,7 +22,7 @@ export class GameController {
             take: take,
             skip: skip,
             order: {
-                startedAt: "ASC"
+                startedAt: "DESC"
             },
             relations: {
                 teams: true
@@ -414,6 +414,10 @@ export class GameController {
 
         map_result.playerStats.forEach(element => {
             let player = players.find(item => item.nickName === element.nickName)
+            if(!player){
+                response.status(500)
+                response.send([element.nickName, players.map(item => item.nickName)])
+            }
             let stat = new PlayerStat(element.kills, element.deaths, element.assists, player)
             stat.teamId = player.team.id
             playerStats.push(stat)
