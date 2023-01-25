@@ -68,7 +68,7 @@ export class GameController {
             return {
                 "id": item.id,
                 "team1": item.teams[item.teams.findIndex(i => i.id === item.team1Id)],
-                "team2": item.teams[item.teams.findIndex(i => i.id === item.team1Id)],
+                "team2": item.teams[item.teams.findIndex(i => i.id === item.team2Id)],
                 "startedAt": item.startedAt
             }
         })
