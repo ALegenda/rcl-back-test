@@ -35,8 +35,8 @@ export class GameController {
         let gamesWithStats = games[0].map((item) => {
             return {
                 "id": item.id,
-                "team1": item.teams[0],
-                "team2": item.teams[1],
+                "team1": item.teams[item.teams.findIndex(i => i.id === item.team1Id)],
+                "team2": item.teams[item.teams.findIndex(i => i.id === item.team2Id)],
                 "startedAt": item.startedAt,
                 "team1Score": item.team1Score,
                 "team2Score": item.team2Score
@@ -67,8 +67,8 @@ export class GameController {
         let gamesWithStats = games.map((item) => {
             return {
                 "id": item.id,
-                "team1": item.teams[0],
-                "team2": item.teams[1],
+                "team1": item.teams[item.teams.findIndex(i => i.id === item.team1Id)],
+                "team2": item.teams[item.teams.findIndex(i => i.id === item.team1Id)],
                 "startedAt": item.startedAt
             }
         })
@@ -432,7 +432,7 @@ export class GameController {
             game.teams[teamIndex].totalKills += element.kills
             game.teams[teamIndex].totalDeaths += element.deaths
             game.teams[teamIndex].totalAssists += element.assists
-            game.teams[teamIndex].totalMaps += 1
+            // game.teams[teamIndex].totalMaps += 1
 
             if (game.maps[mapIndex].number === 1) {
                 player.totalGames += 1
