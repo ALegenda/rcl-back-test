@@ -34,6 +34,7 @@ export class PlayerController {
                     "nickName": item.nickName,
                     "age": item.age,
                     "country": item.country,
+                    "countryLogo" : item.countryLogo,
                     "imageUrl": item.imageUrl
                 },
                 "team": {
