@@ -432,7 +432,6 @@ export class GameController {
             game.teams[teamIndex].totalKills += element.kills
             game.teams[teamIndex].totalDeaths += element.deaths
             game.teams[teamIndex].totalAssists += element.assists
-            // game.teams[teamIndex].totalMaps += 1
 
             if (game.maps[mapIndex].number === 1) {
                 player.totalGames += 1
@@ -441,6 +440,10 @@ export class GameController {
 
         game.maps[mapIndex].playerStats = playerStats
         game.maps[mapIndex].status = MapStatus.FINISHED
+
+        game.teams[0].totalMaps += 1
+        game.teams[1].totalMaps += 1
+
 
         game.maps[mapIndex].team1Score = map_result.team1Score
         game.maps[mapIndex].team2Score = map_result.team2Score
@@ -475,6 +478,8 @@ export class GameController {
         }
 
         if (map_result.number === 2) {
+            game.teams[0].totalGames += 1
+            game.teams[1].totalGames += 1
             game.status = GameStatus.FINISHED
         }
 
@@ -583,7 +588,6 @@ export class GameController {
         if (game.team1Score === 2 || game.team2Score === 2) {
 
         }
-        //totalgames totalmaps totalwins totalloses
 
 
         let result = await this.gameRepository.save(game)
