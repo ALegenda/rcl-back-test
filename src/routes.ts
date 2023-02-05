@@ -36,6 +36,12 @@ export const Routes = [
         action: "save"
     },
     {
+        method: "post",
+        route: "/round",
+        controller: GameController,
+        action: "round"
+    },
+    {
         method: "get",
         route: "/pending",
         controller: GameController,

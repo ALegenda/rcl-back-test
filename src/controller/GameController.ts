@@ -1,6 +1,6 @@
 import axios from "axios"
 import { NextFunction, Request, Response } from "express"
-import { In } from "typeorm"
+import { In, Not } from "typeorm"
 import { AppDataSource } from "../data-source"
 import { Game, GameStatus } from "../entity/Game"
 import { Map, MapStatus } from "../entity/Map"
@@ -60,7 +60,7 @@ export class GameController {
                 startedAt: "ASC"
             },
             where: {
-                status: GameStatus.PENDING
+                status: In([GameStatus.PENDING, GameStatus.STARTED])
             }
         })
 
@@ -69,7 +69,8 @@ export class GameController {
                 "id": item.id,
                 "team1": item.teams[item.teams.findIndex(i => i.id === item.team1Id)],
                 "team2": item.teams[item.teams.findIndex(i => i.id === item.team2Id)],
-                "startedAt": item.startedAt
+                "startedAt": item.startedAt,
+                "status": item.status
             }
         })
 
@@ -373,59 +374,154 @@ export class GameController {
         }
     }
 
-    async save(request: Request, response: Response, next: NextFunction) {
+    async round(request: Request, response: Response, next: NextFunction) {
 
         let map_result = request.body
 
-        let game = await this.gameRepository.findOne({
-            relations: {
-                maps: true,
-                teams: true
-            },
+        let team1 = await this.teamRepository.findOne({
             where: {
-                id: map_result.gameId
+                name: map_result.team1.name
             }
         })
 
-        let mapIndex = game.maps.findIndex(item => item.number === map_result.number)
+        let team2 = await this.teamRepository.findOne({
+            where: {
+                name: map_result.team2.name
+            }
+        })
 
-        game.maps[mapIndex].mapName = map_result.mapName
-        game.maps[mapIndex].finishedAt = map_result.finishedAt
+        let game = await this.gameRepository.findOne({
+            relations: {
+                maps: {
+                    playerStats: {
+                        player: true
+                    }
+                },
+                teams: true,
+            },
+            where: {
+                team1Id: In([team1.id, team2.id]),
+                team2Id: In([team1.id, team2.id]),
+                status: Not(GameStatus.FINISHED)
+            }
+        })
 
-        if (map_result.status === MapStatus.CLINCH) {
-            game.maps[mapIndex].status = MapStatus.CLINCH
-            return await this.gameRepository.save(game)
+        let mapIndex = game.maps.findIndex(item => item.mapName === map_result.mapName)
+        if(mapIndex === -1){
+            let newMapIndex = game.maps.findIndex(item => item.mapName === null)
+            game.maps[newMapIndex].mapName = map_result.mapName
+            game.maps[newMapIndex].status = MapStatus.STARTED
+            mapIndex = newMapIndex
         }
-
-        let playerStats = [];
-        let names = [];
-
-
+        let team1Index = game.teams.findIndex(item => item.id === game.team1Id)
+        let team2Index = game.teams.findIndex(item => item.id === game.team2Id)
+        
+        let ids = [];
 
         map_result.playerStats.forEach(element => {
-            names.push(element.nickName)
+            ids.push(element.steamId)
         })
 
         let players = await this.playerRepository
             .createQueryBuilder("player")
-            .where("player.nickName IN (:...names)", { names: names })
+            .where("player.steamId IN (:...ids)", { ids: ids })
             .leftJoinAndSelect('player.team', 'team')
             .getMany()
 
         map_result.playerStats.forEach(element => {
-            let player = players.find(item => item.nickName === element.nickName)
-            if(!player){
+            let player = players.find(item => item.steamId === element.steamId)
+            if (!player) {
                 response.status(500)
                 response.send([element.nickName, players.map(item => item.nickName)])
             }
-            let stat = new PlayerStat(element.kills, element.deaths, element.assists, player)
-            stat.teamId = player.team.id
-            playerStats.push(stat)
+            let statIndex = game.maps[mapIndex].playerStats.findIndex(stat => stat.player.steamId === player.steamId)
+            if (statIndex === -1) {
+                let newStat = new PlayerStat(element.kills, element.deaths, element.assists, player)
+                newStat.teamId = player.team.id
+                game.maps[mapIndex].playerStats.push(newStat)
+            }
+            else {
+                game.maps[mapIndex].playerStats[statIndex].assists = element.assists
+                game.maps[mapIndex].playerStats[statIndex].kills = element.kills
+                game.maps[mapIndex].playerStats[statIndex].deaths = element.deaths
+            }
+        });
 
-            player.totalKills += element.kills
-            player.totalDeaths += element.deaths
-            player.totalAssists += element.assists
-            player.totalMaps += 1
+        game.maps[mapIndex].team1Score = map_result.team1.name === game.teams[team1Index].name ? map_result.team1.score : map_result.team2.score
+        game.maps[mapIndex].team2Score = map_result.team2.name === game.teams[team2Index].name ? map_result.team2.score : map_result.team1.score
+
+
+
+
+        return await this.gameRepository.save(game)
+    }
+
+    async save(request: Request, response: Response, next: NextFunction) {
+
+        let map_result = request.body
+
+        let team1 = await this.teamRepository.findOne({
+            where: {
+                name: map_result.team1.name
+            }
+        })
+
+        let team2 = await this.teamRepository.findOne({
+            where: {
+                name: map_result.team2.name
+            }
+        })
+
+        let game = await this.gameRepository.findOne({
+            relations: {
+                maps: {
+                    playerStats: {
+                        player: true
+                    }
+                },
+                teams: true,
+            },
+            where: {
+                team1Id: In([team1.id, team2.id]),
+                team2Id: In([team1.id, team2.id]),
+                status: Not(GameStatus.FINISHED)
+            }
+        })
+
+        let mapIndex = game.maps.findIndex(item => item.mapName === map_result.mapName)
+        let team1Index = game.teams.findIndex(item => item.id === game.team1Id)
+        let team2Index = game.teams.findIndex(item => item.id === game.team2Id)
+
+        game.maps[mapIndex].finishedAt = new Date()
+        game.maps[mapIndex].status = MapStatus.FINISHED
+
+        let ids = [];
+
+
+
+        map_result.playerStats.forEach(element => {
+            ids.push(element.steamId)
+        })
+
+        let players = await this.playerRepository
+            .createQueryBuilder("player")
+            .where("player.steamId IN (:...ids)", { ids: ids })
+            .leftJoinAndSelect('player.team', 'team')
+            .getMany()
+
+        map_result.playerStats.forEach(element => {
+            let player = players.find(item => item.steamId === element.steamId)
+            if (!player) {
+                response.status(500)
+                response.send([element.nickName, players.map(item => item.nickName)])
+            }
+
+            let playerStatIndex = game.maps[mapIndex].playerStats.findIndex(item => item.player.steamId === element.steamId)
+            
+            game.maps[mapIndex].playerStats[playerStatIndex].player.totalKills += element.kills
+            game.maps[mapIndex].playerStats[playerStatIndex].player.totalDeaths += element.deaths
+            game.maps[mapIndex].playerStats[playerStatIndex].player.totalAssists += element.assists
+            game.maps[mapIndex].playerStats[playerStatIndex].player.totalMaps += 1
 
             let teamIndex = game.teams.findIndex(team => team.id === player.team.id)
 
@@ -438,15 +534,10 @@ export class GameController {
             }
         });
 
-        game.maps[mapIndex].playerStats = playerStats
-        game.maps[mapIndex].status = MapStatus.FINISHED
+        
 
         game.teams[0].totalMaps += 1
         game.teams[1].totalMaps += 1
-
-
-        game.maps[mapIndex].team1Score = map_result.team1Score
-        game.maps[mapIndex].team2Score = map_result.team2Score
 
         if (game.maps[mapIndex].team1Score > game.maps[mapIndex].team2Score) {
             game.team1Score += 1
