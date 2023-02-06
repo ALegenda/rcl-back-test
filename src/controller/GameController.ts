@@ -406,6 +406,8 @@ export class GameController {
             }
         })
 
+        console.log(game)
+
         let mapIndex = game.maps.findIndex(item => item.mapName === map_result.mapName)
         if(mapIndex === -1){
             let newMapIndex = game.maps[game.maps.findIndex(item => item.number === 1)].mapName === null ? game.maps.findIndex(item => item.number === 1) : game.maps.findIndex(item => item.number === 2)
