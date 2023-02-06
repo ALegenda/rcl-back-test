@@ -408,7 +408,7 @@ export class GameController {
 
         let mapIndex = game.maps.findIndex(item => item.mapName === map_result.mapName)
         if(mapIndex === -1){
-            let newMapIndex = game.maps.findIndex(item => item.mapName === null)
+            let newMapIndex = game.maps[game.maps.findIndex(item => item.number === 1)].mapName === null ? game.maps.findIndex(item => item.number === 1) : game.maps.findIndex(item => item.number === 2)
             game.maps[newMapIndex].mapName = map_result.mapName
             game.maps[newMapIndex].status = MapStatus.STARTED
             mapIndex = newMapIndex
@@ -449,9 +449,6 @@ export class GameController {
 
         game.maps[mapIndex].team1Score = map_result.team1.name === game.teams[team1Index].name ? map_result.team1.score : map_result.team2.score
         game.maps[mapIndex].team2Score = map_result.team2.name === game.teams[team2Index].name ? map_result.team2.score : map_result.team1.score
-
-
-
 
         return await this.gameRepository.save(game)
     }
@@ -497,8 +494,6 @@ export class GameController {
 
         let ids = [];
 
-
-
         map_result.playerStats.forEach(element => {
             ids.push(element.steamId)
         })
@@ -515,26 +510,36 @@ export class GameController {
                 response.status(500)
                 response.send([element.nickName, players.map(item => item.nickName)])
             }
+            
+            console.log(`Player - ${player}`)
 
             let playerStatIndex = game.maps[mapIndex].playerStats.findIndex(item => item.player.steamId === element.steamId)
+            console.log(`PlayerStatIndex - ${playerStatIndex}`)
+            
+            console.log(`PlayerStat - ${game.maps[mapIndex].playerStats[playerStatIndex]}`)
             
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalKills += element.kills
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalDeaths += element.deaths
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalAssists += element.assists
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalMaps += 1
 
+            console.log(`Updated Player - ${game.maps[mapIndex].playerStats[playerStatIndex].player}`)
+
             let teamIndex = game.teams.findIndex(team => team.id === player.team.id)
+
+            console.log(`Team - ${game.teams[teamIndex]}`)
 
             game.teams[teamIndex].totalKills += element.kills
             game.teams[teamIndex].totalDeaths += element.deaths
             game.teams[teamIndex].totalAssists += element.assists
 
+            console.log(`Updated team - ${game.teams[teamIndex]}`)
+
+
             if (game.maps[mapIndex].number === 1) {
-                player.totalGames += 1
+                game.maps[mapIndex].playerStats[playerStatIndex].player.totalGames += 1
             }
         });
-
-        
 
         game.teams[0].totalMaps += 1
         game.teams[1].totalMaps += 1
@@ -553,35 +558,30 @@ export class GameController {
         }
 
         if (game.team1Score === 2) {
-            let team1Index = game.teams.findIndex(team => team.id === game.team1Id)
-            let team2Index = game.teams.findIndex(team => team.id === game.team2Id)
             game.teams[team1Index].totalWins += 1
             game.teams[team1Index].totalPoints += 3
             game.teams[team2Index].totalLoses += 1
         }
 
         if (game.team2Score === 2) {
-            let team1Index = game.teams.findIndex(team => team.id === game.team1Id)
-            let team2Index = game.teams.findIndex(team => team.id === game.team2Id)
             game.teams[team1Index].totalLoses += 1
             game.teams[team2Index].totalWins += 1
             game.teams[team2Index].totalPoints += 3
         }
 
-        if (map_result.number === 2) {
+        if (game[mapIndex].number === 2) {
             game.teams[0].totalGames += 1
             game.teams[1].totalGames += 1
             game.status = GameStatus.FINISHED
         }
 
-
         return await this.gameRepository.save(game)
     }
 
-    async remove(request: Request, response: Response, next: NextFunction) {
-        let gameToRemove = await this.gameRepository.findOneBy({ id: request.params.id })
-        await this.gameRepository.remove(gameToRemove)
-    }
+    // async remove(request: Request, response: Response, next: NextFunction) {
+    //     let gameToRemove = await this.gameRepository.findOneBy({ id: request.params.id })
+    //     await this.gameRepository.remove(gameToRemove)
+    // }
 
     async match(request: Request, response: Response, next: NextFunction) {
 
