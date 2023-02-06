@@ -486,8 +486,11 @@ export class GameController {
         })
 
         let mapIndex = game.maps.findIndex(item => item.mapName === map_result.mapName)
+        console.log(`Map index - ${mapIndex}`)
         let team1Index = game.teams.findIndex(item => item.id === game.team1Id)
         let team2Index = game.teams.findIndex(item => item.id === game.team2Id)
+
+        console.log(game.maps[mapIndex])
 
         game.maps[mapIndex].finishedAt = new Date()
         game.maps[mapIndex].status = MapStatus.FINISHED
@@ -569,7 +572,7 @@ export class GameController {
             game.teams[team2Index].totalPoints += 3
         }
 
-        if (game[mapIndex].number === 2) {
+        if (game.maps[mapIndex].number === 2) {
             game.teams[0].totalGames += 1
             game.teams[1].totalGames += 1
             game.status = GameStatus.FINISHED
