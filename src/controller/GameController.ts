@@ -13,11 +13,11 @@ export class GameController {
     private gameRepository = AppDataSource.getRepository(Game)
     private teamRepository = AppDataSource.getRepository(Team)
     private playerRepository = AppDataSource.getRepository(Player)
-
+    
     async all(request: Request, response: Response, next: NextFunction) {
         const take = request.query.take || 10
         const skip = request.query.skip || 0
-
+        
         let games = await this.gameRepository.findAndCount({
             take: take,
             skip: skip,
@@ -406,8 +406,6 @@ export class GameController {
             }
         })
 
-        console.log(game)
-
         let mapIndex = game.maps.findIndex(item => item.mapName === map_result.mapName)
         if(mapIndex === -1){
             let newMapIndex = game.maps[game.maps.findIndex(item => item.number === 1)].mapName === null ? game.maps.findIndex(item => item.number === 1) : game.maps.findIndex(item => item.number === 2)
@@ -526,6 +524,7 @@ export class GameController {
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalKills += element.kills
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalDeaths += element.deaths
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalAssists += element.assists
+            game.maps[mapIndex].playerStats[playerStatIndex].player.totalKd = element.kills / element.deaths
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalMaps += 1
 
             console.log(`Updated Player - ${game.maps[mapIndex].playerStats[playerStatIndex].player}`)
@@ -537,6 +536,7 @@ export class GameController {
             game.teams[teamIndex].totalKills += element.kills
             game.teams[teamIndex].totalDeaths += element.deaths
             game.teams[teamIndex].totalAssists += element.assists
+            game.teams[teamIndex].totalAssists += element.kills / element.deaths
 
             console.log(`Updated team - ${game.teams[teamIndex]}`)
 

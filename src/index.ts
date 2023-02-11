@@ -44,10 +44,19 @@ AppDataSource.initialize().then(async () => {
     //test()
     //initQuals()
     //initNews()
+    recalculate()
 
     console.log(`Express server has started on port ${process.env.PORT || 4000}`)
 
 }).catch(error => console.log(error))
+
+async function recalculate() {
+    let players = await AppDataSource.getRepository(Player).find()
+    for (let i=0;i<players.length;i++){
+        players[i].totalKd = players[i].totalKills/players[i].totalDeaths
+    }
+    await AppDataSource.manager.save(players)
+}
 
 async function initNews() {
     let news = []

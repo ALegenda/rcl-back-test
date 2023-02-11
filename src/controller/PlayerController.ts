@@ -4,6 +4,7 @@ import { AppDataSource } from "../data-source"
 import { PlayerStat } from "../entity/PlayerStat"
 import { Game } from "../entity/Game"
 import { Map } from "../entity/Map"
+import { IsNull, Not } from "typeorm"
 
 export class PlayerController {
 
@@ -21,11 +22,24 @@ export class PlayerController {
             take: take,
             skip: skip,
             order: {
-                totalKills: "DESC"
+                totalKd: "DESC"
+            },
+            where: {
+                team: Not(IsNull())
             }
         })
 
         let playersWithStats = players[0].map((item) => {
+            let team = null
+            if(item.team){
+                team = {
+                    "id": item.team.id,
+                    "name": item.team.name,
+                    "country": item.team.country,
+                    "countryLogo": item.team.countryLogo,
+                    "logo": item.team.logo,
+                }
+            }
             return {
                 "player": {
                     "id": item.id,
@@ -37,20 +51,14 @@ export class PlayerController {
                     "countryLogo" : item.countryLogo,
                     "imageUrl": item.imageUrl
                 },
-                "team": {
-                    "id": item.team.id,
-                    "name": item.team.name,
-                    "country": item.team.country,
-                    "countryLogo": item.team.countryLogo,
-                    "logo": item.team.logo,
-                },
+                "team" : team,
                 "stats": {
                     "games": item.totalGames,
                     "maps": item.totalMaps,
                     "kills": item.totalKills,
                     "deaths": item.totalDeaths,
                     "assists": item.totalAssists,
-                    "kd": item.totalKills / item.totalDeaths,
+                    "kd": item.totalKd,
                     "kdDiff": item.totalKills - item.totalDeaths
                 }
             }
@@ -91,7 +99,7 @@ export class PlayerController {
             "kills": player.totalKills,
             "deaths": player.totalDeaths,
             "assists": player.totalAssists,
-            "kd": player.totalKills / player.totalDeaths,
+            "kd": player.totalKd,
             "kdDiff": player.totalKills - player.totalDeaths
         }
 

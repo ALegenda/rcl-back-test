@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, AfterUpdate, BeforeInsert } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, AfterUpdate, BeforeInsert, AfterLoad } from "typeorm"
 import { PlayerStat } from "./PlayerStat"
 import { Team } from "./Team"
 
@@ -33,8 +33,8 @@ export class Player {
     imageUrl: string
 
     @BeforeInsert()
-    setImage(){
-        if(this.imageUrl === "" || this.imageUrl === null){
+    setImage() {
+        if (this.imageUrl === "" || this.imageUrl === null) {
             this.imageUrl = "https://iili.io/HayAEdb.png"
         }
     }
@@ -49,7 +49,7 @@ export class Player {
     totalKills: number
 
     @BeforeInsert()
-    setKills(){
+    setKills() {
         this.totalKills = 0
     }
 
@@ -57,7 +57,7 @@ export class Player {
     totalGames: number
 
     @BeforeInsert()
-    setGames(){
+    setGames() {
         this.totalGames = 0
     }
 
@@ -65,7 +65,7 @@ export class Player {
     totalMaps: number
 
     @BeforeInsert()
-    setMaps(){
+    setMaps() {
         this.totalMaps = 0
     }
 
@@ -73,7 +73,7 @@ export class Player {
     totalDeaths: number
 
     @BeforeInsert()
-    setDeaths(){
+    setDeaths() {
         this.totalDeaths = 0
     }
 
@@ -81,8 +81,19 @@ export class Player {
     totalAssists: number
 
     @BeforeInsert()
-    setAssists(){
+    setAssists() {
         this.totalAssists = 0
     }
+
+    @Column({
+        nullable: true,
+        type: "float",
+    })
+    totalKd: number
+
+    // @AfterLoad()
+    // updateKd() {
+    //     this.totalKd = this.totalKills/this.totalDeaths
+    // }
 
 }
