@@ -30,16 +30,6 @@ export class PlayerController {
         })
 
         let playersWithStats = players[0].map((item) => {
-            let team = null
-            if(item.team){
-                team = {
-                    "id": item.team.id,
-                    "name": item.team.name,
-                    "country": item.team.country,
-                    "countryLogo": item.team.countryLogo,
-                    "logo": item.team.logo,
-                }
-            }
             return {
                 "player": {
                     "id": item.id,
@@ -51,7 +41,13 @@ export class PlayerController {
                     "countryLogo" : item.countryLogo,
                     "imageUrl": item.imageUrl
                 },
-                "team" : team,
+                "team": {
+                    "id": item.team.id,
+                    "name": item.team.name,
+                    "country": item.team.country,
+                    "countryLogo": item.team.countryLogo,
+                    "logo": item.team.logo,
+                },
                 "stats": {
                     "games": item.totalGames,
                     "maps": item.totalMaps,

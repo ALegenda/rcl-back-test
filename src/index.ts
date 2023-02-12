@@ -8,6 +8,7 @@ import { Team } from "./entity/Team"
 import { Game, GameStatus } from "./entity/Game"
 import { Map, MapStatus } from "./entity/Map"
 import { New } from "./entity/New"
+import { PlayerStat } from "./entity/PlayerStat"
 var cors = require('cors');
 
 
@@ -44,16 +45,38 @@ AppDataSource.initialize().then(async () => {
     //test()
     //initQuals()
     //initNews()
-    recalculate()
+    //recalculatePlayers()
 
     console.log(`Express server has started on port ${process.env.PORT || 4000}`)
 
 }).catch(error => console.log(error))
 
-async function recalculate() {
-    let players = await AppDataSource.getRepository(Player).find()
-    for (let i=0;i<players.length;i++){
-        players[i].totalKd = players[i].totalKills/players[i].totalDeaths
+async function recalculatePlayers() {
+    let players = await AppDataSource.getRepository(Player).find({
+        relations: {
+            playerStats: {
+                map: true
+            }
+        }
+    })
+    for (let i = 0; i < players.length; i++) {
+        let sumKills = 0
+        let sumAssists = 0
+        let sumDeaths = 0
+
+        players[i].playerStats.forEach(elem => {
+            sumKills += elem.kills
+            sumAssists += elem.assists
+            sumDeaths += elem.deaths
+        })
+
+        players[i].totalKills = sumKills
+        players[i].totalAssists = sumAssists
+        players[i].totalDeaths = sumDeaths
+        players[i].totalMaps = players[i].playerStats.length
+        players[i].totalGames = players[i].playerStats.filter(stat => stat.map.number === 1).length
+
+        players[i].totalKd = sumKills / sumDeaths
     }
     await AppDataSource.manager.save(players)
 }
@@ -73,7 +96,7 @@ async function initNews() {
             youtube.com/@ruscyberleaguecs`,
             imageUrl: "https://iili.io/HlTQUFf.jpg",
             createdDate: "2022-12-13 12:30:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -82,7 +105,7 @@ async function initNews() {
             content: `Регулярный сезон будет проходить с января по июль. 14 коллективов выяснят кто достоин попасть в плей-офф турнира. Кульминацией же станет LAN Финал, который состоится в августе на крупной площадке.`,
             imageUrl: "https://iili.io/HlTQga4.jpg",
             createdDate: "2022-12-13 13:00:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -93,7 +116,7 @@ async function initNews() {
             Тактический трёхмерный бой был признан официальной дисциплиной вида спорта "компьютерный спорт" - соответствующий документ опубликован на сайте Министерства Юстиции РФ 25 мая 2022 года. Ну а сам CS уже многие годы покоряет фанатов жанра захватывающими матчами и мощной энергетикой. В России не только много зрителей этого шутера, но и год за годом появляются молодые спортсмены, которые подписывают контракты с лучшими организациями мира.`,
             imageUrl: "https://iili.io/HlTQr8l.jpg",
             createdDate: "2022-12-13 11:00:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -116,7 +139,7 @@ async function initNews() {
             Добро пожаловать в лигу!`,
             imageUrl: "https://iili.io/HlTQ692.jpg",
             createdDate: "2022-12-23 17:00:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -135,7 +158,7 @@ async function initNews() {
             "Для Insilio это будет первый и такой долгожданный турнир с HLTV. В последнее время в нашем регионе практически невозможно получить этот шанс из-за бесконечной грязи связанной с читерством и 322 историями. Благодаря РКЛ мы сможем побороться с большим количеством сильных команд в честной конкуренции. И я уверен, что многие наши фанаты будут приятно удивлены."`,
             imageUrl: "https://iili.io/HlTQPuS.jpg",
             createdDate: "2022-12-24 18:00:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -154,7 +177,7 @@ async function initNews() {
             "Для нас, в первую очередь, это будет мотивацией показать наш уровень, мы уже встречались со многими коллективами, с тех пор прошло время и нам есть что показать и противопоставить."`,
             imageUrl: "https://iili.io/HlTQPuS.jpg",
             createdDate: "2022-12-26 15:00:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -173,7 +196,7 @@ async function initNews() {
             "В реалиях современного высококонкурентного Counter-Strike получить возможность участвовать в турнире уровня РКЛ безусловно значимое событие. Это не только бесценный опыт и возможность побороться с сильными соперниками, но и шанс заявить о себе и проверить на что мы способны."`,
             imageUrl: "https://iili.io/HlTQst9.jpg",
             createdDate: "2022-12-26 16:00:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -192,7 +215,7 @@ async function initNews() {
             "Для нас это отличная возможность посоперничать с лучшими организациями нашего региона. Считаю, что РКЛ даст буст развитию киберспорта и кс в России."`,
             imageUrl: "https://iili.io/HlTQZMu.jpg",
             createdDate: "2022-12-27 13:00:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -211,7 +234,7 @@ async function initNews() {
             "Нам интересно принять участие в новом киберспортивном проекте. Состав Forze ставит перед собой задачу показать красивую игру. Следите и болейте за Forze!"`,
             imageUrl: "https://iili.io/HlTQknn.jpg",
             createdDate: "2022-12-28 13:00:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -236,7 +259,7 @@ async function initNews() {
             • Никита "nitzie" Прохоров`,
             imageUrl: "https://iili.io/HlTQNjt.jpg",
             createdDate: "2023-01-11 18:00:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -252,7 +275,7 @@ async function initNews() {
             • Сергей "zealot" Жукович`,
             imageUrl: "https://iili.io/HlTQhyN.jpg",
             createdDate: "2023-01-13 18:00:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -271,7 +294,7 @@ async function initNews() {
             "Мы благодарим РКЛ за предоставленную возможность сыграть с топовыми коллективами СНГ, это отличная возможность получить опыт и показать свои силы в условиях сильной конкуренции, а также отличная возможность проверить свои силы перед RMR и подготовится к будущим турнирам, формат лиги всегда интересен тем, что ты имеешь возможность сыграть большое количество матчей и попробовать большое количество своих идей в условиях официальных матчей."`,
             imageUrl: "https://iili.io/HlTQwuI.jpg",
             createdDate: "2023-01-13 18:00:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -296,7 +319,7 @@ async function initNews() {
             • Лубсан "bluewhite" Мулонов`,
             imageUrl: "https://iili.io/HlTQvGs.jpg",
             createdDate: "2023-01-18 18:00:00.000+03"
-    }))
+        }))
 
     news.push(AppDataSource.manager.create
         (New, {
@@ -307,7 +330,7 @@ async function initNews() {
             В перерывах между матчами на нашем Twitch-канале twitch.tv/ruscyberleague проводятся розыгрыши скинов. Не пропусти!`,
             imageUrl: "https://iili.io/HlTQ86G.jpg",
             createdDate: "2023-01-22 18:00:00.000+03"
-    }))
+        }))
 
 
     AppDataSource.manager.save(news);

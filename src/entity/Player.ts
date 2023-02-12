@@ -90,10 +90,4 @@ export class Player {
         type: "float",
     })
     totalKd: number
-
-    // @AfterLoad()
-    // updateKd() {
-    //     this.totalKd = this.totalKills/this.totalDeaths
-    // }
-
 }

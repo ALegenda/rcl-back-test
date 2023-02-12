@@ -524,7 +524,7 @@ export class GameController {
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalKills += element.kills
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalDeaths += element.deaths
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalAssists += element.assists
-            game.maps[mapIndex].playerStats[playerStatIndex].player.totalKd = element.kills / element.deaths
+            game.maps[mapIndex].playerStats[playerStatIndex].player.totalKd = game.maps[mapIndex].playerStats[playerStatIndex].player.totalKills / game.maps[mapIndex].playerStats[playerStatIndex].player.totalDeaths
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalMaps += 1
 
             console.log(`Updated Player - ${game.maps[mapIndex].playerStats[playerStatIndex].player}`)
@@ -536,7 +536,6 @@ export class GameController {
             game.teams[teamIndex].totalKills += element.kills
             game.teams[teamIndex].totalDeaths += element.deaths
             game.teams[teamIndex].totalAssists += element.assists
-            game.teams[teamIndex].totalAssists += element.kills / element.deaths
 
             console.log(`Updated team - ${game.teams[teamIndex]}`)
 
