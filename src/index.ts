@@ -9,6 +9,7 @@ import { Game, GameStatus } from "./entity/Game"
 import { Map, MapStatus } from "./entity/Map"
 import { New } from "./entity/New"
 import { PlayerStat } from "./entity/PlayerStat"
+import { In } from "typeorm"
 var cors = require('cors');
 
 
@@ -79,6 +80,60 @@ async function recalculatePlayers() {
         players[i].totalKd = sumKills / sumDeaths
     }
     await AppDataSource.manager.save(players)
+}
+
+async function recalculateTeams() {
+
+    let teams = await AppDataSource.getRepository(Team).find()
+
+    for (let i = 0; i < teams.length; i++) {
+
+        let sumKills = 0
+        let sumAssists = 0
+        let sumDeaths = 0
+        let sumWins = 0
+        let sumLoses = 0
+        let sumDraws = 0
+        let sumPoints = 0
+
+
+        let games = await this.gameRepository.find({
+            relations: {
+                maps: {
+                    playerStats: {
+                        player: true
+                    }
+                }
+            },
+            where:
+                [
+                    {
+                        team1Id: teams[i],
+                        status: GameStatus.FINISHED
+                    },
+                    {
+                        team2Id: teams[i],
+                        status: GameStatus.FINISHED
+                    }
+                ]
+        })
+
+        //calculate
+
+
+        teams[i].totalAssists = sumAssists
+        teams[i].totalDeaths = sumDeaths
+        teams[i].totalKills = sumKills
+        teams[i].totalGames = games.length
+        teams[i].totalMaps = games.length * 2
+        teams[i].totalWins = sumWins
+        teams[i].totalLoses = sumLoses
+        teams[i].totalDraws = sumDraws
+        teams[i].totalPoints = sumPoints
+        
+    }
+
+
 }
 
 async function initNews() {

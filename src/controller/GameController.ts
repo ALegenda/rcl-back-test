@@ -490,8 +490,6 @@ export class GameController {
         let team1Index = game.teams.findIndex(item => item.id === game.team1Id)
         let team2Index = game.teams.findIndex(item => item.id === game.team2Id)
 
-        console.log(game.maps[mapIndex])
-
         game.maps[mapIndex].finishedAt = new Date()
         game.maps[mapIndex].status = MapStatus.FINISHED
 
@@ -513,13 +511,8 @@ export class GameController {
                 response.status(500)
                 response.send([element.nickName, players.map(item => item.nickName)])
             }
-            
-            console.log(`Player - ${player}`)
 
             let playerStatIndex = game.maps[mapIndex].playerStats.findIndex(item => item.player.steamId === element.steamId)
-            console.log(`PlayerStatIndex - ${playerStatIndex}`)
-            
-            console.log(`PlayerStat - ${game.maps[mapIndex].playerStats[playerStatIndex]}`)
             
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalKills += element.kills
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalDeaths += element.deaths
@@ -527,17 +520,11 @@ export class GameController {
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalKd = game.maps[mapIndex].playerStats[playerStatIndex].player.totalKills / game.maps[mapIndex].playerStats[playerStatIndex].player.totalDeaths
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalMaps += 1
 
-            console.log(`Updated Player - ${game.maps[mapIndex].playerStats[playerStatIndex].player}`)
-
             let teamIndex = game.teams.findIndex(team => team.id === player.team.id)
-
-            console.log(`Team - ${game.teams[teamIndex]}`)
 
             game.teams[teamIndex].totalKills += element.kills
             game.teams[teamIndex].totalDeaths += element.deaths
-            game.teams[teamIndex].totalAssists += element.assists
-
-            console.log(`Updated team - ${game.teams[teamIndex]}`)
+            game.teams[teamIndex].totalAssists += element.assist
 
 
             if (game.maps[mapIndex].number === 1) {
@@ -578,6 +565,8 @@ export class GameController {
             game.teams[1].totalGames += 1
             game.status = GameStatus.FINISHED
         }
+
+        console.log(game)
 
         return await this.gameRepository.save(game)
     }
