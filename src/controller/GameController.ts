@@ -319,6 +319,9 @@ export class GameController {
             })
         });
 
+        result.team1Stats.sort((a,b) => b.kills - a.kills)
+        result.team2Stats.sort((a,b) => b.kills - a.kills)
+
         return result
     }
 
@@ -369,8 +372,8 @@ export class GameController {
             "team1Score": map.team1Score,
             "team2Score": map.team2Score,
             "mapName": map.mapName,
-            "team1Stats": team1Stats,
-            "team2Stats": team2Stats
+            "team1Stats": team1Stats.sort((a,b) => b.kills - a.kills),
+            "team2Stats": team2Stats.sort((a,b) => b.kills - a.kills)
         }
     }
 
@@ -486,7 +489,7 @@ export class GameController {
         })
 
         let mapIndex = game.maps.findIndex(item => item.mapName === map_result.mapName)
-        console.log(`Map index - ${mapIndex}`)
+
         let team1Index = game.teams.findIndex(item => item.id === game.team1Id)
         let team2Index = game.teams.findIndex(item => item.id === game.team2Id)
 
@@ -524,8 +527,7 @@ export class GameController {
 
             game.teams[teamIndex].totalKills += element.kills
             game.teams[teamIndex].totalDeaths += element.deaths
-            game.teams[teamIndex].totalAssists += element.assist
-
+            game.teams[teamIndex].totalAssists += element.assists
 
             if (game.maps[mapIndex].number === 1) {
                 game.maps[mapIndex].playerStats[playerStatIndex].player.totalGames += 1

@@ -47,6 +47,8 @@ AppDataSource.initialize().then(async () => {
     //initQuals()
     //initNews()
     //recalculatePlayers()
+    //players_to_table()
+    //teams_to_table()
 
     console.log(`Express server has started on port ${process.env.PORT || 4000}`)
 
@@ -80,6 +82,92 @@ async function recalculatePlayers() {
         players[i].totalKd = sumKills / sumDeaths
     }
     await AppDataSource.manager.save(players)
+}
+
+async function teams_to_table() {
+    const ObjectsToCsv = require('objects-to-csv');
+
+    let teams = await AppDataSource.getRepository(Team).find();
+
+    let data = teams.map((item) => {
+        return {
+            "Название": item.name,
+            "Страна": item.country,
+            "Кол-во игр": item.totalGames,
+            "Кол-во матчей": item.totalMaps,
+            "Кол-во побед": item.totalWins,
+            "Кол-во поражений": item.totalLoses,
+            "Кол-во ничьих": item.totalDraws,
+            "Кол-во очков": item.totalPoints,
+            "Суммарное кол-во фрагов команды": item.totalKills,
+            "Суммарное кол-во смертей команды": item.totalDeaths,
+            "Суммарное кол-во помощей команды": item.totalAssists,
+            "Соотношение фрагов к смерти": item.totalKills / item.totalDeaths,
+            "Разница между фрагами и смертями": item.totalKills - item.totalDeaths
+        }
+    });
+
+    (async () => {
+        const csv = new ObjectsToCsv(data);
+
+        // Save to file:
+        await csv.toDisk('./teams.csv');
+
+        // Return the CSV file as string:
+        console.log(await csv.toString());
+    })();
+}
+async function players_to_table() {
+    const ObjectsToCsv = require('objects-to-csv');
+
+    let players = await AppDataSource.getRepository(Player).find({
+        relations: {
+            team: true
+        }
+    });
+
+    let data = players.map((item) => {
+        if (!item.team) return {
+            "Имя": item.firstName,
+            "Фамилия": item.lastName,
+            "Прозвище": item.nickName,
+            "Команда": "-",
+            "Возраст": item.age,
+            "Страна": item.country,
+            "Кол-во игр": item.totalGames,
+            "Кол-во матчей": item.totalMaps,
+            "Кол-во фрагов": item.totalKills,
+            "Кол-во смертей": item.totalDeaths,
+            "Кол-во помощей": item.totalAssists,
+            "Соотношение фрагов к смерти": item.totalKd,
+            "Разница между фрагами и смертями": item.totalKills - item.totalDeaths
+        };
+        return {
+            "Имя": item.firstName,
+            "Фамилия": item.lastName,
+            "Прозвище": item.nickName,
+            "Команда": item.team.name,
+            "Возраст": item.age,
+            "Страна": item.country,
+            "Кол-во игр": item.totalGames,
+            "Кол-во матчей": item.totalMaps,
+            "Кол-во фрагов": item.totalKills,
+            "Кол-во смертей": item.totalDeaths,
+            "Кол-во помощей": item.totalAssists,
+            "Соотношение фрагов к смерти": item.totalKd,
+            "Разница между фрагами и смертями": item.totalKills - item.totalDeaths
+        }
+    });
+
+    (async () => {
+        const csv = new ObjectsToCsv(data);
+
+        // Save to file:
+        await csv.toDisk('./players.csv');
+
+        // Return the CSV file as string:
+        console.log(await csv.toString());
+    })();
 }
 
 async function recalculateTeams() {
@@ -130,7 +218,7 @@ async function recalculateTeams() {
         teams[i].totalLoses = sumLoses
         teams[i].totalDraws = sumDraws
         teams[i].totalPoints = sumPoints
-        
+
     }
 
 
