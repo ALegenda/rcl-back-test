@@ -47,6 +47,7 @@ AppDataSource.initialize().then(async () => {
     //initQuals()
     //initNews()
     //recalculatePlayers()
+    //recalculateTeams()
     //players_to_table()
     //teams_to_table()
 
@@ -185,7 +186,7 @@ async function recalculateTeams() {
         let sumPoints = 0
 
 
-        let games = await this.gameRepository.find({
+        let games = await AppDataSource.getRepository(Game).find({
             relations: {
                 maps: {
                     playerStats: {
@@ -196,17 +197,54 @@ async function recalculateTeams() {
             where:
                 [
                     {
-                        team1Id: teams[i],
+                        team1Id: teams[i].id,
                         status: GameStatus.FINISHED
                     },
                     {
-                        team2Id: teams[i],
+                        team2Id: teams[i].id,
                         status: GameStatus.FINISHED
                     }
                 ]
         })
 
         //calculate
+        games.forEach(game => {
+            game.maps.forEach(map => {
+                map.playerStats.forEach(stat => {
+                    if (stat.teamId === teams[i].id) {
+                        sumKills += stat.kills
+                        sumAssists += stat.assists
+                        sumDeaths += stat.deaths
+                    }
+                });
+            });
+
+            if (game.team1Id === teams[i].id) {
+                if(game.team1Score === 2){
+                    sumWins += 1
+                    sumPoints += 3
+                }
+                if(game.team1Score === 1){
+                    sumDraws += 1
+                    sumPoints += 1
+                }
+                if(game.team1Score === 0){
+                    sumLoses += 1
+                }
+            } else {
+                if(game.team2Score === 2){
+                    sumWins += 1
+                    sumPoints += 3
+                }
+                if(game.team2Score === 1){
+                    sumDraws += 1
+                    sumPoints += 1
+                }
+                if(game.team2Score === 0){
+                    sumLoses += 1
+                }
+            }
+        });
 
 
         teams[i].totalAssists = sumAssists
@@ -219,9 +257,10 @@ async function recalculateTeams() {
         teams[i].totalDraws = sumDraws
         teams[i].totalPoints = sumPoints
 
+        console.log(teams[i])
     }
 
-
+    await AppDataSource.manager.save(teams)
 }
 
 async function initNews() {

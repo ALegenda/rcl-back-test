@@ -70,12 +70,12 @@ export const Routes = [
         route: "/test/:id",
         controller: GameController,
         action: "test"
-    },{
+    }, {
         method: "post",
         route: "/match/:id",
         controller: GameController,
         action: "match"
-    },{
+    }, {
         method: "get",
         route: "/",
         controller: NewsController,
@@ -120,8 +120,17 @@ export const Routes = [
         route: "/teams/lineup/:id",
         controller: TeamController,
         action: "lineup"
-    },
-    {
+    }, {
+        method: "get",
+        route: "/teams/matches/:id",
+        controller: TeamController,
+        action: "matches"
+    },{
+        method: "get",
+        route: "/players/matches/:id",
+        controller: PlayerController,
+        action: "matches"
+    }, {
         method: "get",
         route: "/teams/stats/:id",
         controller: TeamController,

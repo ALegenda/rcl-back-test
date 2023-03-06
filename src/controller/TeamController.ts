@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { AppDataSource } from "../data-source"
+import { Game, GameStatus } from "../entity/Game"
 import { Team } from "../entity/Team"
 
 export class TeamController {
@@ -22,6 +23,26 @@ export class TeamController {
             "teams" : teams[0],
             "total" : teams[1]
         }
+    }
+
+    async matches(request: Request, response: Response, next: NextFunction){
+        return await AppDataSource.getRepository(Game).find({
+            order: {
+                startedAt: "DESC"
+            },
+            relations: {
+                teams: true
+            },
+            where:
+                [
+                    {
+                        team1Id: request.params.id,
+                    },
+                    {
+                        team2Id: request.params.id,
+                    }
+                ]
+        })
     }
 
     async lineup(request: Request, response: Response, next: NextFunction) {

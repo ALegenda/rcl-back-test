@@ -4,7 +4,7 @@ import { AppDataSource } from "../data-source"
 import { PlayerStat } from "../entity/PlayerStat"
 import { Game } from "../entity/Game"
 import { Map } from "../entity/Map"
-import { IsNull, Not } from "typeorm"
+import { In, IsNull, Not } from "typeorm"
 
 export class PlayerController {
 
@@ -38,7 +38,7 @@ export class PlayerController {
                     "nickName": item.nickName,
                     "age": item.age,
                     "country": item.country,
-                    "countryLogo" : item.countryLogo,
+                    "countryLogo": item.countryLogo,
                     "imageUrl": item.imageUrl
                 },
                 "team": {
@@ -61,8 +61,8 @@ export class PlayerController {
         })
 
         return {
-            "players" : playersWithStats,
-            "total" : players[1]
+            "players": playersWithStats,
+            "total": players[1]
         };
     }
 
@@ -99,6 +99,39 @@ export class PlayerController {
             "kdDiff": player.totalKills - player.totalDeaths
         }
 
+    }
+
+    async matches(request: Request, response: Response, next: NextFunction) {
+        let gamesIds = new Set()
+        let games = await AppDataSource.getRepository(Game).find({
+            relations: {
+                maps: {
+                    playerStats:{
+                        player : true
+                    }
+                }
+            }
+        })
+
+        games.forEach(game => {
+            game.maps.forEach(map => {
+                if(map.playerStats.findIndex(item => item.player.id == request.params.id) !== -1){
+                    gamesIds.add(game.id)
+                }
+            });
+        });
+        
+        return await AppDataSource.getRepository(Game).find({
+            order: {
+                startedAt: "DESC"
+            },
+            relations: {
+                teams: true
+            },
+            where: {
+                id: In(Array.from(gamesIds))
+            }
+        })
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
