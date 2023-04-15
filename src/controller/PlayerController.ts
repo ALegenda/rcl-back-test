@@ -46,6 +46,7 @@ export class PlayerController {
                     "name": item.team.name,
                     "country": item.team.country,
                     "countryLogo": item.team.countryLogo,
+                    "logoDark": item.team.logoDark,
                     "logo": item.team.logo,
                 },
                 "stats": {

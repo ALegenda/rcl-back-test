@@ -20,6 +20,9 @@ export class Team {
     @Column({ nullable: true })
     logo: string
 
+    @Column({ nullable: true })
+    logoDark: string
+
     @Column()
     city: string
 

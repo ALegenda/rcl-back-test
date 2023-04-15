@@ -84,6 +84,7 @@ export class TeamController {
                     "country": item.country,
                     "countryLogo": item.countryLogo,
                     "logo": item.logo,
+                    "logoDark": item.logoDark
                 },
                 "wins": item.totalWins,
                 "loses": item.totalLoses,
