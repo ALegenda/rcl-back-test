@@ -8,7 +8,7 @@ export class TeamController {
     private teamRepository = AppDataSource.getRepository(Team)
 
     async all(request: Request, response: Response, next: NextFunction) {
-        const take = request.query.take || 10
+        const take = request.query.take || 14
         const skip = request.query.skip || 0
 
         let teams = await this.teamRepository.findAndCount({
