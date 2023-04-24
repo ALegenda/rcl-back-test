@@ -199,6 +199,7 @@ export class GameController {
 
         result.team1Stats.sort((a,b) => b.kills - a.kills)
         result.team2Stats.sort((a,b) => b.kills - a.kills)
+        result.maps.sort((a,b) => a.number - b.number)
 
         return result
     }
@@ -330,6 +331,7 @@ export class GameController {
 
         game.maps[mapIndex].team1Score = map_result.team1.name === game.teams[team1Index].name ? map_result.team1.score : map_result.team2.score
         game.maps[mapIndex].team2Score = map_result.team2.name === game.teams[team2Index].name ? map_result.team2.score : map_result.team1.score
+        game.status = GameStatus.STARTED
 
         return await this.gameRepository.save(game)
     }
@@ -456,6 +458,12 @@ export class GameController {
     //     await this.gameRepository.remove(gameToRemove)
     // }
 
+    async recalc(request: Request, response: Response, next: NextFunction) {
+        await recalculatePlayers()
+        await recalculateTeams()
+        return "done"
+    }
+
     async match(request: Request, response: Response, next: NextFunction) {
 
         let datHostResponse = request.body
@@ -558,5 +566,127 @@ export class GameController {
 
         return "ok"
     }
+}
 
+async function recalculateTeams() {
+
+    let teams = await AppDataSource.getRepository(Team).find()
+
+    for (let i = 0; i < teams.length; i++) {
+
+        let sumKills = 0
+        let sumAssists = 0
+        let sumDeaths = 0
+        let sumWins = 0
+        let sumLoses = 0
+        let sumDraws = 0
+        let sumPoints = 0
+
+
+        let games = await AppDataSource.getRepository(Game).find({
+            relations: {
+                maps: {
+                    playerStats: {
+                        player: true
+                    }
+                }
+            },
+            where:
+                [
+                    {
+                        team1Id: teams[i].id,
+                        status: GameStatus.FINISHED
+                    },
+                    {
+                        team2Id: teams[i].id,
+                        status: GameStatus.FINISHED
+                    }
+                ]
+        })
+
+        //calculate
+        games.forEach(game => {
+            game.maps.forEach(map => {
+                map.playerStats.forEach(stat => {
+                    if (stat.teamId === teams[i].id) {
+                        sumKills += stat.kills
+                        sumAssists += stat.assists
+                        sumDeaths += stat.deaths
+                    }
+                });
+            });
+
+            if (game.team1Id === teams[i].id) {
+                if(game.team1Score === 2){
+                    sumWins += 1
+                    sumPoints += 3
+                }
+                if(game.team1Score === 1){
+                    sumDraws += 1
+                    sumPoints += 1
+                }
+                if(game.team1Score === 0){
+                    sumLoses += 1
+                }
+            } else {
+                if(game.team2Score === 2){
+                    sumWins += 1
+                    sumPoints += 3
+                }
+                if(game.team2Score === 1){
+                    sumDraws += 1
+                    sumPoints += 1
+                }
+                if(game.team2Score === 0){
+                    sumLoses += 1
+                }
+            }
+        });
+
+
+        teams[i].totalAssists = sumAssists
+        teams[i].totalDeaths = sumDeaths
+        teams[i].totalKills = sumKills
+        teams[i].totalGames = games.length
+        teams[i].totalMaps = games.length * 2
+        teams[i].totalWins = sumWins
+        teams[i].totalLoses = sumLoses
+        teams[i].totalDraws = sumDraws
+        teams[i].totalPoints = sumPoints
+
+        console.log(teams[i].name)
+    }
+
+    await AppDataSource.manager.save(teams)
+}
+
+async function recalculatePlayers() {
+    let players = await AppDataSource.getRepository(Player).find({
+        relations: {
+            playerStats: {
+                map: true
+            }
+        }
+    })
+    for (let i = 0; i < players.length; i++) {
+        let sumKills = 0
+        let sumAssists = 0
+        let sumDeaths = 0
+
+        players[i].playerStats.forEach(elem => {
+            sumKills += elem.kills
+            sumAssists += elem.assists
+            sumDeaths += elem.deaths
+        })
+
+        players[i].totalKills = sumKills
+        players[i].totalAssists = sumAssists
+        players[i].totalDeaths = sumDeaths
+        players[i].totalMaps = players[i].playerStats.length
+        players[i].totalGames = players[i].playerStats.filter(stat => stat.map.number === 1).length
+
+        players[i].totalKd = sumKills / sumDeaths
+        console.log(players[i].nickName)
+    }
+    await AppDataSource.manager.save(players)
 }

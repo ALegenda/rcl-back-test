@@ -49,6 +49,12 @@ export const Routes = [
     },
     {
         method: "get",
+        route: "/recalc",
+        controller: GameController,
+        action: "recalc"
+    },
+    {
+        method: "get",
         route: "/games",
         controller: GameController,
         action: "all"
@@ -125,7 +131,7 @@ export const Routes = [
         route: "/teams/matches/:id",
         controller: TeamController,
         action: "matches"
-    },{
+    }, {
         method: "get",
         route: "/players/matches/:id",
         controller: PlayerController,
