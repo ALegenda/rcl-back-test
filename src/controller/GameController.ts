@@ -22,6 +22,7 @@ export class GameController {
             take: take,
             skip: skip,
             order: {
+                week: "DESC",
                 startedAt: "DESC"
             },
             relations: {
@@ -39,7 +40,8 @@ export class GameController {
                 "team2": item.teams[item.teams.findIndex(i => i.id === item.team2Id)],
                 "startedAt": item.startedAt,
                 "team1Score": item.team1Score,
-                "team2Score": item.team2Score
+                "team2Score": item.team2Score,
+                "week" : item.week
             }
         })
 
@@ -70,7 +72,8 @@ export class GameController {
                 "team1": item.teams[item.teams.findIndex(i => i.id === item.team1Id)],
                 "team2": item.teams[item.teams.findIndex(i => i.id === item.team2Id)],
                 "startedAt": item.startedAt,
-                "status": item.status
+                "status": item.status,
+                "week" : item.week
             }
         })
 

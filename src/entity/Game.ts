@@ -40,6 +40,9 @@ export class Game {
     @Column()
     team2Score: number
 
+    @Column({ nullable: true })
+    week: number
+
     @Column({
         type: "enum",
         enum: GameStatus,
