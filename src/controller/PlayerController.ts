@@ -14,6 +14,21 @@ export class PlayerController {
 
         const take = request.query.take || 10
         const skip = request.query.skip || 0
+        const sort = request.query.sort || 'kd'
+        let order = {}
+
+        if (sort === 'kd') {
+            order = {
+                totalKd: "DESC"
+            }
+        }
+        else if (sort === 'team') {
+            order = {
+                team: {
+                    name: "DESC"
+                }
+            }
+        }
 
         let players = await this.playerRepository.findAndCount({
             relations: {
@@ -21,9 +36,7 @@ export class PlayerController {
             },
             take: take,
             skip: skip,
-            order: {
-                totalKd: "DESC"
-            },
+            order: order,
             where: {
                 team: Not(IsNull())
             }
@@ -55,7 +68,7 @@ export class PlayerController {
                     "kills": item.totalKills,
                     "deaths": item.totalDeaths,
                     "assists": item.totalAssists,
-                    "kd": item.totalKd,
+                    "kd": item.totalKd.toFixed(2),
                     "kdDiff": item.totalKills - item.totalDeaths
                 }
             }
@@ -107,8 +120,8 @@ export class PlayerController {
         let games = await AppDataSource.getRepository(Game).find({
             relations: {
                 maps: {
-                    playerStats:{
-                        player : true
+                    playerStats: {
+                        player: true
                     }
                 }
             }
@@ -116,12 +129,12 @@ export class PlayerController {
 
         games.forEach(game => {
             game.maps.forEach(map => {
-                if(map.playerStats.findIndex(item => item.player.id == request.params.id) !== -1){
+                if (map.playerStats.findIndex(item => item.player.id == request.params.id) !== -1) {
                     gamesIds.add(game.id)
                 }
             });
         });
-        
+
         return await AppDataSource.getRepository(Game).find({
             order: {
                 startedAt: "DESC"
