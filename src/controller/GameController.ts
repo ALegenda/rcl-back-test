@@ -2,7 +2,7 @@ import axios from "axios"
 import { NextFunction, Request, Response } from "express"
 import { In, Not } from "typeorm"
 import { AppDataSource } from "../data-source"
-import { Game, GameStatus } from "../entity/Game"
+import { Game, GameStage, GameStatus } from "../entity/Game"
 import { Map, MapStatus } from "../entity/Map"
 import { Player } from "../entity/Player"
 import { PlayerStat } from "../entity/PlayerStat"
@@ -29,7 +29,8 @@ export class GameController {
                 teams: true
             },
             where: {
-                status: GameStatus.FINISHED
+                status: GameStatus.FINISHED,
+                stage: GameStage.GROUP
             }
         })
 
@@ -41,7 +42,8 @@ export class GameController {
                 "startedAt": item.startedAt,
                 "team1Score": item.team1Score,
                 "team2Score": item.team2Score,
-                "week" : item.week
+                "week" : item.week,
+                "stage" : item.stage
             }
         })
 
@@ -62,7 +64,8 @@ export class GameController {
                 startedAt: "ASC"
             },
             where: {
-                status: In([GameStatus.PENDING, GameStatus.STARTED])
+                status: In([GameStatus.PENDING, GameStatus.STARTED]),
+                stage: GameStage.GROUP
             }
         })
 
@@ -73,7 +76,8 @@ export class GameController {
                 "team2": item.teams[item.teams.findIndex(i => i.id === item.team2Id)],
                 "startedAt": item.startedAt,
                 "status": item.status,
-                "week" : item.week
+                "week" : item.week,
+                "stage" : item.stage
             }
         })
 
@@ -99,6 +103,8 @@ export class GameController {
                 teams: [team1, team2],
                 status: GameStatus.PENDING,
                 startedAt: configs.startedAt,
+                week: configs.week,
+                stage: configs.stage,
                 team1Id: team1.id,
                 team1Score: 0,
                 team2Id: team2.id,

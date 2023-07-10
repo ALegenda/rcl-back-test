@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import { AppDataSource } from "../data-source"
 import { Game, GameStatus } from "../entity/Game"
 import { Team } from "../entity/Team"
+import { Not } from "typeorm"
 
 export class TeamController {
 
@@ -16,6 +17,9 @@ export class TeamController {
             skip: skip,
             order: {
                 id: "ASC"
+            },
+            where: {
+                id: Not(30)
             }
         })
 

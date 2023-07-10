@@ -9,6 +9,11 @@ export enum GameStatus {
     FINISHED = "finished",
 }
 
+export enum GameStage {
+    GROUP = "group",
+    PLAYOFF = "playoff",
+}
+
 @Entity()
 export class Game {
 
@@ -42,6 +47,9 @@ export class Game {
 
     @Column({ nullable: true })
     week: number
+
+    @Column({ nullable: true })
+    stage: string
 
     @Column({
         type: "enum",

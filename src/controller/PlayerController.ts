@@ -68,7 +68,7 @@ export class PlayerController {
                     "kills": item.totalKills,
                     "deaths": item.totalDeaths,
                     "assists": item.totalAssists,
-                    "kd": item.totalKd.toFixed(2),
+                    "kd": +item.totalKd.toFixed(2),
                     "kdDiff": item.totalKills - item.totalDeaths
                 }
             }
