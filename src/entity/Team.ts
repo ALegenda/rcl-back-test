@@ -10,6 +10,9 @@ export class Team {
 
     @Column({ nullable: true })
     name: string
+    
+    @Column({ nullable: true })
+    hltvName: string
 
     @Column({ nullable: true })
     country: string

@@ -51,6 +51,9 @@ export class Game {
     @Column({ nullable: true })
     stage: string
 
+    @Column({ nullable: true })
+    playoffId: number
+
     @Column({
         type: "enum",
         enum: GameStatus,

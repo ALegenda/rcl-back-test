@@ -55,6 +55,12 @@ export const Routes = [
     },
     {
         method: "get",
+        route: "/playoff",
+        controller: GameController,
+        action: "playoff"
+    },
+    {
+        method: "get",
         route: "/games",
         controller: GameController,
         action: "all"

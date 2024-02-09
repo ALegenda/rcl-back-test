@@ -13,11 +13,44 @@ export class GameController {
     private gameRepository = AppDataSource.getRepository(Game)
     private teamRepository = AppDataSource.getRepository(Team)
     private playerRepository = AppDataSource.getRepository(Player)
-    
+
+    async playoff(request: Request, response: Response, next: NextFunction) {
+
+
+        let games = await this.gameRepository.find({
+            relations: {
+                teams: true
+            },
+            order: {
+                playoffId: "ASC"
+            },
+            where: {
+                stage: GameStage.PLAYOFF
+            }
+        })
+
+        let gamesWithStats = games.map((item) => {
+            return {
+                "id": item.id,
+                "team1": item.teams[item.teams.findIndex(i => i.id === item.team1Id)],
+                "team2": item.teams[item.teams.findIndex(i => i.id === item.team2Id)],
+                "startedAt": item.startedAt,
+                "status": item.status,
+                "playoffId": item.playoffId,
+                "stage": item.stage,
+                "team1Score": item.team1Score,
+                "team2Score": item.team2Score
+
+            }
+        })
+
+        return gamesWithStats;
+    }
+
     async all(request: Request, response: Response, next: NextFunction) {
         const take = request.query.take || 10
         const skip = request.query.skip || 0
-        
+
         let games = await this.gameRepository.findAndCount({
             take: take,
             skip: skip,
@@ -29,8 +62,7 @@ export class GameController {
                 teams: true
             },
             where: {
-                status: GameStatus.FINISHED,
-                stage: GameStage.GROUP
+                status: GameStatus.FINISHED
             }
         })
 
@@ -42,8 +74,8 @@ export class GameController {
                 "startedAt": item.startedAt,
                 "team1Score": item.team1Score,
                 "team2Score": item.team2Score,
-                "week" : item.week,
-                "stage" : item.stage
+                "week": item.week,
+                "stage": item.stage
             }
         })
 
@@ -64,8 +96,7 @@ export class GameController {
                 startedAt: "ASC"
             },
             where: {
-                status: In([GameStatus.PENDING, GameStatus.STARTED]),
-                stage: GameStage.GROUP
+                status: In([GameStatus.PENDING, GameStatus.STARTED])
             }
         })
 
@@ -76,8 +107,8 @@ export class GameController {
                 "team2": item.teams[item.teams.findIndex(i => i.id === item.team2Id)],
                 "startedAt": item.startedAt,
                 "status": item.status,
-                "week" : item.week,
-                "stage" : item.stage
+                "week": item.week,
+                "stage": item.stage
             }
         })
 
@@ -206,9 +237,9 @@ export class GameController {
             })
         });
 
-        result.team1Stats.sort((a,b) => b.kills - a.kills)
-        result.team2Stats.sort((a,b) => b.kills - a.kills)
-        result.maps.sort((a,b) => a.number - b.number)
+        result.team1Stats.sort((a, b) => b.kills - a.kills)
+        result.team2Stats.sort((a, b) => b.kills - a.kills)
+        result.maps.sort((a, b) => a.number - b.number)
 
         return result
     }
@@ -260,8 +291,8 @@ export class GameController {
             "team1Score": map.team1Score,
             "team2Score": map.team2Score,
             "mapName": map.mapName,
-            "team1Stats": team1Stats.sort((a,b) => b.kills - a.kills),
-            "team2Stats": team2Stats.sort((a,b) => b.kills - a.kills)
+            "team1Stats": team1Stats.sort((a, b) => b.kills - a.kills),
+            "team2Stats": team2Stats.sort((a, b) => b.kills - a.kills)
         }
     }
 
@@ -270,15 +301,19 @@ export class GameController {
         let map_result = request.body
 
         let team1 = await this.teamRepository.findOne({
-            where: {
+            where: [{
                 name: map_result.team1.name
-            }
+            }, {
+                hltvName: map_result.team1.name
+            }]
         })
 
         let team2 = await this.teamRepository.findOne({
-            where: {
+            where: [{
                 name: map_result.team2.name
-            }
+            }, {
+                hltvName: map_result.team2.name
+            }]
         })
 
         let game = await this.gameRepository.findOne({
@@ -297,16 +332,28 @@ export class GameController {
             }
         })
 
+        console.log(game)
+
         let mapIndex = game.maps.findIndex(item => item.mapName === map_result.mapName)
-        if(mapIndex === -1){
-            let newMapIndex = game.maps[game.maps.findIndex(item => item.number === 1)].mapName === null ? game.maps.findIndex(item => item.number === 1) : game.maps.findIndex(item => item.number === 2)
-            game.maps[newMapIndex].mapName = map_result.mapName
-            game.maps[newMapIndex].status = MapStatus.STARTED
-            mapIndex = newMapIndex
+        if (mapIndex === -1) {
+
+
+            if (game.maps[game.maps.findIndex(item => item.number === 1)].mapName === null) {
+                mapIndex = game.maps.findIndex(item => item.number === 1)
+            } else {
+                if (game.maps[game.maps.findIndex(item => item.number === 2)].mapName === null) {
+                    mapIndex = game.maps.findIndex(item => item.number === 2)
+                } else {
+                    mapIndex = game.maps.findIndex(item => item.number === 3)
+                }
+            }
+
+            game.maps[mapIndex].mapName = map_result.mapName
+            game.maps[mapIndex].status = MapStatus.STARTED
         }
         let team1Index = game.teams.findIndex(item => item.id === game.team1Id)
         let team2Index = game.teams.findIndex(item => item.id === game.team2Id)
-        
+
         let ids = [];
 
         map_result.playerStats.forEach(element => {
@@ -338,8 +385,8 @@ export class GameController {
             }
         });
 
-        game.maps[mapIndex].team1Score = map_result.team1.name === game.teams[team1Index].name ? map_result.team1.score : map_result.team2.score
-        game.maps[mapIndex].team2Score = map_result.team2.name === game.teams[team2Index].name ? map_result.team2.score : map_result.team1.score
+        game.maps[mapIndex].team1Score = (map_result.team1.name === game.teams[team1Index].name || map_result.team1.name === game.teams[team1Index].hltvName) ? map_result.team1.score : map_result.team2.score
+        game.maps[mapIndex].team2Score = (map_result.team2.name === game.teams[team2Index].name || map_result.team2.name === game.teams[team2Index].hltvName) ? map_result.team2.score : map_result.team1.score
         game.status = GameStatus.STARTED
 
         return await this.gameRepository.save(game)
@@ -350,15 +397,19 @@ export class GameController {
         let map_result = request.body
 
         let team1 = await this.teamRepository.findOne({
-            where: {
+            where: [{
                 name: map_result.team1.name
-            }
+            }, {
+                hltvName: map_result.team1.name
+            }]
         })
 
         let team2 = await this.teamRepository.findOne({
-            where: {
+            where: [{
                 name: map_result.team2.name
-            }
+            }, {
+                hltvName: map_result.team2.name
+            }]
         })
 
         let game = await this.gameRepository.findOne({
@@ -405,7 +456,7 @@ export class GameController {
             }
 
             let playerStatIndex = game.maps[mapIndex].playerStats.findIndex(item => item.player.steamId === element.steamId)
-            
+
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalKills += element.kills
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalDeaths += element.deaths
             game.maps[mapIndex].playerStats[playerStatIndex].player.totalAssists += element.assists
@@ -432,26 +483,26 @@ export class GameController {
             game.team2Score += 1
         }
 
-        if (game.team1Score === 1 && game.team2Score === 1) {
-            game.teams[0].totalDraws += 1
-            game.teams[0].totalPoints += 1
-            game.teams[1].totalDraws += 1
-            game.teams[1].totalPoints += 1
-        }
+        // if (game.team1Score === 1 && game.team2Score === 1) {
+        //     game.teams[0].totalDraws += 1
+        //     game.teams[0].totalPoints += 1
+        //     game.teams[1].totalDraws += 1
+        //     game.teams[1].totalPoints += 1
+        // }
 
         if (game.team1Score === 2) {
             game.teams[team1Index].totalWins += 1
-            game.teams[team1Index].totalPoints += 3
+            //game.teams[team1Index].totalPoints += 3
             game.teams[team2Index].totalLoses += 1
         }
 
         if (game.team2Score === 2) {
             game.teams[team1Index].totalLoses += 1
             game.teams[team2Index].totalWins += 1
-            game.teams[team2Index].totalPoints += 3
+            //game.teams[team2Index].totalPoints += 3
         }
 
-        if (game.maps[mapIndex].number === 2) {
+        if (game.maps[mapIndex].number === 3 || game.team1Score === 2 || game.team2Score === 2) {
             game.teams[0].totalGames += 1
             game.teams[1].totalGames += 1
             game.status = GameStatus.FINISHED
@@ -626,27 +677,27 @@ async function recalculateTeams() {
             });
 
             if (game.team1Id === teams[i].id) {
-                if(game.team1Score === 2){
+                if (game.team1Score === 2) {
                     sumWins += 1
                     sumPoints += 3
                 }
-                if(game.team1Score === 1){
+                if (game.team1Score === 1) {
                     sumDraws += 1
                     sumPoints += 1
                 }
-                if(game.team1Score === 0){
+                if (game.team1Score === 0) {
                     sumLoses += 1
                 }
             } else {
-                if(game.team2Score === 2){
+                if (game.team2Score === 2) {
                     sumWins += 1
                     sumPoints += 3
                 }
-                if(game.team2Score === 1){
+                if (game.team2Score === 1) {
                     sumDraws += 1
                     sumPoints += 1
                 }
-                if(game.team2Score === 0){
+                if (game.team2Score === 0) {
                     sumLoses += 1
                 }
             }

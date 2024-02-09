@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import { AppDataSource } from "../data-source"
 import { Game, GameStatus } from "../entity/Game"
 import { Team } from "../entity/Team"
-import { Not } from "typeorm"
+import { In, Not } from "typeorm"
 
 export class TeamController {
 
@@ -19,7 +19,7 @@ export class TeamController {
                 id: "ASC"
             },
             where: {
-                id: Not(30)
+                id: Not(In([30,31]))
             }
         })
 
@@ -74,7 +74,8 @@ export class TeamController {
             order: {
                 totalPoints: "DESC",
                 totalWins: "DESC",
-                totalLoses: "ASC"
+                totalLoses: "ASC",
+                id: "DESC"
             }
         })
         let index = 1;
@@ -119,7 +120,7 @@ export class TeamController {
             "kills": team.totalKills,
             "deaths": team.totalDeaths,
             "assists": team.totalAssists,
-            "kd": team.totalKills / team.totalDeaths,
+            "kd": team.totalKills / team.totalDeaths || 0,
             "kdDiff": team.totalKills - team.totalDeaths
         }
     }
