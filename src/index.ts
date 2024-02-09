@@ -11,6 +11,7 @@ import { New } from "./entity/New"
 import { PlayerStat } from "./entity/PlayerStat"
 import { In } from "typeorm"
 var cors = require('cors');
+require('dotenv').config()
 
 
 AppDataSource.initialize().then(async () => {
